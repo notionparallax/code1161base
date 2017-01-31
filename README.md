@@ -5,7 +5,7 @@ gitHubUsername: notionparallax
 stackoverflow: http://stackoverflow.com/users/1835727/ben
 mediumUsername: notionparallax
 unswEmail: noIdea@unsw.edu.au
-realEmailFirstBit: ben
+realEmailFirstBit: ben  # this avoids spam
 realEmailOtherBit: @notionparallax.co.uk
 ---
 
