@@ -9,6 +9,7 @@ def advancedGuessingGame():
     * ask for a better input if the user gives a non integer value anywhere.
       I.e. throw away inputs like "ten" or "8!" but instead of crashing
       ask for another value.
+    * chastise them if they pick a number outside the bounds.
     """
     pass
 
