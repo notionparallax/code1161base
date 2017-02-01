@@ -8,10 +8,16 @@ import inspect
 import mock
 import os
 
+tests_attempted = 0
+tests_passed = 0
+
 
 def test(testResult, name):
+    global tests_attempted, tests_passed
+    tests_attempted += 1
     if testResult:
         print(Fore.GREEN + "✔ " + name + Style.RESET_ALL)
+        tests_passed += 1
     else:
         print(Fore.RED + "✘ " + name + Style.RESET_ALL)
 
@@ -86,7 +92,11 @@ test(test_flake8('exercise2.py'), "Exercise 2: pass the linter")
 
 test(ex2runs(), "Exercise 2: debug the file")
 
+test(test_flake8('exercise3.py'), "Exercise 3: pass the linter")
+
 test(test_example_guessingGame(), "Exercise 3: example guessing game")
+
+test(test_flake8('exercise4.py'), "Exercise 4: pass the linter")
 
 upperBound = 15
 lowerBound = 10
@@ -96,3 +106,5 @@ test(test_advanced_guessingGame(mockInputs), "Exercise 4: guessing game, U&L")
 
 mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
 test(test_advanced_guessingGame(mockInputs), "Exercise 4: guessing game, polite failures")
+
+print "{0}/{1} (passed/attempted)".format(tests_passed, tests_attempted)

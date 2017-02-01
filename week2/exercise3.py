@@ -17,7 +17,7 @@ def exampleGuessingGame():
 
     while not guessed:
         guessedNumber = int(raw_input("guess a number: "))
-        print "you guessed {}, ".format(guessedNumber),
+        print "you guessed {},".format(guessedNumber),
         if guessedNumber == actualNumber:
             print "you got it!! It was {}".format(actualNumber)
             guessed = True
