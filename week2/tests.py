@@ -3,42 +3,12 @@
 This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
-from colorama import Fore, Style
-import inspect
+
 import mock
+import sys
 import os
-
-tests_attempted = 0
-tests_passed = 0
-
-
-def test(testResult, name):
-    global tests_attempted, tests_passed
-    tests_attempted += 1
-    if testResult:
-        print(Fore.GREEN + "✔ " + name + Style.RESET_ALL)
-        tests_passed += 1
-    else:
-        print(Fore.RED + "✘ " + name + Style.RESET_ALL)
-
-
-def test_flake8(fileName):
-    test_dir = os.path.dirname(os.path.abspath(inspect.getfile(
-        inspect.currentframe())))
-
-    files = [os.path.join(test_dir, fileName)]
-    print files
-    # Import the legacy API as flake8 3.0 currently has no official
-    # public API - this has to be changed at some point.
-    from flake8.api import legacy as flake8
-    style_guide = flake8.get_style_guide()
-    report = style_guide.check_files(files)
-
-    if report.total_errors == 0:
-        return True
-    else:
-        print report.total_errors
-        return False
+sys.path.append(os.path.dirname(__file__)[:-5])
+from codeHelpers import test, test_flake8
 
 
 def ex2runs():
@@ -86,25 +56,42 @@ def test_advanced_guessingGame(mockInputs):
 
 print "\nWelcome to week 2! May the odds be ever in your favour.\n"
 
-test(test_flake8('exercise1.py'), "Exercise 1: pass the linter")
+testResults = []
+testResults.append(
+    test(test_flake8('week2/exercise1.py'),
+         "Exercise 1: pass the linter"))
 
-test(test_flake8('exercise2.py'), "Exercise 2: pass the linter")
+testResults.append(
+    test(test_flake8('week2/exercise2.py'),
+         "Exercise 2: pass the linter"))
 
-test(ex2runs(), "Exercise 2: debug the file")
+testResults.append(
+    test(ex2runs(),
+         "Exercise 2: debug the file"))
 
-test(test_flake8('exercise3.py'), "Exercise 3: pass the linter")
+testResults.append(
+    test(test_flake8('week2/exercise3.py'),
+         "Exercise 3: pass the linter"))
 
-test(test_example_guessingGame(), "Exercise 3: example guessing game")
+testResults.append(
+    test(test_example_guessingGame(),
+         "Exercise 3: example guessing game"))
 
-test(test_flake8('exercise4.py'), "Exercise 4: pass the linter")
+testResults.append(
+    test(test_flake8('week2/exercise4.py'),
+         "Exercise 4: pass the linter"))
 
 upperBound = 15
 lowerBound = 10
 guesses = range(lowerBound, upperBound + 1)
 mockInputs = [lowerBound] + [upperBound] + guesses
-test(test_advanced_guessingGame(mockInputs), "Exercise 4: guessing game, U&L")
+testResults.append(
+    test(test_advanced_guessingGame(mockInputs),
+         "Exercise 4: guessing game, U&L"))
 
 mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
-test(test_advanced_guessingGame(mockInputs), "Exercise 4: guessing game, polite failures")
+testResults.append(
+    test(test_advanced_guessingGame(mockInputs),
+         "Exercise 4: guessing game, polite failures"))
 
-print "{0}/{1} (passed/attempted)".format(tests_passed, tests_attempted)
+print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
