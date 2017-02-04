@@ -4,11 +4,13 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-import mock
 import sys
 import os
+import inspect
 sys.path.append(os.path.dirname(__file__)[:-5])
 from codeHelpers import test, test_flake8
+
+WEEK_NUMBER = 2
 
 
 def ex2runs():
@@ -26,43 +28,29 @@ def syntax_error_message(e):
     return False
 
 
-def test_example_guessingGame():
+def ex3runs():
     try:
-        import exercise3
+        import exercise3  # this annoys the linter, but I think the scoping is ok
+        return True
     except Exception as e:
-        return syntax_error_message(e)
-    upperBound = 5
-    guesses = range(5+1)
-    mockInputs = [upperBound] + guesses
-    try:
-        with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
-            return exercise3.exampleGuessingGame() == "You got it!"
-    except Exception as e:
-        print "exception:", e
+        print "\nThere is a syntax error in exercise3", str(e)
+        print '\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s="")
+        print "WARNING: there are more tests, but they won't run"
+        print "until you fix the syntax errors in exercise3.py"
+        print '{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s="")
+        return False
 
 
-def test_advanced_guessingGame(mockInputs):
-    try:
-        import exercise4
-    except Exception as e:
-        return syntax_error_message(e)
-
-    try:
-        with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
-            return exercise4.advancedGuessingGame() == "You got it!"
-    except Exception as e:
-        print "exception:", e
-
-
-print "\nWelcome to week 2! May the odds be ever in your favour.\n"
+print "\nWelcome to week {}!".format(WEEK_NUMBER)
+print "May the odds be ever in your favour.\n"
 
 testResults = []
 testResults.append(
-    test(test_flake8('week2/exercise1.py'),
+    test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
          "Exercise 1: pass the linter"))
 
 testResults.append(
-    test(test_flake8('week2/exercise2.py'),
+    test(test_flake8("week{}/exercise2.py".format(WEEK_NUMBER)),
          "Exercise 2: pass the linter"))
 
 testResults.append(
@@ -70,28 +58,17 @@ testResults.append(
          "Exercise 2: debug the file"))
 
 testResults.append(
-    test(test_flake8('week2/exercise3.py'),
+    test(test_flake8("week{}/exercise3.py".format(WEEK_NUMBER)),
          "Exercise 3: pass the linter"))
 
-testResults.append(
-    test(test_example_guessingGame(),
-         "Exercise 3: example guessing game"))
+if ex3runs():
+    import exercise3
+    testResults.append(
+        test(exercise3.is_odd(2) is False,
+             "Exercise 3: is 2 odd?"))
 
-testResults.append(
-    test(test_flake8('week2/exercise4.py'),
-         "Exercise 4: pass the linter"))
-
-upperBound = 15
-lowerBound = 10
-guesses = range(lowerBound, upperBound + 1)
-mockInputs = [lowerBound] + [upperBound] + guesses
-testResults.append(
-    test(test_advanced_guessingGame(mockInputs),
-         "Exercise 4: guessing game, U&L"))
-
-mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
-testResults.append(
-    test(test_advanced_guessingGame(mockInputs),
-         "Exercise 4: guessing game, polite failures"))
+    testResults.append(
+        test(exercise3.is_odd(5),
+             "Exercise 3: is 2 odd?"))
 
 print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))

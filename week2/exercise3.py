@@ -1,32 +1,88 @@
-import random
+"""
+Modify each function until the tests pass
+"""
 
 
-def exampleGuessingGame():
+def is_odd(a_number):
     """
-    This is an example guessing game. It'll test as an example too.
+
     """
-    print "\nwelcome to the guessing game!"
-    print "A number between 0 and _ ?"
-    upperBound = raw_input("Enter an upper bound: ")
-    print "OK then, a number between 0 and {} ?".format(upperBound)
-    upperBound = int(upperBound)
+    pass
 
-    actualNumber = random.randint(0, upperBound)
 
-    guessed = False
+def fix_it(moves=True, should_move=True):
+    """
 
-    while not guessed:
-        guessedNumber = int(raw_input("guess a number: "))
-        print "you guessed {},".format(guessedNumber),
-        if guessedNumber == actualNumber:
-            print "you got it!! It was {}".format(actualNumber)
-            guessed = True
-        elif guessedNumber < actualNumber:
-            print "too small, try again "
-        else:
-            print "too big, try again   "
-    return "You got it!"
+    """
+    pass
+
+
+def loops_1():
+    """
+
+    """
+    pass
+
+
+def loops_2():
+    """
+
+    """
+    pass
+
+
+def loops_3():
+    """
+
+    """
+    pass
+
+
+def loops_4():
+    """
+
+    """
+    pass
+
+
+def loops_5():
+    """
+
+    """
+    pass
+
+
+def loops_6():
+    """
+
+    """
+    pass
+
+
+def loops_7():
+    """
+
+    """
+    pass
+
+
+def loops_8():
+    """
+
+    """
+    pass
+
+
+def loops_9():
+    """
+
+    """
+    pass
+
+
+def lp(some_kind_of_list):
+    pass
 
 
 if __name__ == "__main__":
-    exampleGuessingGame()
+    pass
