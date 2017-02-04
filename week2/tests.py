@@ -4,9 +4,10 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-import sys
-import os
 import inspect
+import os
+import re
+import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
 from codeHelpers import test, test_flake8
 
@@ -22,6 +23,12 @@ def ex2runs():
         return False
 
 
+def strip_docstring(a_function):
+    regex = r"\"\"\"[\s\w\.\'\"\&\!\#\%]*\"\"\""
+    theFunction = inspect.getsource(a_function)
+    return re.sub(regex, "", theFunction)
+
+
 def syntax_error_message(e):
     print "something went wring with the import.\nProbably a syntax error."
     print "does this file run properly on its own?\n" + str(e)
@@ -30,7 +37,8 @@ def syntax_error_message(e):
 
 def ex3runs():
     try:
-        import exercise3  # this annoys the linter, but I think the scoping is ok
+        # this annoys the linter, but I think the scoping is ok
+        import exercise3
         return True
     except Exception as e:
         print "\nThere is a syntax error in exercise3", str(e)
@@ -65,10 +73,68 @@ if ex3runs():
     import exercise3
     testResults.append(
         test(exercise3.is_odd(2) is False,
-             "Exercise 3: is 2 odd?"))
+             "Exercise 3: is_odd - is 2 odd?"))
 
     testResults.append(
         test(exercise3.is_odd(5),
-             "Exercise 3: is 2 odd?"))
+             "Exercise 3: is_odd - is 5 odd?"))
+
+    testResults.append(
+        test(exercise3.fix_it(True, True),
+             "Exercise 3: fix_it - it moves, and it should"))
+
+    testResults.append(
+        test(exercise3.fix_it(False, True),
+             "Exercise 3: fix_it - it doesn't move, and it should"))
+
+    testResults.append(
+        test(exercise3.fix_it(True, False),
+             "Exercise 3: fix_it - it moves, and it shouldn't"))
+
+    testResults.append(
+        test(exercise3.fix_it(False, False),
+             "Exercise 3: fix_it - it doesn't move, and it shouldn't"))
+
+    testResults.append(
+        test(exercise3.loops_1(),
+             "Exercise 3: loops_1 - "))
+
+    testResults.append(
+        test(exercise3.loops_2(),
+             "Exercise 3: loops_2 - "))
+
+    testResults.append(
+        test(exercise3.loops_3(),
+             "Exercise 3: loops_3 - "))
+
+    testResults.append(
+        test(exercise3.loops_4(),
+             "Exercise 3: loops_4 - "))
+
+    testResults.append(
+        test(exercise3.loops_5(),
+             "Exercise 3: loops_5 - "))
+
+    testResults.append(
+        test(exercise3.loops_6(),
+             "Exercise 3: loops_6 - "))
+
+    testResults.append(
+        test(exercise3.loops_7(),
+             "Exercise 3: loops_7 - "))
+
+    testResults.append(
+        test(exercise3.loops_8(),
+             "Exercise 3: loops_8 - "))
+
+    testResults.append(
+        test(exercise3.loops_9(),
+             "Exercise 3: loops_9 - "))
+
+
+
+
+
+print 'map' in strip_docstring(exercise3.loops_9)
 
 print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
