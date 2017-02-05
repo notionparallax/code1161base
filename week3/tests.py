@@ -4,19 +4,22 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
+import math
 import mock
-import sys
 import os
+import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
-from codeHelpers import test, test_flake8, completion_message
+from codeHelpers import test, test_flake8, completion_message, nyan_cat
 
 WEEK_NUMBER = 3
 
 
-def syntax_error_message(e):
-    print "something went wring with the import.\nProbably a syntax error."
-    print "does this file run properly on its own?\n" + str(e)
-    return False
+def syntax_error_message(exNumber, e):
+    print "There is a syntax error in exercise{}\n{}".format(exNumber, str(e))
+    print '\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s="")
+    print "WARNING: there are more tests, but they won't run"
+    print "until you fix the syntax errors in exercise{}.py".format(exNumber)
+    print '{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s="")
 
 
 def test_stubborn_asker(low, high):
@@ -48,12 +51,9 @@ def test_not_number_rejector():
 
 
 def test_super_asker(low, high):
-    try:
-        import exercise1
-    except Exception as e:
-        return syntax_error_message(e)
-
-    mockInputs = ["aword", [1, 2, 3], {"an": "object"}] + range(low - 25, high + 20, 5)
+    dirty_things = ["aword", [1, 2, 3], {"an": "object"}]
+    neat_range = range(low - 25, high + 20, 5)
+    mockInputs = dirty_things + neat_range
     try:
         with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
             return exercise1.super_asker(low, high)
@@ -78,15 +78,19 @@ def test_example_guessingGame():
 
 def test_advanced_guessingGame(mockInputs):
     try:
-        import exercise3
-    except Exception as e:
-        return syntax_error_message(e)
-
-    try:
         with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
             return exercise3.advancedGuessingGame() == "You got it!"
     except Exception as e:
         print "exception:", e
+
+
+def test_binary_search(low, high, actual):
+    BASE2 = 2
+    b = exercise4.binary_search(low, high, actual)
+    if b is not None:
+        return b < math.log(high - low, BASE2)
+    else:
+        return False
 
 
 def ex1runs():
@@ -95,11 +99,27 @@ def ex1runs():
         import exercise1
         return True
     except Exception as e:
-        print "\nThere is a syntax error in exercise1", str(e)
-        print '\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s="")
-        print "WARNING: there are more tests, but they won't run"
-        print "until you fix the syntax errors in exercise3.py"
-        print '{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s="")
+        syntax_error_message(1, e)
+        return False
+
+
+def ex3runs():
+    try:
+        # this annoys the linter, but I think the scoping is ok
+        import exercise3
+        return True
+    except Exception as e:
+        syntax_error_message(3, e)
+        return False
+
+
+def ex4runs():
+    try:
+        # this annoys the linter, but I think the scoping is ok
+        import exercise4
+        return True
+    except Exception as e:
+        syntax_error_message(4, e)
         return False
 
 
@@ -157,8 +177,6 @@ if ex1runs():
         test(test_super_asker(50, 60),
              "Exercise 1: test_super_asker"))
 
-test_super_asker
-
 testResults.append(
     test(test_flake8("week{}/exercise2.py".format(WEEK_NUMBER)),
          "Exercise 2: pass the linter"))
@@ -167,18 +185,45 @@ testResults.append(
     test(test_example_guessingGame(),
          "Exercise 2: example guessing game"))
 
-upperBound = 15
-lowerBound = 10
-guesses = range(lowerBound, upperBound + 1)
-mockInputs = [lowerBound] + [upperBound] + guesses
-testResults.append(
-    test(test_advanced_guessingGame(mockInputs),
-         "Exercise 4: guessing game, U&L"))
+if ex3runs():
+    import exercise3
 
-mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
-testResults.append(
-    test(test_advanced_guessingGame(mockInputs),
-         "Exercise 4: guessing game, polite failures"))
+    testResults.append(
+        test(test_flake8("week{}/exercise3.py".format(WEEK_NUMBER)),
+             "Exercise 3: pass the linter"))
+
+    upperBound = 15
+    lowerBound = 10
+    guesses = range(lowerBound, upperBound + 1)
+    mockInputs = [lowerBound] + [upperBound] + guesses
+    testResults.append(
+        test(test_advanced_guessingGame(mockInputs),
+             "Exercise 3: guessing game, U&L"))
+
+    mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
+    testResults.append(
+        test(test_advanced_guessingGame(mockInputs),
+             "Exercise 3: guessing game, polite failures"))
+
+if ex4runs():
+    import exercise4
+
+    testResults.append(
+        test(test_flake8("week{}/exercise4.py".format(WEEK_NUMBER)),
+             "Exercise 4: pass the linter"))
+
+    testResults.append(
+        test(test_binary_search(1, 100, 5),
+             "Exercise 4: binary_search(1, 100, 5)"))
+    testResults.append(
+        test(test_binary_search(1, 100, 95),
+             "Exercise 4: binary_search(1, 100, 95)"))
+    testResults.append(
+        test(test_binary_search(1, 51, 5),
+             "Exercise 4: binary_search(1, 51, 5)"))
+    testResults.append(
+        test(test_binary_search(1, 50, 5),
+             "Exercise 4: binary_search(1, 50, 5)"))
 
 print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
 
