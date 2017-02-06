@@ -8,6 +8,7 @@ import math
 import mock
 import os
 import sys
+import random
 sys.path.append(os.path.dirname(__file__)[:-5])
 from codeHelpers import test, test_flake8, completion_message, nyan_cat
 
@@ -87,10 +88,43 @@ def test_advanced_guessingGame(mockInputs):
 def test_binary_search(low, high, actual):
     BASE2 = 2
     b = exercise4.binary_search(low, high, actual)
+    b["WorstCaseO"] = math.log(high - low, BASE2)
+    print b
     if b is not None:
-        return b < math.log(high - low, BASE2)
+        return b["tries"] < b["WorstCaseO"]
     else:
         return False
+
+
+def vis_binary_search_performance():
+    import matplotlib.pyplot as plt
+    BASE2 = 2
+    results = []
+    testRuns = 1000
+    for i in range(testRuns):
+        low = random.randint(-100, 100)
+        high = random.randint(low + 2, 200)
+        guess = random.randint(low + 1, high - 1)
+        bs = exercise4.binary_search(low, high, guess)
+        # print bs, low, high, guess
+        tries = bs['tries']
+        worst = math.log(high - low, BASE2)
+        ratio = tries/worst
+        results.append(ratio)
+    plt.hist(results)
+    plt.title("Proportion of worst case performance over {} iterations".format(testRuns))
+    print """
+This histogram shows the number of guesses that it took the search to
+find the answer. The big O worst case is the base 2 log of the range that
+you're guessing within. In other words, what power of two fills that space?
+E.g. if your range is 16, then the worst case is 4 guesses: 2×2×2×2 = 16
+Think back to when you were playing the game with your brain, sometimes
+you'd go over the worst case because you aren't a perfect arithmatic
+machine but the computer is, so it's always below that worst case limit.
+
+    Close the histogram to finish running the tests.
+    """
+    # plt.show()
 
 
 def ex1runs():
@@ -192,8 +226,8 @@ if ex3runs():
         test(test_flake8("week{}/exercise3.py".format(WEEK_NUMBER)),
              "Exercise 3: pass the linter"))
 
-    upperBound = 15
     lowerBound = 10
+    upperBound = 15
     guesses = range(lowerBound, upperBound + 1)
     mockInputs = [lowerBound] + [upperBound] + guesses
     testResults.append(
@@ -205,6 +239,33 @@ if ex3runs():
         test(test_advanced_guessingGame(mockInputs),
              "Exercise 3: guessing game, polite failures"))
 
+    lowerBound = 15
+    upperBound = 10
+    secondGuess = 25
+    guesses = range(lowerBound, secondGuess + 1)
+    mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
+    testResults.append(
+        test(test_advanced_guessingGame(mockInputs),
+             "Exercise 3: guessing game, lowerBound bigger than upperBound"))
+
+    lowerBound = 10
+    upperBound = 11
+    secondGuess = 15
+    guesses = range(lowerBound, secondGuess + 1)
+    mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
+    testResults.append(
+        test(test_advanced_guessingGame(mockInputs),
+             "Exercise 3: guessing game, no range to guess in (delta 1)"))
+
+    lowerBound = 10
+    upperBound = 10
+    secondGuess = 15
+    guesses = range(lowerBound, secondGuess + 1)
+    mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
+    testResults.append(
+        test(test_advanced_guessingGame(mockInputs),
+             "Exercise 3: guessing game, no range to guess in (equal)"))
+
 if ex4runs():
     import exercise4
 
@@ -212,18 +273,26 @@ if ex4runs():
         test(test_flake8("week{}/exercise4.py".format(WEEK_NUMBER)),
              "Exercise 4: pass the linter"))
 
-    testResults.append(
-        test(test_binary_search(1, 100, 5),
-             "Exercise 4: binary_search(1, 100, 5)"))
-    testResults.append(
-        test(test_binary_search(1, 100, 95),
-             "Exercise 4: binary_search(1, 100, 95)"))
-    testResults.append(
-        test(test_binary_search(1, 51, 5),
-             "Exercise 4: binary_search(1, 51, 5)"))
-    testResults.append(
-        test(test_binary_search(1, 50, 5),
-             "Exercise 4: binary_search(1, 50, 5)"))
+    try_these = [(1, 100, 5),
+                 (1, 100, 6),
+                 (1, 100, 95),
+                 (1, 51, 5),
+                 (1, 50, 5)]
+    for i in range(10):
+        try_these.append((0, 100, random.randint(1, 99)))
+
+    for tv in try_these:
+        try:
+            testResults.append(
+                test(test_binary_search(*tv),  # *tv unpacks the tuple
+                     "Exercise 4: binary_search({}, {}, {})".format(*tv)))
+        except:
+            print "********\n\nfailed:", tv
+            raise ValueError("********\n\nfailed: {}".format(tv))
+
+    # if the binary search is working, show a graph of guess numbers
+    if test(test_binary_search(1, 10, 5), ""):
+        vis_binary_search_performance()
 
 print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
 
