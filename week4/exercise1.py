@@ -50,26 +50,26 @@ def wordy_pyramid():
     should step up by 2 letters at a time.
     Return the pyramid as a list of strings.
     I.e. ["cep", "dwine", "tenoner", ...]
-
-cep
-dwine
-tenoner
-ectomeric
-archmonarch
-phlebenterism
-autonephrotoxin
-redifferentiation
-phytosociologically
-theologicohistorical
-supersesquitertial
-phosphomolybdate
-spermatophoral
-storiologist
-concretion
-geoblast
-Nereis
-Leto
-
+    [
+    "cep",
+    "dwine",
+    "tenoner",
+    "ectomeric",
+    "archmonarch",
+    "phlebenterism",
+    "autonephrotoxin",
+    "redifferentiation",
+    "phytosociologically",
+    "theologicohistorical",
+    "supersesquitertial",
+    "phosphomolybdate",
+    "spermatophoral",
+    "storiologist",
+    "concretion",
+    "geoblast",
+    "Nereis",
+    "Leto",
+    ]
     TIP: to add an argument to a URL, use: ?argName=argVal e.g. ?len=
     """
     baseURL = "http://www.setgetgo.com/randomword/get.php?len="
@@ -77,14 +77,34 @@ Leto
     for i in range(3, 21, 2):
         url = baseURL + str(i)
         r = requests.get(url)
-        message = r.text  # json.loads(r.text)
+        message = r.text
         pyramid_list.append(message)
     for i in range(0, 17, 2):
         url = baseURL + str(20 - i)
         r = requests.get(url)
-        message = r.text  # json.loads(r.text)
+        message = r.text
         pyramid_list.append(message)
     return pyramid_list
+
+
+def json_in_a_van():
+    """
+    Get some json from a request
+    parse it and extract values
+    """
+
+
+def diarist():
+    """
+    write some data to a file
+    """
+
+
+def finding_the_gcode():
+    """
+    Parse a file, find the lines that contain a certain
+    value - gcode maybe?
+    """
 
 
 if __name__ == "__main__":
