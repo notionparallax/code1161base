@@ -23,12 +23,6 @@ def ex2runs():
         return False
 
 
-def strip_docstring(a_function):
-    regex = r"\"\"\"[\s\w\.\'\"\&\!\#\%]*\"\"\""
-    theFunction = inspect.getsource(a_function)
-    return re.sub(regex, "", theFunction)
-
-
 def syntax_error_message(e):
     print "something went wring with the import.\nProbably a syntax error."
     print "does this file run properly on its own?\n" + str(e)
@@ -103,16 +97,11 @@ if ex3runs():
         test(exercise3.loops_1a() == tenStars,
              "Exercise 3: loops_1a - 1d for loop"))
 
+    bang_star = ["!", "*", "!", "*", "!", "*", "!", "*", "!", "*"]
     testResults.append(
-         test('map' in strip_docstring(exercise3.loops_1b) and
-              exercise3.loops_1b == tenStars,
-              "Exercise 3: loops_1b - 1d map"))
-
-    print exercise3.loops_1b.func_code.co_names
-    testResults.append(
-        test('map' in exercise3.loops_1b.func_code.co_names and
-             exercise3.loops_1b() == tenStars,
-             "Exercise 3: loops_1b - 1d map alt implement"))
+        test('map' in exercise3.star_map.func_code.co_names and
+             exercise3.star_map() == bang_star,
+             "Exercise 3: loops_1b - 1d map"))
 
     testResults.append(
         test(exercise3.loops_1c(3, ":)") == [':)', ':)', ':)'],
@@ -150,7 +139,9 @@ if ex3runs():
         test(exercise3.loops_3() == ten_matching_numbers,
              "Exercise 3: loops_3 - 10 matching lists"))
 
-    ten_rising_sets = [
+    ten_rising_lists = [
+      ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+      ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
@@ -161,20 +152,20 @@ if ex3runs():
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     ]
     testResults.append(
-        test(exercise3.loops_4() == ten_rising_sets,
+        test(exercise3.loops_4() == ten_rising_lists,
              "Exercise 3: loops_4 - ten rising lists"))
 
     coords = [
-      ['(i0, j0)', '(i0, j1)', '(i0, j2)', '(i0, j3)', '(i0, j4)', '(i0, j5)'],
-      ['(i1, j0)', '(i1, j1)', '(i1, j2)', '(i1, j3)', '(i1, j4)', '(i1, j5)'],
-      ['(i2, j0)', '(i2, j1)', '(i2, j2)', '(i2, j3)', '(i2, j4)', '(i2, j5)'],
-      ['(i3, j0)', '(i3, j1)', '(i3, j2)', '(i3, j3)', '(i3, j4)', '(i3, j5)'],
-      ['(i4, j0)', '(i4, j1)', '(i4, j2)', '(i4, j3)', '(i4, j4)', '(i4, j5)'],
-      ['(i5, j0)', '(i5, j1)', '(i5, j2)', '(i5, j3)', '(i5, j4)', '(i5, j5)'],
-      ['(i6, j0)', '(i6, j1)', '(i6, j2)', '(i6, j3)', '(i6, j4)', '(i6, j5)'],
-      ['(i7, j0)', '(i7, j1)', '(i7, j2)', '(i7, j3)', '(i7, j4)', '(i7, j5)'],
-      ['(i8, j0)', '(i8, j1)', '(i8, j2)', '(i8, j3)', '(i8, j4)', '(i8, j5)'],
-      ['(i9, j0)', '(i9, j1)', '(i9, j2)', '(i9, j3)', '(i9, j4)', '(i9, j5)']
+      ['(i0, j0)', '(i0, j1)', '(i0, j2)', '(i0, j3)', '(i0, j4)'],
+      ['(i1, j0)', '(i1, j1)', '(i1, j2)', '(i1, j3)', '(i1, j4)'],
+      ['(i2, j0)', '(i2, j1)', '(i2, j2)', '(i2, j3)', '(i2, j4)'],
+      ['(i3, j0)', '(i3, j1)', '(i3, j2)', '(i3, j3)', '(i3, j4)'],
+      ['(i4, j0)', '(i4, j1)', '(i4, j2)', '(i4, j3)', '(i4, j4)'],
+      ['(i5, j0)', '(i5, j1)', '(i5, j2)', '(i5, j3)', '(i5, j4)'],
+      ['(i6, j0)', '(i6, j1)', '(i6, j2)', '(i6, j3)', '(i6, j4)'],
+      ['(i7, j0)', '(i7, j1)', '(i7, j2)', '(i7, j3)', '(i7, j4)'],
+      ['(i8, j0)', '(i8, j1)', '(i8, j2)', '(i8, j3)', '(i8, j4)'],
+      ['(i9, j0)', '(i9, j1)', '(i9, j2)', '(i9, j3)', '(i9, j4)']
     ]
     testResults.append(
         test(exercise3.loops_5() == coords,
