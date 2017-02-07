@@ -112,7 +112,8 @@ def vis_binary_search_performance():
         ratio = tries/worst
         results.append(ratio)
     plt.hist(results)
-    plt.title("Proportion of worst case performance over {} iterations".format(testRuns))
+    plt.title("Proportion of worst case performance "
+              "over {} iterations".format(testRuns))
     print """
 This histogram shows the number of guesses that it took the search to
 find the answer. The big O worst case is the base 2 log of the range that
@@ -122,9 +123,9 @@ Think back to when you were playing the game with your brain, sometimes
 you'd go over the worst case because you aren't a perfect arithmatic
 machine but the computer is, so it's always below that worst case limit.
 
-    Close the histogram to finish running the tests.
+            Close the histogram to finish running the tests.
     """
-    # plt.show()
+    plt.show()
 
 
 def ex1runs():
