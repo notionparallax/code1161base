@@ -7,19 +7,11 @@ of the exercise files does what it's supposed to.
 
 import sys
 import os
+import exercise1
 sys.path.append(os.path.dirname(__file__)[:-5])
 from codeHelpers import test, test_flake8, completion_message
 
 WEEK_NUMBER = 4
-
-
-def ex1runs():
-    try:
-        import exercise1
-        return exercise1.function_that_returns_something()
-    except Exception as e:
-        print "\nThere is a syntax error", str(e)
-        return False
 
 
 def syntax_error_message(e):
@@ -38,10 +30,21 @@ testResults.append(
     test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
          "Exercise 1: pass the linter"))
 
+testDict = {'lastName': u'hoogmoed',
+            'password': u'jokers',
+            'postcodePlusID': 4311240}
 testResults.append(
-    test(ex1runs(),
-         "Exercise 1: EXPLAIN TEST HERE"))
+    test(exercise1.get_some_details() == testDict,
+         "Exercise 1: get some data out of a JSON file"))
 
+lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
+testResults.append(
+    test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
+         "Exercise 1: request some simple data from the internet"))
+
+# testResults.append(
+#     test(ex1runs(),
+#          "Exercise 1: EXPLAIN TEST HERE"))
 
 print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
 
