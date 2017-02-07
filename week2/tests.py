@@ -3,10 +3,7 @@
 This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
-
-import inspect
 import os
-import re
 import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
 from codeHelpers import test, test_flake8, completion_message, nyan_cat
@@ -21,12 +18,6 @@ def ex2runs():
     except Exception as e:
         print "\nThere is a syntax error", str(e)
         return False
-
-
-def strip_docstring(a_function):
-    regex = r"\"\"\"[\s\w\.\'\"\&\!\#\%]*\"\"\""
-    theFunction = inspect.getsource(a_function)
-    return re.sub(regex, "", theFunction)
 
 
 def syntax_error_message(e):
@@ -104,8 +95,8 @@ if ex3runs():
              "Exercise 3: loops_1a - 1d for loop"))
 
     testResults.append(
-         test('map' in strip_docstring(exercise3.loops_1b) and
-              exercise3.loops_1b == tenStars,
+         test('map' in exercise3.loops_1b.func_code.co_names and
+              exercise3.loops_1b() == tenStars,
               "Exercise 3: loops_1b - 1d map"))
 
     testResults.append(

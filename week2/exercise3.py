@@ -29,7 +29,7 @@ def fix_it(moves=True, should_move=True):
 def loops_1a():
     """
     using a for loop
-    return a list of 10 items, each one a string with exacly one star in it.
+    return a list of 10 items, each one a string with exactly one star in it.
     E.g.: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
     """
     pass
