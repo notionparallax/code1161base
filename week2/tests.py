@@ -4,9 +4,7 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-import inspect
 import os
-import re
 import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
 from codeHelpers import test, test_flake8, completion_message, nyan_cat
