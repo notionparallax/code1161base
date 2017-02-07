@@ -108,6 +108,12 @@ if ex3runs():
               exercise3.loops_1b == tenStars,
               "Exercise 3: loops_1b - 1d map"))
 
+    print exercise3.loops_1b.func_code.co_names
+    testResults.append(
+        test('map' in exercise3.loops_1b.func_code.co_names and
+             exercise3.loops_1b() == tenStars,
+             "Exercise 3: loops_1b - 1d map alt implement"))
+
     testResults.append(
         test(exercise3.loops_1c(3, ":)") == [':)', ':)', ':)'],
              "Exercise 3: loops_1c - 1d with arguments"))

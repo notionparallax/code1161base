@@ -41,7 +41,9 @@ def loops_1b():
     return a list of 10 items, each one a string with exacly one star in it.
     E.g.: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
     """
-    pass
+    def make_a_star(a):
+        return "*"
+    return map(make_a_star, range(10))
 
 
 def loops_1c(number_of_items=5, symbol="#"):
