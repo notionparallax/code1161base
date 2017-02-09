@@ -43,7 +43,7 @@ def test_the_vm():
 
     gh_url = 'https://raw.githubusercontent.com/'
     repo = 'notionparallax/code1161base/'
-    file_path = "master/week1/pySuccsessMessage.json"
+    file_path = "master/week1/pySuccessMessage.json"
     url = gh_url + repo + file_path
 
     try:
