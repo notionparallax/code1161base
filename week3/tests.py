@@ -157,146 +157,157 @@ def ex4runs():
         return False
 
 
-print("\nWelcome to week {}!".format(WEEK_NUMBER))
-print("May the odds be ever in your favour.\n")
+def theTests(path_to_code_to_check):
+    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print("May the odds be ever in your favour.\n")
 
-testResults = []
-
-testResults.append(
-    test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
-         "Exercise 1: pass the linter"))
-
-if ex1runs():
-    import exercise1
-    testResults.append(
-        test(exercise1.loop_ranger(3, 8, 1) == [3, 4, 5, 6, 7],
-             "Exercise 1: Loop ranger (3, 8, 1)"))
-    testResults.append(
-        test(exercise1.loop_ranger(100, 104, 2) == [100, 102],
-             "Exercise 1: Loop ranger (100, 104, 2)"))
+    testResults = []
 
     testResults.append(
-        test(exercise1.lone_ranger(3, 8, 1) == [3, 4, 5, 6, 7],
-             "Exercise 1: Lone ranger (3, 8, 1)"))
-    testResults.append(
-        test(exercise1.lone_ranger(100, 104, 2) == [100, 102],
-             "Exercise 1: Lone ranger (100, 104, 2)"))
+        test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
+             "Exercise 1: pass the linter"))
+
+    if ex1runs():
+        import exercise1
+        testResults.append(
+            test(exercise1.loop_ranger(3, 8, 1) == [3, 4, 5, 6, 7],
+                 "Exercise 1: Loop ranger (3, 8, 1)"))
+        testResults.append(
+            test(exercise1.loop_ranger(100, 104, 2) == [100, 102],
+                 "Exercise 1: Loop ranger (100, 104, 2)"))
+
+        testResults.append(
+            test(exercise1.lone_ranger(3, 8, 1) == [3, 4, 5, 6, 7],
+                 "Exercise 1: Lone ranger (3, 8, 1)"))
+        testResults.append(
+            test(exercise1.lone_ranger(100, 104, 2) == [100, 102],
+                 "Exercise 1: Lone ranger (100, 104, 2)"))
+
+        testResults.append(
+            test(exercise1.two_step_ranger(100, 104) == [100, 102],
+                 "Exercise 1: Two step ranger (100, 104)"))
+        testResults.append(
+            test(exercise1.two_step_ranger(0, 10) == [0, 2, 4, 6, 8],
+                 "Exercise 1: Two step ranger (100, 104)"))
+
+        testResults.append(
+            test(exercise1.gene_krupa_range(0, 10, 2, 1) ==
+                 [0, 2, 3, 5, 6, 8, 9],
+                 "Exercise 1: gene_krupa_range (0, 10, 2, 1)"))
+        testResults.append(
+            test(exercise1.gene_krupa_range(0, 100, 30, 7) ==
+                 [0, 30, 37, 67, 74],
+                 "Exercise 1: gene_krupa_range (0, 10, 2, 1)"))
+
+        testResults.append(
+            test(test_stubborn_asker(50, 60),
+                 "Exercise 1: Stubborn asker"))
+        testResults.append(
+            test(test_stubborn_asker(10, 20),
+                 "Exercise 1: Stubborn asker"))
+
+        testResults.append(
+            test(test_not_number_rejector(),
+                 "Exercise 1: not_number_rejector"))
+
+        testResults.append(
+            test(test_super_asker(50, 60),
+                 "Exercise 1: test_super_asker"))
 
     testResults.append(
-        test(exercise1.two_step_ranger(100, 104) == [100, 102],
-             "Exercise 1: Two step ranger (100, 104)"))
-    testResults.append(
-        test(exercise1.two_step_ranger(0, 10) == [0, 2, 4, 6, 8],
-             "Exercise 1: Two step ranger (100, 104)"))
+        test(test_flake8("week{}/exercise2.py".format(WEEK_NUMBER)),
+             "Exercise 2: pass the linter"))
 
     testResults.append(
-        test(exercise1.gene_krupa_range(0, 10, 2, 1) == [0, 2, 3, 5, 6, 8, 9],
-             "Exercise 1: gene_krupa_range (0, 10, 2, 1)"))
-    testResults.append(
-        test(exercise1.gene_krupa_range(0, 100, 30, 7) == [0, 30, 37, 67, 74],
-             "Exercise 1: gene_krupa_range (0, 10, 2, 1)"))
+        test(test_example_guessingGame(),
+             "Exercise 2: example guessing game"))
 
-    testResults.append(
-        test(test_stubborn_asker(50, 60),
-             "Exercise 1: Stubborn asker"))
-    testResults.append(
-        test(test_stubborn_asker(10, 20),
-             "Exercise 1: Stubborn asker"))
+    if ex3runs():
+        import exercise3
 
-    testResults.append(
-        test(test_not_number_rejector(),
-             "Exercise 1: not_number_rejector"))
+        testResults.append(
+            test(test_flake8("week{}/exercise3.py".format(WEEK_NUMBER)),
+                 "Exercise 3: pass the linter"))
 
-    testResults.append(
-        test(test_super_asker(50, 60),
-             "Exercise 1: test_super_asker"))
+        lowerBound = 10
+        upperBound = 15
+        guesses = range(lowerBound, upperBound + 1)
+        mockInputs = [lowerBound] + [upperBound] + guesses
+        testResults.append(
+            test(test_advanced_guessingGame(mockInputs),
+                 "Exercise 3: guessing game, U&L"))
 
-testResults.append(
-    test(test_flake8("week{}/exercise2.py".format(WEEK_NUMBER)),
-         "Exercise 2: pass the linter"))
+        mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
+        testResults.append(
+            test(test_advanced_guessingGame(mockInputs),
+                 "Exercise 3: guessing game, polite failures"))
 
-testResults.append(
-    test(test_example_guessingGame(),
-         "Exercise 2: example guessing game"))
+        lowerBound = 15
+        upperBound = 10
+        secondGuess = 25
+        guesses = range(lowerBound, secondGuess + 1)
+        mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
+        testResults.append(
+            test(test_advanced_guessingGame(mockInputs),
+                 "Exercise 3: guessing game, lowerBound "
+                 "bigger than upperBound"))
 
-if ex3runs():
-    import exercise3
+        lowerBound = 10
+        upperBound = 11
+        secondGuess = 15
+        guesses = range(lowerBound, secondGuess + 1)
+        mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
+        testResults.append(
+            test(test_advanced_guessingGame(mockInputs),
+                 "Exercise 3: guessing game, no range to guess in (delta 1)"))
 
-    testResults.append(
-        test(test_flake8("week{}/exercise3.py".format(WEEK_NUMBER)),
-             "Exercise 3: pass the linter"))
+        lowerBound = 10
+        upperBound = 10
+        secondGuess = 15
+        guesses = range(lowerBound, secondGuess + 1)
+        mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
+        testResults.append(
+            test(test_advanced_guessingGame(mockInputs),
+                 "Exercise 3: guessing game, no range to guess in (equal)"))
 
-    lowerBound = 10
-    upperBound = 15
-    guesses = range(lowerBound, upperBound + 1)
-    mockInputs = [lowerBound] + [upperBound] + guesses
-    testResults.append(
-        test(test_advanced_guessingGame(mockInputs),
-             "Exercise 3: guessing game, U&L"))
+    if ex4runs():
+        import exercise4
 
-    mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
-    testResults.append(
-        test(test_advanced_guessingGame(mockInputs),
-             "Exercise 3: guessing game, polite failures"))
+        testResults.append(
+            test(test_flake8("week{}/exercise4.py".format(WEEK_NUMBER)),
+                 "Exercise 4: pass the linter"))
 
-    lowerBound = 15
-    upperBound = 10
-    secondGuess = 25
-    guesses = range(lowerBound, secondGuess + 1)
-    mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
-    testResults.append(
-        test(test_advanced_guessingGame(mockInputs),
-             "Exercise 3: guessing game, lowerBound bigger than upperBound"))
+        try_these = [(1, 100, 5),
+                     (1, 100, 6),
+                     (1, 100, 95),
+                     (1, 51, 5),
+                     (1, 50, 5)]
+        for i in range(10):
+            try_these.append((0, 100, random.randint(1, 99)))
 
-    lowerBound = 10
-    upperBound = 11
-    secondGuess = 15
-    guesses = range(lowerBound, secondGuess + 1)
-    mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
-    testResults.append(
-        test(test_advanced_guessingGame(mockInputs),
-             "Exercise 3: guessing game, no range to guess in (delta 1)"))
+        for tv in try_these:
+            try:
+                testResults.append(
+                    test(test_binary_search(*tv),  # *tv unpacks the tuple
+                         "Exercise 4: binary_search({}, {}, {})".format(*tv)))
+            except:
+                print("********\n\nfailed:", tv)
+                raise ValueError("********\n\nfailed: {}".format(tv))
 
-    lowerBound = 10
-    upperBound = 10
-    secondGuess = 15
-    guesses = range(lowerBound, secondGuess + 1)
-    mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
-    testResults.append(
-        test(test_advanced_guessingGame(mockInputs),
-             "Exercise 3: guessing game, no range to guess in (equal)"))
+        # if the binary search is working, show a graph of guess numbers
+        if test(test_binary_search(1, 10, 5), ""):
+            vis_binary_search_performance()
 
-if ex4runs():
-    import exercise4
+    print("{0}/{1} (passed/attempted)".format(sum(testResults),
+                                              len(testResults)))
 
-    testResults.append(
-        test(test_flake8("week{}/exercise4.py".format(WEEK_NUMBER)),
-             "Exercise 4: pass the linter"))
+    if sum(testResults) == len(testResults):
+        print(nyan_cat())
+        message = "Cowabunga! You've got all the tests passing!"
+        completion_message(message, len(message) + 2)
 
-    try_these = [(1, 100, 5),
-                 (1, 100, 6),
-                 (1, 100, 95),
-                 (1, 51, 5),
-                 (1, 50, 5)]
-    for i in range(10):
-        try_these.append((0, 100, random.randint(1, 99)))
+    return {"of_total": sum(testResults), "mark": len(testResults)}
 
-    for tv in try_these:
-        try:
-            testResults.append(
-                test(test_binary_search(*tv),  # *tv unpacks the tuple
-                     "Exercise 4: binary_search({}, {}, {})".format(*tv)))
-        except:
-            print("********\n\nfailed:", tv)
-            raise ValueError("********\n\nfailed: {}".format(tv))
 
-    # if the binary search is working, show a graph of guess numbers
-    if test(test_binary_search(1, 10, 5), ""):
-        vis_binary_search_performance()
-
-print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
-
-if sum(testResults) == len(testResults):
-    print(nyan_cat())
-    message = "Cowabunga! You've got all the tests passing!"
-    completion_message(message, len(message) + 2)
+if __name__ == "__main__":
+    theTests("")

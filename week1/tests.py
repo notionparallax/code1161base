@@ -4,21 +4,31 @@ import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__))[:-5])
 from codeHelpers import test
 
+WEEK_NUMBER = 1
 
-def isThereAnID():
+# the context of this file
+LOCAL = os.path.dirname(os.path.realpath(__file__))
+# The curent working directory
+CWD = os.getcwd()
+
+
+def isThereAnID(path_to_code_to_check):
     try:
-        f = open('_checkID', 'r')
+        place = os.path.join(path_to_code_to_check, '_checkID')
+        # print("looking in {}".format(place))
+        # print("LOCAL", LOCAL, "\nCWD", CWD)
+        f = open(place, 'r')
         contents = f.read()
-        print(contents)
+        # print("contents", contents)
         return len(contents) > 8
     except:
         print("TIP: Have you run pytest.py yet?")
         return False
 
 
-def isRequestsWorking():
+def isRequestsWorking(path_to_code_to_check):
     try:
-        f = open('_requestsWorking', 'r')
+        f = open(os.path.join(path_to_code_to_check, '_requestsWorking'), 'r')
         contents = f.read()
         if "noodly appendage" in "".join(contents):
             return True
@@ -33,7 +43,20 @@ def isRequestsWorking():
         return False
 
 
-print("\nWelcome to week 1!\nLet's check that everything is set up.\n")
+def theTests(path_to_code_to_check):
+    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print("Let's check that everything is set up.\n")
 
-test(isThereAnID(), "Exercise 1: Test that your VM is working")
-test(isRequestsWorking(), "Exercise 1: Test your connection to the internet")
+    testResults = []
+    testResults.append(
+        test(isThereAnID(path_to_code_to_check),
+             "Exercise 1: Test that your VM is working"))
+    testResults.append(
+        test(isRequestsWorking(path_to_code_to_check),
+             "Exercise 1: Test your connection to the internet"))
+
+    return {"of_total": sum(testResults), "mark": len(testResults)}
+
+
+if __name__ == "__main__":
+    theTests("")

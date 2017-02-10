@@ -18,33 +18,40 @@ def ex1runs():
         import exercise1
         return exercise1.function_that_returns_something()
     except Exception as e:
-        print "\nThere is a syntax error", str(e)
+        print("\nThere is a syntax error", str(e))
         return False
 
 
 def syntax_error_message(e):
-    print "something went wring with the import.\nProbably a syntax error."
-    print "does this file run properly on its own?\n" + str(e)
+    print("something went wring with the import.\nProbably a syntax error.")
+    print("does this file run properly on its own?\n" + str(e))
     return False
 
 
-print "\nWelcome to week {}!".format(WEEK_NUMBER)
-print "May the odds be ever in your favour.\n"
+def theTests(path_to_code_to_check):
+    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print("May the odds be ever in your favour.\n")
 
-testResults = []
+    testResults = []
 
-# stack the test here #
-testResults.append(
-    test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
-         "Exercise 1: pass the linter"))
+    # stack the test here #
+    testResults.append(
+        test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
+             "Exercise 1: pass the linter"))
 
-testResults.append(
-    test(ex1runs(),
-         "Exercise 1: EXPLAIN TEST HERE"))
+    testResults.append(
+        test(ex1runs(),
+             "Exercise 1: EXPLAIN TEST HERE"))
+
+    print("{0}/{1} (passed/attempted)".format(sum(testResults),
+                                              len(testResults)))
+
+    if sum(testResults) == len(testResults):
+        message = "Rad, you've got all the tests passing!"
+        completion_message(message, len(message) + 2)
+
+    return {"of_total": sum(testResults), "mark": len(testResults)}
 
 
-print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
-
-if sum(testResults) == len(testResults):
-    message = "Rad, you've got all the tests passing!"
-    completion_message(message, len(message) + 2)
+if __name__ == "__main__":
+    theTests("")
