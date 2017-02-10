@@ -43,7 +43,7 @@ def isRequestsWorking(path_to_code_to_check):
         return False
 
 
-def theTests(path_to_code_to_check):
+def theTests(path_to_code_to_check=""):
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("Let's check that everything is set up.\n")
 
@@ -59,4 +59,4 @@ def theTests(path_to_code_to_check):
 
 
 if __name__ == "__main__":
-    theTests("")
+    theTests()

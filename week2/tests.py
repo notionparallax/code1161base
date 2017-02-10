@@ -42,7 +42,7 @@ def ex3runs():
         return False
 
 
-def theTests(path_to_code_to_check):
+def theTests(path_to_code_to_check=""):
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
 

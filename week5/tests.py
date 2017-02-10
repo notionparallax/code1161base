@@ -28,7 +28,7 @@ def syntax_error_message(e):
     return False
 
 
-def theTests(path_to_code_to_check):
+def theTests(path_to_code_to_check=""):
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
 
@@ -54,4 +54,4 @@ def theTests(path_to_code_to_check):
 
 
 if __name__ == "__main__":
-    theTests("")
+    theTests()
