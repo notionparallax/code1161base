@@ -4,6 +4,7 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
+from __future__ import division, print_function
 import os
 import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
@@ -17,13 +18,13 @@ def ex2runs():
         import exercise2
         return exercise2.week2exersise2() == "MC Hammer"
     except Exception as e:
-        print "\nThere is a syntax error", str(e)
+        print("\nThere is a syntax error", str(e))
         return False
 
 
 def syntax_error_message(e):
-    print "something went wring with the import.\nProbably a syntax error."
-    print "does this file run properly on its own?\n" + str(e)
+    print("something went wring with the import.\nProbably a syntax error.")
+    print("does this file run properly on its own?\n" + str(e))
     return False
 
 
@@ -33,11 +34,11 @@ def ex3runs():
         import exercise3
         return True
     except Exception as e:
-        print "\nThere is a syntax error in exercise3", str(e)
-        print '\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s="")
-        print "WARNING: there are more tests, but they won't run"
-        print "until you fix the syntax errors in exercise3.py"
-        print '{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s="")
+        print("\nThere is a syntax error in exercise3", str(e))
+        print('\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s=""))
+        print("WARNING: there are more tests, but they won't run")
+        print("until you fix the syntax errors in exercise3.py")
+        print('{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s=""))
         return False
 
 
@@ -199,6 +200,6 @@ if ex3runs():
 print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
 
 if sum(testResults) == len(testResults):
-    print nyan_cat()
+    print(nyan_cat())
     message = "Rad, you've got all the tests passing!"
     completion_message(message, len(message) + 2)

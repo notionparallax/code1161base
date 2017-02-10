@@ -3,7 +3,7 @@
 This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
-
+from __future__ import division, print_function
 import math
 import mock
 import os
@@ -16,11 +16,11 @@ WEEK_NUMBER = 3
 
 
 def syntax_error_message(exNumber, e):
-    print "There is a syntax error in exercise{}\n{}".format(exNumber, str(e))
-    print '\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s="")
-    print "WARNING: there are more tests, but they won't run"
-    print "until you fix the syntax errors in exercise{}.py".format(exNumber)
-    print '{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s="")
+    print("There is a syntax error in exercise{}\n{}".format(exNumber, str(e)))
+    print('\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s=""))
+    print("WARNING: there are more tests, but they won't run")
+    print("until you fix the syntax errors in exercise{}.py".format(exNumber))
+    print('{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s=""))
 
 
 def test_stubborn_asker(low, high):
@@ -34,7 +34,7 @@ def test_stubborn_asker(low, high):
         with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
             return low <= exercise1.stubborn_asker(low, high) <= high
     except Exception as e:
-        print "exception:", e
+        print("exception:", e)
 
 
 def test_not_number_rejector():
@@ -48,7 +48,7 @@ def test_not_number_rejector():
         with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
             return exercise1.not_number_rejector()
     except Exception as e:
-        print "exception:", e
+        print("exception:", e)
 
 
 def test_super_asker(low, high):
@@ -59,7 +59,7 @@ def test_super_asker(low, high):
         with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
             return exercise1.super_asker(low, high)
     except Exception as e:
-        print "exception:", e
+        print("exception:", e)
 
 
 def test_example_guessingGame():
@@ -74,7 +74,7 @@ def test_example_guessingGame():
         with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
             return exercise2.exampleGuessingGame() == "You got it!"
     except Exception as e:
-        print "exception:", e
+        print("exception:", e)
 
 
 def test_advanced_guessingGame(mockInputs):
@@ -82,14 +82,14 @@ def test_advanced_guessingGame(mockInputs):
         with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
             return exercise3.advancedGuessingGame() == "You got it!"
     except Exception as e:
-        print "exception:", e
+        print("exception:", e)
 
 
 def test_binary_search(low, high, actual):
     BASE2 = 2
     b = exercise4.binary_search(low, high, actual)
     b["WorstCaseO"] = math.log(high - low, BASE2)
-    print b
+    print(b)
     if b is not None:
         return b["tries"] < b["WorstCaseO"]
     else:
@@ -114,7 +114,7 @@ def vis_binary_search_performance():
     plt.hist(results)
     plt.title("Proportion of worst case performance "
               "over {} iterations".format(testRuns))
-    print """
+    print("""
 This histogram shows the number of guesses that it took the search to
 find the answer. The big O worst case is the base 2 log of the range that
 you're guessing within. In other words, what power of two fills that space?
@@ -123,8 +123,7 @@ Think back to when you were playing the game with your brain, sometimes
 you'd go over the worst case because you aren't a perfect arithmatic
 machine but the computer is, so it's always below that worst case limit.
 
-            Close the histogram to finish running the tests.
-    """
+            Close the histogram to finish running the tests.""")
     plt.show()
 
 
@@ -158,8 +157,8 @@ def ex4runs():
         return False
 
 
-print "\nWelcome to week {}!".format(WEEK_NUMBER)
-print "May the odds be ever in your favour.\n"
+print("\nWelcome to week {}!".format(WEEK_NUMBER))
+print("May the odds be ever in your favour.\n")
 
 testResults = []
 
@@ -288,16 +287,16 @@ if ex4runs():
                 test(test_binary_search(*tv),  # *tv unpacks the tuple
                      "Exercise 4: binary_search({}, {}, {})".format(*tv)))
         except:
-            print "********\n\nfailed:", tv
+            print("********\n\nfailed:", tv)
             raise ValueError("********\n\nfailed: {}".format(tv))
 
     # if the binary search is working, show a graph of guess numbers
     if test(test_binary_search(1, 10, 5), ""):
         vis_binary_search_performance()
 
-print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
+print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
 if sum(testResults) == len(testResults):
-    print nyan_cat()
+    print(nyan_cat())
     message = "Cowabunga! You've got all the tests passing!"
     completion_message(message, len(message) + 2)

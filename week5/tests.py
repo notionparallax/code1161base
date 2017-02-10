@@ -4,7 +4,7 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-
+from __future__ import division, print_function
 import sys
 import os
 sys.path.append(os.path.dirname(__file__)[:-5])
@@ -18,18 +18,18 @@ def ex1runs():
         import exercise1
         return exercise1.function_that_returns_something()
     except Exception as e:
-        print "\nThere is a syntax error", str(e)
+        print("\nThere is a syntax error", str(e))
         return False
 
 
 def syntax_error_message(e):
-    print "something went wring with the import.\nProbably a syntax error."
-    print "does this file run properly on its own?\n" + str(e)
+    print("something went wring with the import.\nProbably a syntax error.")
+    print("does this file run properly on its own?\n" + str(e))
     return False
 
 
-print "\nWelcome to week {}!".format(WEEK_NUMBER)
-print "May the odds be ever in your favour.\n"
+print("\nWelcome to week {}!".format(WEEK_NUMBER))
+print("May the odds be ever in your favour.\n")
 
 testResults = []
 
@@ -43,7 +43,7 @@ testResults.append(
          "Exercise 1: EXPLAIN TEST HERE"))
 
 
-print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
+print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
 if sum(testResults) == len(testResults):
     message = "Rad, you've got all the tests passing!"

@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+from __future__ import division, print_function
 import math
 # import time
 
@@ -34,14 +35,14 @@ def binary_search(low, high, actual_number):
         elif guess == actual_number:
             return {"guess": guess, "tries": tries}
         else:
-            print "there's some freaky stuff going on here"
+            print("there's some freaky stuff going on here")
         tries += 1
         # time.sleep(0.5)
 
 
 if __name__ == "__main__":
-    print binary_search(1, 100, 5)
-    print binary_search(1, 100, 6)
-    print binary_search(1, 100, 95)
-    print binary_search(1, 51, 5)
-    print binary_search(1, 50, 5)
+    print(binary_search(1, 100, 5))
+    print(binary_search(1, 100, 6))
+    print(binary_search(1, 100, 95))
+    print(binary_search(1, 51, 5))
+    print(binary_search(1, 50, 5))

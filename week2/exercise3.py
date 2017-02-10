@@ -2,7 +2,7 @@
 """
 Modify each function until the tests pass
 """
-
+from __future__ import division, print_function
 
 def is_odd(a_number):
     """
@@ -246,18 +246,18 @@ def lp(some_kind_of_list, exercise_name):
     results to check that they are tidy.
     """
     if some_kind_of_list is not None:
-        print "\n" + exercise_name
+        print("\n" + exercise_name)
         if type(some_kind_of_list[0]) is list:
             for row in some_kind_of_list:
                 for column in row:
-                    print column,
+                    print(column, end="")
                 print
         else:
             for column in some_kind_of_list:
-                print column,
+                print(column, end="")
             print
     else:
-        print exercise_name, "maybe you haven't got to this one yet?"
+        print(exercise_name, "maybe you haven't got to this one yet?")
 
 
 if __name__ == "__main__":
@@ -265,12 +265,12 @@ if __name__ == "__main__":
     # It's NOT the official tests, they are in tests.py as usual.
     # Add to these tests, give them arguments etc. to make sure that your
     # code is robust to the situations that you'll see in action.
-    print is_odd(1), "is_odd odd"
-    print is_odd(4), "is_odd even"
-    print fix_it(True, True), "fix_it"
-    print fix_it(True, False), "fix_it"
-    print fix_it(False, True), "fix_it"
-    print fix_it(False, False), "fix_it"
+    print(is_odd(1), "is_odd odd")
+    print(is_odd(4), "is_odd even")
+    print(fix_it(True, True), "fix_it")
+    print(fix_it(True, False), "fix_it")
+    print(fix_it(False, True), "fix_it")
+    print(fix_it(False, False), "fix_it")
     lp(loops_1a(), "loops_1a")
     lp(star_map(), "star_map")
     lp(loops_1c(4, "×°×"), "loops_1c")

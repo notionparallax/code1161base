@@ -1,3 +1,4 @@
+from __future__ import division, print_function
 import requests
 import json
 
@@ -18,7 +19,7 @@ def check_vm_ID():
     m = open("/var/lib/dbus/machine-id", "r")
     machine_id = m.read()
     m.close()
-    print machine_id
+    print(machine_id)
 
     # Write it to a file in this repo
     f = open('_checkID', 'w')
@@ -30,9 +31,9 @@ def check_vm_ID():
     read_machine_id = c.read()
     c.close()
     if machine_id != read_machine_id:
-        print machine_id
-        print read_machine_id
-        print "Something's not right here."
+        print(machine_id)
+        print(read_machine_id)
+        print("Something's not right here.")
 
 
 def test_the_vm():
@@ -65,7 +66,7 @@ def test_the_vm():
         '*{s:{c}^{n}}*'.format(n=width, c='*', s="")]
 
     for line in doesItWork:
-        print line
+        print(line)
 
     f = open('_requestsWorking', 'w')
     for line in doesItWork:

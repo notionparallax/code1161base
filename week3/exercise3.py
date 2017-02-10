@@ -1,3 +1,4 @@
+from __future__ import division, print_function
 import random
 
 
@@ -15,14 +16,14 @@ def super_asker(low, high):
         try:
             input_number = int(user_input)
             if low <= input_number <= high:
-                print "Thanks, {} looks good!".format(input_number)
+                print("Thanks, {} looks good!".format(input_number))
                 return input_number
             else:
-                print "{} isn't between {} and {}!".format(input_number,
+                print("{} isn't between {} and {}!".format(input_number,
                                                            low,
-                                                           high)
+                                                           high))
         except:
-            print "{} isn't a number! try again:".format(user_input)
+            print("{} isn't a number! try again:".format(user_input))
 
 
 def not_number_rejector(message):
@@ -30,10 +31,10 @@ def not_number_rejector(message):
         user_input = raw_input(message)
         try:
             int(user_input)  # try it to trigger failure
-            print "Thanks, {} looks good!".format(user_input)
+            print("Thanks, {} looks good!".format(user_input))
             return int(user_input)
         except:
-            print "{} isn't a number! try again:".format(user_input)
+            print("{} isn't a number! try again:".format(user_input))
 
 
 def advancedGuessingGame():
@@ -54,16 +55,16 @@ def advancedGuessingGame():
     Remember to think modular. Try to keep your functions small and single
     purpose if you can!
     """
-    print "\nwelcome to the guessing game!"
+    print("\nwelcome to the guessing game!")
     lowerBound = int(not_number_rejector("Enter an lower bound: "))
     upperBound = int(not_number_rejector("Enter an upper bound: "))
     if lowerBound > upperBound:
-        print "your range is inverted"
+        print("your range is inverted")
         upperBound = int(not_number_rejector("Enter an upper bound: "))
     if upperBound == lowerBound or upperBound == lowerBound + 1:
-        print "your range is too small"
+        print("your range is too small")
         upperBound = int(not_number_rejector("Enter an upper bound: "))
-    print "Guess a number between {} and {} ?".format(lowerBound, upperBound)
+    print("Guess a number between {} and {} ?".format(lowerBound, upperBound))
 
     actualNumber = random.randint(lowerBound, upperBound)
 
@@ -71,14 +72,14 @@ def advancedGuessingGame():
 
     while not guessed:
         guessedNumber = super_asker(lowerBound, upperBound)
-        print "you guessed {},".format(guessedNumber),
+        print("you guessed {},".format(guessedNumber),)
         if guessedNumber == actualNumber:
-            print "you got it!! It was {}".format(actualNumber)
+            print("you got it!! It was {}".format(actualNumber))
             guessed = True
         elif guessedNumber < actualNumber:
-            print "too small, try again "
+            print("too small, try again ")
         else:
-            print "too big, try again   "
+            print("too big, try again   ")
     return "You got it!"
 
 

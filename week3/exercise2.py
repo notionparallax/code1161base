@@ -1,3 +1,4 @@
+from __future__ import division, print_function
 import random
 
 
@@ -5,10 +6,10 @@ def exampleGuessingGame():
     """
     This is an example guessing game. It'll test as an example too.
     """
-    print "\nwelcome to the guessing game!"
-    print "A number between 0 and _ ?"
+    print("\nwelcome to the guessing game!")
+    print("A number between 0 and _ ?")
     upperBound = raw_input("Enter an upper bound: ")
-    print "OK then, a number between 0 and {} ?".format(upperBound)
+    print("OK then, a number between 0 and {} ?".format(upperBound))
     upperBound = int(upperBound)
 
     actualNumber = random.randint(0, upperBound)
@@ -17,14 +18,14 @@ def exampleGuessingGame():
 
     while not guessed:
         guessedNumber = int(raw_input("guess a number: "))
-        print "you guessed {},".format(guessedNumber),
+        print("you guessed {},".format(guessedNumber),)
         if guessedNumber == actualNumber:
-            print "you got it!! It was {}".format(actualNumber)
+            print("you got it!! It was {}".format(actualNumber))
             guessed = True
         elif guessedNumber < actualNumber:
-            print "too small, try again "
+            print("too small, try again ")
         else:
-            print "too big, try again   "
+            print("too big, try again   ")
     return "You got it!"
 
 

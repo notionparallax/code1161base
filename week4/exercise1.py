@@ -1,6 +1,7 @@
 """
 Docstring
 """
+from __future__ import division, print_function
 import requests
 import json
 import os
@@ -9,10 +10,21 @@ import os
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
 if LOCAL != CWD:
-    print "Be careful that your relative paths are"
-    print "relative to where you think they are"
-    print LOCAL
-    print CWD
+    print("Be careful that your relative paths are")
+    print("relative to where you think they are")
+    print("LOCAL", LOCAL)
+    print("CWD", CWD)
+
+
+def success_is_relative():
+    """
+    Read the success message from week 1, but from here, using a relative path.
+    TIP: remember that it's relative to your excecution context, not this file.
+         The tests are run from the code1161base directory, that's the
+         excecution context for this test.
+    """
+    path = "week1/pySuccessMessage.json"
+    return open(path).read().strip()
 
 
 def get_some_details():
@@ -87,7 +99,7 @@ def wordy_pyramid():
     return pyramid_list
 
 
-def json_in_a_van():
+def wunderground():
     """
     Get some json from a request parse it and extract values.
     Sign up to https://www.wunderground.com/weather/api/ and get an API key
@@ -138,7 +150,7 @@ def diarist():
 
 
 if __name__ == "__main__":
-    print [len(w) for w in wordy_pyramid()]
-    print get_some_details()
-    print json_in_a_van()
-    print diarist()
+    print([len(w) for w in wordy_pyramid()])
+    print(get_some_details())
+    print(wunderground())
+    print(diarist())

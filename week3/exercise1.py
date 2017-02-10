@@ -2,6 +2,7 @@
 """
 Modify each function until the tests pass
 """
+from __future__ import division, print_function
 
 
 def loop_ranger(start, stop=None, step=1):
@@ -60,10 +61,10 @@ def stubborn_asker(low, high):
     while True:
         input_number = int(raw_input(message))
         if low <= input_number <= high:
-            print "Thanks, {} looks good!".format(input_number)
+            print("Thanks, {} looks good!".format(input_number))
             return input_number
         else:
-            print "{} isn't between {} and {}!".format(input_number, low, high)
+            print("{} isn't between {} and {}".format(input_number, low, high))
 
 
 def not_number_rejector():
@@ -76,10 +77,10 @@ def not_number_rejector():
         user_input = raw_input(message)
         try:
             int(user_input)  # try it to trigger failure
-            print "Thanks, {} looks good!".format(user_input)
+            print("Thanks, {} looks good!".format(user_input))
             return int(user_input)
         except:
-            print "{} isn't a number! try again:".format(user_input)
+            print("{} isn't a number! try again:".format(user_input))
 
 
 def super_asker(low, high):
@@ -96,14 +97,14 @@ def super_asker(low, high):
         try:
             input_number = int(user_input)
             if low <= input_number <= high:
-                print "Thanks, {} looks good!".format(input_number)
+                print("Thanks, {} looks good!".format(input_number))
                 return input_number
             else:
-                print "{} isn't between {} and {}!".format(input_number,
+                print("{} isn't between {} and {}!".format(input_number,
                                                            low,
-                                                           high)
+                                                           high))
         except:
-            print "{} isn't a number! try again:".format(user_input)
+            print("{} isn't a number! try again:".format(user_input))
 
 
 if __name__ == "__main__":
@@ -115,13 +116,13 @@ if __name__ == "__main__":
     # inside Atom, you need to run them from the terminal. E.g.:
     # ben@um:~/projects/git/code1161base$ python week3/exercise1.py
 
-    print "\nloop_ranger", loop_ranger(1, 10, 2)
-    print "\nlone_ranger", lone_ranger(1, 10, 3)
-    print "\ntwo_step_ranger", two_step_ranger(1, 10)
-    print "\ngene_krupa_range", gene_krupa_range(1, 20, 2, 5)
-    print "\nstubborn_asker"
+    print("\nloop_ranger", loop_ranger(1, 10, 2))
+    print("\nlone_ranger", lone_ranger(1, 10, 3))
+    print("\ntwo_step_ranger", two_step_ranger(1, 10))
+    print("\ngene_krupa_range", gene_krupa_range(1, 20, 2, 5))
+    print("\nstubborn_asker")
     stubborn_asker(30, 45)
-    print "\nnot_number_rejector"
+    print("\nnot_number_rejector")
     not_number_rejector()
-    print "\nsuper_asker"
+    print("\nsuper_asker")
     super_asker(33, 42)

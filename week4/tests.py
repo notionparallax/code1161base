@@ -4,10 +4,11 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-
-import sys
-import os
+from __future__ import division, print_function
 import exercise1
+import math
+import os
+import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
 from codeHelpers import test, test_flake8, completion_message, nyan_cat
 
@@ -16,20 +17,32 @@ LOCAL = os.path.dirname(os.path.realpath(__file__))
 
 
 def syntax_error_message(e):
-    print "something went wring with the import.\nProbably a syntax error."
-    print "does this file run properly on its own?\n" + str(e)
+    print("something went wring with the import.\nProbably a syntax error.")
+    print("does this file run properly on its own?\n" + str(e))
     return False
 
 
-print "\nWelcome to week {}!".format(WEEK_NUMBER)
-print "May the odds be ever in your favour.\n"
+def process_wunderground(json_object):
+    json_object['latitude'] = math.floor(float(json_object['latitude']))
+    json_object['longitude'] = math.floor(float(json_object['longitude']))
+    return json_object
+
+
+print("\nWelcome to week {}!".format(WEEK_NUMBER))
+print("May the odds be ever in your favour.\n")
 
 testResults = []
 
-# stack the test here #
+# stack the tests here
+
 testResults.append(
     test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
          "Exercise 1: pass the linter"))
+
+message = '{"message": "Python and requests are working!"}'
+testResults.append(
+    test(exercise1.success_is_relative() == message,
+         "Exercise 1: read a file using a relative path"))
 
 testDict = {'lastName': u'hoogmoed',
             'password': u'jokers',
@@ -42,12 +55,14 @@ lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
 testResults.append(
     test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
          "Exercise 1: request some simple data from the internet"))
+
 weather_results = {'latitude': u'-33.924206',
                    'state': u'NSW',
                    'longitude': u'151.187912',
                    'local_tz_offset': u'+1100'}
 testResults.append(
-    test(exercise1.json_in_a_van() == weather_results,
+    test(process_wunderground(exercise1.wunderground()) ==
+         process_wunderground(weather_results),
          "Exercise 1: get some data from the weather underground."))
 
 if os.path.isfile(LOCAL + "/lasers.pew"):
@@ -56,11 +71,11 @@ if os.path.isfile(LOCAL + "/lasers.pew"):
              "Exercise 1: count the lasers."))
 else:
     testResults.append(False)
-    print "can't find lasers.pew, did you make it with exactly that file name?"
+    print("can't find lasers.pew, did you make it?"
+          " Does it have exactly that file name?")
 
 
-
-print "{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults))
+print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
 if sum(testResults) == len(testResults):
     nyan_cat()

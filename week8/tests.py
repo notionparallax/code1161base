@@ -4,7 +4,7 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-
+from __future__ import division, print_function
 import sys
 import os
 sys.path.append(os.path.dirname(__file__)[:-5])
