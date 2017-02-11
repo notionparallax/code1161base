@@ -23,7 +23,10 @@ def success_is_relative():
          The tests are run from the code1161base directory, that's the
          excecution context for this test.
     """
-    path = "week1/pySuccessMessage.json"
+    path = os.path.join("week1", "pySuccessMessage.json")
+    # this depends on excecution context. Take a loot at your CWD and remember
+    # that it changes.
+    # print(path, CWD)
     return open(path).read().strip()
 
 

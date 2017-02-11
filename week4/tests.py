@@ -75,8 +75,8 @@ def theTests(path_to_code_to_check=""):
         print("can't find lasers.pew, did you make it?"
               " Does it have exactly that file name?")
 
-
-    print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
+    print("{0}/{1} (passed/attempted)".format(sum(testResults),
+                                              len(testResults)))
 
     if sum(testResults) == len(testResults):
         nyan_cat()

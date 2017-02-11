@@ -4,6 +4,7 @@ Modify each function until the tests pass
 """
 from __future__ import division, print_function
 
+
 def is_odd(a_number):
     """
     return True if a_number is odd,
