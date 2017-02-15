@@ -29,7 +29,7 @@ My head is on fire
 ### What have you tried already?
 * I have tried putting my head in the sand
 * I have tried swimming in the sea
-* I have asked in the slack chanel for this week if anyone else has any ideas
+* I have asked in the slack channel for this week if anyone else has any ideas. [Here's a link](https://en.wikipedia.org/wiki/Never_Gonna_Give_You_Up) to the conversation about it.
 
 ### What information would you like in the response
 I assume, from your baldy head, that you have had an on-fire head before, what did you do about it?
@@ -39,6 +39,8 @@ I assume, from your baldy head, that you have had an on-fire head before, what d
 Hi Ben,
 
 Here's a polite, spell checked message to go with the information given above.
+
+There shouldn't be _too_ much information here because it'll be mostly covered already.
 
 Thanks
 
