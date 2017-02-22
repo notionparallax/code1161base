@@ -1,21 +1,27 @@
 # -*- coding: UTF-8 -*-
-"""
+"""Run the tests.
+
 This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
-from __future__ import division, print_function
+from __future__ import division
+from __future__ import print_function
 import math
 import mock
 import os
-import sys
 import random
+import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
-from codeHelpers import test, test_flake8, completion_message, nyan_cat
+from codeHelpers import completion_message
+from codeHelpers import nyan_cat
+from codeHelpers import test
+from codeHelpers import test_flake8
 
 WEEK_NUMBER = 3
 
 
 def syntax_error_message(exNumber, e):
+    """Give a readable error message."""
     print("There is a syntax error in exercise{}\n{}".format(exNumber, str(e)))
     print('\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s=""))
     print("WARNING: there are more tests, but they won't run")
@@ -24,6 +30,7 @@ def syntax_error_message(exNumber, e):
 
 
 def test_stubborn_asker(low, high):
+    """Test the stubborn asker function."""
     try:
         import exercise1
     except Exception as e:
@@ -38,6 +45,7 @@ def test_stubborn_asker(low, high):
 
 
 def test_not_number_rejector():
+    """Test the not number rejector function."""
     try:
         import exercise1
     except Exception as e:
@@ -52,6 +60,7 @@ def test_not_number_rejector():
 
 
 def test_super_asker(low, high):
+    """Test the super asker function."""
     dirty_things = ["aword", [1, 2, 3], {"an": "object"}]
     neat_range = range(low - 25, high + 20, 5)
     mockInputs = dirty_things + neat_range
@@ -63,6 +72,10 @@ def test_super_asker(low, high):
 
 
 def test_example_guessingGame():
+    """Test the example_guessingGame function.
+
+    This should always pass becasue it's provided code
+    """
     try:
         import exercise2
     except Exception as e:
@@ -78,6 +91,7 @@ def test_example_guessingGame():
 
 
 def test_advanced_guessingGame(mockInputs):
+    """Test the advanced_guessingGame function."""
     try:
         with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
             return exercise3.advancedGuessingGame() == "You got it!"
@@ -86,6 +100,10 @@ def test_advanced_guessingGame(mockInputs):
 
 
 def test_binary_search(low, high, actual):
+    """Test the binary search function.
+
+    checks to see that it's searching better than O(log n)
+    """
     BASE2 = 2
     b = exercise4.binary_search(low, high, actual)
     b["WorstCaseO"] = math.log(high - low, BASE2)
@@ -97,6 +115,7 @@ def test_binary_search(low, high, actual):
 
 
 def vis_binary_search_performance():
+    """Provide a visualisation of the performance of the binary search."""
     import matplotlib.pyplot as plt
     BASE2 = 2
     results = []
@@ -128,6 +147,7 @@ machine but the computer is, so it's always below that worst case limit.
 
 
 def ex1runs():
+    """Check that this exercise runs at all."""
     try:
         # this annoys the linter, but I think the scoping is ok
         import exercise1
@@ -138,6 +158,7 @@ def ex1runs():
 
 
 def ex3runs():
+    """Check that this exercise runs at all."""
     try:
         # this annoys the linter, but I think the scoping is ok
         import exercise3
@@ -148,6 +169,7 @@ def ex3runs():
 
 
 def ex4runs():
+    """Check that this exercise runs at all."""
     try:
         # this annoys the linter, but I think the scoping is ok
         import exercise4
@@ -158,6 +180,7 @@ def ex4runs():
 
 
 def theTests(path_to_code_to_check=""):
+    """Run all the tests."""
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
 
@@ -290,8 +313,9 @@ def theTests(path_to_code_to_check=""):
                 testResults.append(
                     test(test_binary_search(*tv),  # *tv unpacks the tuple
                          "Exercise 4: binary_search({}, {}, {})".format(*tv)))
-            except:
+            except Exception:
                 print("********\n\nfailed:", tv)
+                print(Exception)
                 raise ValueError("********\n\nfailed: {}".format(tv))
 
         # if the binary search is working, show a graph of guess numbers

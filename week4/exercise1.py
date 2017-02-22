@@ -1,10 +1,9 @@
-"""
-Docstring
-"""
-from __future__ import division, print_function
-import requests
+"""All about IO."""
+from __future__ import division
+from __future__ import print_function
 import json
 import os
+import requests
 
 # Handy constants
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
@@ -17,7 +16,8 @@ if LOCAL != CWD:
 
 
 def success_is_relative():
-    """
+    """Read from a file.
+
     Read the success message from week 1, but from here, using a relative path.
     TIP: remember that it's relative to your excecution context, not this file.
          The tests are run from the code1161base directory, that's the
@@ -31,7 +31,8 @@ def success_is_relative():
 
 
 def get_some_details():
-    """
+    """Parse some JSON.
+
     In lazyduck.json is a description of a person from https://randomuser.me/
     Read it in and use the json library to convert it to a dictionary.
     Return a new dictionary that just has the last name, password, and the
@@ -53,11 +54,12 @@ def get_some_details():
             "postcodePlusID": data["results"][0]["location"]["postcode"] +
             int(data["results"][0]["id"]["value"])
             }
-    # TODO: leave this as is but change the dict to key:None
+    # TODO(Ben): leave this as is but change the dict to key:None
 
 
 def wordy_pyramid():
-    """
+    """Make a pyramid out of real words.
+
     There is a random word generator here: http://www.setgetgo.com/randomword/
     The only argument that the generator takes is the length of the word.
     Use this and the requests library to make a word pyramid. The shortest
@@ -103,7 +105,8 @@ def wordy_pyramid():
 
 
 def wunderground():
-    """
+    """Find the weather station for Sydney.
+
     Get some json from a request parse it and extract values.
     Sign up to https://www.wunderground.com/weather/api/ and get an API key
     TIP: reading json can someimes be a bit confusing. Use a tool like
@@ -112,7 +115,7 @@ def wunderground():
          get very long. If you are accessing a thing often, assign it to a
          variable and then future access will be easier.
     """
-    # TODO: not sure how much of this to gut and how much to leave in here?
+    # TODO(Ben): not sure how much of this to gut and how much to leave in here?
     base = "http://api.wunderground.com/api/"
     api_key = "cf4d86c9502661ab"
     country = "AU"
@@ -130,7 +133,8 @@ def wunderground():
 
 
 def diarist():
-    """
+    """Read gcode and find facts about it.
+
     Read in Trispokedovetiles(laser).gcode and count the number of times the
     laser is turned on and off. That's the command "M10 P1".
     Write the answer (a number) to a file called 'lasers.pew'

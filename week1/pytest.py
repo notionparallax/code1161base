@@ -1,7 +1,10 @@
+"""Code to test python instalation.
+
+It gets values from the filesystem and the internet
+to check that everything works.
 """
-Code to test python instalation
-"""
-from __future__ import division, print_function
+from __future__ import division
+from __future__ import print_function
 import json
 import os
 import requests
@@ -10,7 +13,8 @@ LOCAL = os.path.dirname(os.path.realpath(__file__))
 
 
 def check_vm_ID():
-    """
+    """Look inside yourself.
+
     Gets a unique value from each VM to check that it's actually set up
     """
     # read it from the OS
@@ -35,7 +39,8 @@ def check_vm_ID():
 
 
 def test_the_vm():
-    """
+    """Inspect own filesystem.
+
     GETs a small JSON file and displays a message
     """
     width = 38

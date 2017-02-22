@@ -1,44 +1,17 @@
-from __future__ import division, print_function
+"""Week 3, Exercise 3.
+
+Steps on the way to making your own guessing game.
+"""
+from __future__ import division
+from __future__ import print_function
+from exercise1 import not_number_rejector
+from exercise1 import super_asker
 import random
 
 
-def super_asker(low, high):
-    """
-    Combine stubborn_asker and not_number_rejector to make a function
-    that does it all!
-    """
-    message = "Give me a number between {low} and {high}:".format(low=low,
-                                                                  high=high)
-    while True:
-        user_input = ""
-        input_number = ""
-        user_input = raw_input(message)
-        try:
-            input_number = int(user_input)
-            if low <= input_number <= high:
-                print("Thanks, {} looks good!".format(input_number))
-                return input_number
-            else:
-                print("{} isn't between {} and {}!".format(input_number,
-                                                           low,
-                                                           high))
-        except:
-            print("{} isn't a number! try again:".format(user_input))
-
-
-def not_number_rejector(message):
-    while True:
-        user_input = raw_input(message)
-        try:
-            int(user_input)  # try it to trigger failure
-            print("Thanks, {} looks good!".format(user_input))
-            return int(user_input)
-        except:
-            print("{} isn't a number! try again:".format(user_input))
-
-
 def advancedGuessingGame():
-    """
+    """Play a guessing game with a user.
+
     The exercise here is to rewrite the exampleGuessingGame() function
     from exercise 3, but to allow for:
     * a lower bound to be entered, e.g. guess numbers between 10 and 20

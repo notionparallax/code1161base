@@ -1,10 +1,12 @@
-"""
+"""Tidy up this file.
+
 This file runs, but it's a mess!
 Go through it and change it until there are no more linter errors or warnings.
 Make sure that your code still runs without any errors by pressing
 [ctrl]+[shift]+[b] as often as you think you need to.
 """
-from __future__ import division, print_function
+from __future__ import division
+from __future__ import print_function
 print  ("hello! Let's get started")
 jobs=['get','this',
 'file','to','pass',

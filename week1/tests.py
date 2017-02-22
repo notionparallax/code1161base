@@ -1,4 +1,6 @@
-from __future__ import division, print_function
+"""Do the work of checking the week's work."""
+from __future__ import division
+from __future__ import print_function
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__))[:-5])
@@ -13,6 +15,7 @@ CWD = os.getcwd()
 
 
 def isThereAnID(path_to_code_to_check):
+    """Check that this test is being run on a VM."""
     try:
         place = os.path.join(path_to_code_to_check, '_checkID')
         # print("looking in {}".format(place))
@@ -21,12 +24,18 @@ def isThereAnID(path_to_code_to_check):
         contents = f.read()
         # print("contents", contents)
         return len(contents) > 8
-    except:
+    except Exception:
         print("TIP: Have you run pytest.py yet?")
         return False
 
 
 def isRequestsWorking(path_to_code_to_check):
+    """Check that the requests library is installed and working.
+
+    This makes a request from a web location so it also checks that the VM is
+    connected to the internet.
+
+    """
     try:
         f = open(os.path.join(path_to_code_to_check, '_requestsWorking'), 'r')
         contents = f.read()
@@ -38,12 +47,16 @@ def isRequestsWorking(path_to_code_to_check):
         else:
             print("Something strange is happening")
             return False
-    except:
+    except Exception:
         print("TIP: Have you run pytest.py yet?")
         return False
 
 
 def theTests(path_to_code_to_check=""):
+    """Run the tests.
+
+    This is the main function, it contains all the tests for the week.
+    """
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("Let's check that everything is set up.\n")
 

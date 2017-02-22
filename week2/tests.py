@@ -4,11 +4,15 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-from __future__ import division, print_function
+from __future__ import division
+from __future__ import print_function
 import os
 import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
-from codeHelpers import test, test_flake8, completion_message, nyan_cat
+from codeHelpers import completion_message
+from codeHelpers import nyan_cat
+from codeHelpers import test
+from codeHelpers import test_flake8
 
 WEEK_NUMBER = 2
 

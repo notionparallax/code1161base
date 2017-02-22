@@ -1,11 +1,14 @@
 # -*- coding: UTF-8 -*-
-from __future__ import division, print_function
+"""Week 3, Exercise 4."""
+from __future__ import division
+from __future__ import print_function
 import math
 # import time
 
 
 def binary_search(low, high, actual_number):
-    """
+    """Do a binary search.
+
     This is going to be your first 'algorithm' in the usual sense of the word!
     you'll give it a range to guess inside, and then use binary search to home
     in on the actual_number.

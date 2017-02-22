@@ -1,21 +1,20 @@
 # -*- coding: UTF-8 -*-
-"""
-Modify each function until the tests pass
-"""
-from __future__ import division, print_function
+"""Modify each function until the tests pass."""
+from __future__ import division
+from __future__ import print_function
 
 
 def is_odd(a_number):
-    """
-    return True if a_number is odd,
-    and False if a_number is even.
+    """Return True if a_number is odd, and False if a_number is even.
+
     Look into modulo division using the '%' operator as one way of doing this.
     """
     return a_number % 2 != 0
 
 
 def fix_it(moves=True, should_move=True):
-    """
+    """Decide what to do.
+
     Using the engineering flowchart for the rules, return the apropriate
     response to the input parameters.
     Use conditional statements: if, else, elif etc.
@@ -33,8 +32,9 @@ def fix_it(moves=True, should_move=True):
 
 
 def loops_1a():
-    """
-    using a for loop
+    """Make 10 stars.
+
+    Using a for loop
     return a list of 10 items, each one a string with exacly one star in it.
     E.g.: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
     """
@@ -45,11 +45,11 @@ def loops_1a():
 
 
 def star_map():
-    """
-    using a map
-    return a list of 10 items, each one a string with exacly one star in it if
-    the index is odd and exactly one exclamation mark if it's even. Reuse
-    the is odd function that you've already written.
+    """Use a map to make stars and bangs.
+
+    Using a map, return a list of 10 items, each one a string with exacly
+    one star in it if the index is odd and exactly one exclamation mark
+    if it's even. Reuse the is odd function that you've already written.
     E.g.: ["!", "*", "!", "*", "!", "*", "!", "*", "!", "*"]
     """
     def make_a_star_bang(i):
@@ -61,7 +61,8 @@ def star_map():
 
 
 def loops_1c(number_of_items=5, symbol="#"):
-    """
+    """Respond to variables.
+
     using any method
     return a list of number_of_items items, each one
     a string with exacly one symbol in it.
@@ -74,7 +75,8 @@ def loops_1c(number_of_items=5, symbol="#"):
 
 
 def loops_2():
-    """
+    """Make a big square starfield.
+
     return a list of 10 items, each one a list of 10 items,
     each one of those, a string with exacly one star in it.
     E.g.: [
@@ -100,7 +102,8 @@ def loops_2():
 
 
 def loops_3():
-    """
+    """Make a rising block of numbers.
+
     Return this:
     [
         ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
@@ -129,7 +132,8 @@ def loops_3():
 
 
 def loops_4():
-    """
+    """Make a block of numbers that rises left to right.
+
     Return this:
     [
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
@@ -152,7 +156,8 @@ def loops_4():
 
 
 def loops_5():
-    """
+    """Make the coordinates of the block.
+
     Return this:
     [
       ['(i0, j0)', '(i0, j1)', '(i0, j2)', '(i0, j3)', '(i0, j4)'],
@@ -182,7 +187,8 @@ def loops_5():
 
 
 def loops_6():
-    """
+    """Make a wedge of numbers.
+
     Return this:
     [
       ['0'],
@@ -210,7 +216,8 @@ def loops_6():
 
 
 def loops_7():
-    """
+    """Make a pyramid.
+
     Return this:
     [
         [' ', ' ', ' ', ' ', '*', ' ', ' ', ' ', ' '],
@@ -242,9 +249,11 @@ def loops_7():
 
 
 def lp(some_kind_of_list, exercise_name):
-    """
+    """Help to see what's going on.
+
     This is a helper function that prints your
     results to check that they are tidy.
+    Note: You don't have to do anything with it.
     """
     if some_kind_of_list is not None:
         print("\n" + exercise_name)
@@ -252,11 +261,11 @@ def lp(some_kind_of_list, exercise_name):
             for row in some_kind_of_list:
                 for column in row:
                     print(column, end="")
-                print
+                print()
         else:
             for column in some_kind_of_list:
                 print(column, end="")
-            print
+            print()
     else:
         print(exercise_name, "maybe you haven't got to this one yet?")
 

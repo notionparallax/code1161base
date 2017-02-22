@@ -1,34 +1,42 @@
 # -*- coding: UTF-8 -*-
-"""
+"""Week 4 tests.
+
 This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-from __future__ import division, print_function
+from __future__ import division
+from __future__ import print_function
 import exercise1
 import math
 import os
 import sys
 sys.path.append(os.path.dirname(__file__)[:-5])
-from codeHelpers import test, test_flake8, completion_message, nyan_cat
+from codeHelpers import completion_message
+from codeHelpers import nyan_cat
+from codeHelpers import test
+from codeHelpers import test_flake8
 
 WEEK_NUMBER = 4
 LOCAL = os.path.dirname(os.path.realpath(__file__))
 
 
 def syntax_error_message(e):
+    """Print a nicer error message."""
     print("something went wring with the import.\nProbably a syntax error.")
     print("does this file run properly on its own?\n" + str(e))
     return False
 
 
 def process_wunderground(json_object):
+    """Access and process wunderground data."""
     json_object['latitude'] = math.floor(float(json_object['latitude']))
     json_object['longitude'] = math.floor(float(json_object['longitude']))
     return json_object
 
 
 def theTests(path_to_code_to_check=""):
+    """Run the tests."""
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
 
