@@ -4,6 +4,11 @@ function explain() {
 	echo -e "\n${MYTEXT} $* ${NOCOLOUR}"
 }
 
+exists()
+{
+	command -v "$1" >/dev/null 2>&1
+}
+
 explain "Ready to install everything you need."
 explain "Lets go!"
 
@@ -12,10 +17,14 @@ explain "add ppa for git"
 sudo apt-add-repository ppa:git-core/ppa -y #latest git
 
 #node and npm - I think apt-get works for this (below)
-explain "install npm and node"
-curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo ln -s /usr/bin/nodejs /usr/bin/node
+if exists node; then
+	explain "yay node!"
+else
+	explain "install npm and node"
+	curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+	sudo apt-get install -y nodejs
+	sudo ln -s /usr/bin/nodejs /usr/bin/node
+fi
 
 sudo chown -R `whoami` /usr/lib/node_modules
 sudo chown -R `whoami` ~/.npm
@@ -75,22 +84,29 @@ sudo apt-get -y install unzip
 # wget "https://hyper-updates.now.sh/download/linux_deb"
 # sudo dpkg --install linux_deb
 
-explain "install atom"
-sudo apt-get -y install build-essential git libgnome-keyring-dev fakeroot rpm libx11-dev libxkbfile-dev
-wget -O atomdeb https://atom.io/download/deb
-sudo dpkg --install atomdeb
-atom #run atom, I don't thing the chown line makes sense until first run.
-sleep 20s #let it get started
-# killall -w atom #this gets blocked by the confirmation, not sure how to solve
-sudo chown -R `whoami` /home/`whoami`/.atom
+if exists atom; then
+	explain "yay atom!"
+else
+	explain "install atom"
+	sudo apt-get -y install build-essential git libgnome-keyring-dev fakeroot rpm libx11-dev libxkbfile-dev
+	curl -sL https://git.io/vwEIX
+fi
+# wget -O atomdeb https://atom.io/download/deb
+# sudo dpkg --install atomdeb
+# atom #run atom, I don't thing the chown line makes sense until first run.
+# sleep 20s #let it get started
+# # killall -w atom #this gets blocked by the confirmation, not sure how to solve
+# sudo chown -R `whoami` /home/`whoami`/.atom
 
 explain "install processing"
-HERE=`pwd`
-cd
-wget -O  processing.tgz "http://download.processing.org/processing-3.2.3-linux64.tgz"
-tar xvfz processing.tgz
-cd $HERE
-echo "alias processing='~/processing-3.2.3/processing'" >> ~/.bashrc
+if [ ! -f ~/processing.tgz ]; then
+	HERE=`pwd`
+	cd
+	wget -O  processing.tgz "http://download.processing.org/processing-3.2.3-linux64.tgz"
+	tar xvfz processing.tgz
+	cd $HERE
+	echo "alias processing='~/processing-3.2.3/processing'" >> ~/.bashrc
+fi
 
 explain "install pip"
 sudo apt-get -y install python-pip
@@ -117,13 +133,13 @@ sudo -H pip install matplotlib numpy scipy requests flake8 flake8-docstrings hac
 explain "install ruby gems"
 # sudo gem install **gem names**
 
-explain "get Noto fonts"
-# from https://www.google.com/get/noto/help/install/
-curl -sL 'https://noto-website-2.storage.googleapis.com/pkgs/Noto-hinted.zip'
-unzip Noto-hinted.zip
-sudo mkdir -p /usr/share/fonts/opentype/noto
-sudo cp *otf  /usr/share/fonts/opentype/noto
-sudo fc-cache -f -v # optional
+# explain "get Noto fonts"
+# # from https://www.google.com/get/noto/help/install/
+# curl -sL 'https://noto-website-2.storage.googleapis.com/pkgs/Noto-hinted.zip'
+# unzip Noto-hinted.zip
+# sudo mkdir -p /usr/share/fonts/opentype/noto
+# sudo cp *otf  /usr/share/fonts/opentype/noto
+# sudo fc-cache -f -v # optional
 
 #atom plugins
 explain "install atom plugins"
@@ -144,16 +160,6 @@ apm install sort-lines
 apm install todo-show
 apm install zen
 
-#settings
-explain "set git variables"
-source variables #get the variables from a file so that people don't need to come into this file
-#git
-git config --global user.name $MYNAME
-git config --global user.email $MYEMAIL
-git config --global credential.helper 'cache --timeout=36000' #cache password for 150 minutes
-git config --global color.ui auto #colour the output in git
-git config --global core.editor "atom --wait"
-
 #upgrade things if they need it
 explain "upgrade things if they need it"
 sudo apt-get -f install -y # does a tidy up, needed for some reason
@@ -164,11 +170,9 @@ sudo apt-get clean -y
 sudo gem update -Nq --system #N no docs, q quiet
 
 explain "do some tests"
-python pytest.py
+python ../week1/pytest.py
 atom
 jupyter notebook &
 
-explain "Now change your username and password."
-unity-control-center user-accounts
 
 explain "All done!"
