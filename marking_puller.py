@@ -3,7 +3,8 @@ This pulls the latest copy of all the repos
 It can clone new repos if you set THERE_ARE_NEW_STUDENTS to true
 """
 
-from __future__ import division, print_function
+from __future__ import division
+from __future__ import print_function
 from StringIO import StringIO
 import git
 import os
@@ -50,7 +51,7 @@ def update_for_new_students():
             git.Repo.clone_from(student.repo_url,
                                 os.path.join(rootdir, student.student_number))
             print("new repo for", student.their_name)
-        except:
+        except Exception:
             print("we already have have", student.their_name)
 
 
