@@ -22,12 +22,13 @@ def success_is_relative():
     TIP: remember that it's relative to your excecution context, not this file.
          The tests are run from the code1161base directory, that's the
          excecution context for this test.
+    TIP: check that there ins't unwanted whitespace or line endings in the
+         response. Look into .strip() and see what it does.
     """
-    path = os.path.join("week1", "pySuccessMessage.json")
-    # this depends on excecution context. Take a loot at your CWD and remember
+    # this depends on excecution context. Take a look at your CWD and remember
     # that it changes.
     # print(path, CWD)
-    return open(path).read().strip()
+    pass
 
 
 def get_some_details():
@@ -49,12 +50,10 @@ def get_some_details():
     json_data = open(LOCAL + "/lazyduck.json").read()
 
     data = json.loads(json_data)
-    return {"lastName": data["results"][0]["name"]["last"],
-            "password": data["results"][0]["login"]["password"],
-            "postcodePlusID": data["results"][0]["location"]["postcode"] +
-            int(data["results"][0]["id"]["value"])
+    return {"lastName":       None,
+            "password":       None,
+            "postcodePlusID": None
             }
-    # TODO(Ben): leave this as is but change the dict to key:None
 
 
 def wordy_pyramid():
@@ -89,19 +88,7 @@ def wordy_pyramid():
     ]
     TIP: to add an argument to a URL, use: ?argName=argVal e.g. ?len=
     """
-    baseURL = "http://www.setgetgo.com/randomword/get.php?len="
-    pyramid_list = []
-    for i in range(3, 21, 2):
-        url = baseURL + str(i)
-        r = requests.get(url)
-        message = r.text
-        pyramid_list.append(message)
-    for i in range(0, 17, 2):
-        url = baseURL + str(20 - i)
-        r = requests.get(url)
-        message = r.text
-        pyramid_list.append(message)
-    return pyramid_list
+    pass
 
 
 def wunderground():
@@ -115,9 +102,8 @@ def wunderground():
          get very long. If you are accessing a thing often, assign it to a
          variable and then future access will be easier.
     """
-    # TODO(Ben): not sure how much of this to gut and how much to leave in here?
     base = "http://api.wunderground.com/api/"
-    api_key = "cf4d86c9502661ab"
+    api_key = "YOUR KEY - REGISTER TO GET ONE"
     country = "AU"
     city = "Sydney"
     template = "{base}/{key}/conditions/q/{country}/{city}.json"
@@ -126,10 +112,10 @@ def wunderground():
     the_json = json.loads(r.text)
     obs = the_json['current_observation']
 
-    return {"state": obs["display_location"]["state"],
-            "latitude": obs['observation_location']["latitude"],
-            "longitude": obs['observation_location']["longitude"],
-            "local_tz_offset": obs['local_tz_offset']}
+    return {"state":           None,
+            "latitude":        None,
+            "longitude":       None,
+            "local_tz_offset": None}
 
 
 def diarist():
@@ -145,15 +131,7 @@ def diarist():
     TIP: remember to commit 'lasers.pew' and push it to your repo, otherwise
          the test will have nothing to look at.
     """
-    laserCounter = 0
-    with open(LOCAL + "/Trispokedovetiles(laser).gcode") as fp:
-        for line in fp:
-            if "M10 P1" in line:
-                laserCounter += 1
-
-    f = open(LOCAL + '/lasers.pew', 'w')
-    f.write(str(laserCounter))
-    f.close()
+    pass
 
 
 if __name__ == "__main__":

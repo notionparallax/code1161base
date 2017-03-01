@@ -9,7 +9,7 @@ def is_odd(a_number):
 
     Look into modulo division using the '%' operator as one way of doing this.
     """
-    return a_number % 2 != 0
+    pass
 
 
 def fix_it(moves=True, should_move=True):
@@ -23,12 +23,7 @@ def fix_it(moves=True, should_move=True):
     "Duct Tape"
     "No Problem"
     """
-    if moves == should_move:
-        return "No Problem"
-    elif moves is True and should_move is False:
-        return "Duct Tape"
-    elif moves is False and should_move is True:
-        return "WD-40"
+    pass
 
 
 def loops_1a():
@@ -38,10 +33,7 @@ def loops_1a():
     return a list of 10 items, each one a string with exacly one star in it.
     E.g.: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
     """
-    stars = []
-    for i in range(10):
-        stars.append("*")
-    return stars
+    pass
 
 
 def star_map():
@@ -52,12 +44,7 @@ def star_map():
     if it's even. Reuse the is odd function that you've already written.
     E.g.: ["!", "*", "!", "*", "!", "*", "!", "*", "!", "*"]
     """
-    def make_a_star_bang(i):
-        if is_odd(i):
-            return "*"
-        else:
-            return "!"
-    return map(make_a_star_bang, range(10))
+    pass
 
 
 def loops_1c(number_of_items=5, symbol="#"):
@@ -68,10 +55,7 @@ def loops_1c(number_of_items=5, symbol="#"):
     a string with exacly one symbol in it.
     E.g.: ['#', '#', '#', '#', '#']
     """
-    stars = []
-    for i in range(number_of_items):
-        stars.append(symbol)
-    return stars
+    pass
 
 
 def loops_2():
@@ -92,13 +76,7 @@ def loops_2():
             ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
           ]
     """
-    stars = []
-    for i in range(10):
-        row = []
-        for j in range(10):
-            row.append("*")
-        stars.append(row)
-    return stars
+    pass
 
 
 def loops_3():
@@ -122,13 +100,7 @@ def loops_3():
     TIP: notice that this needs to to return strings of numbers,
          so call str(number) to cast.
     """
-    grid = []
-    for i in range(10):
-        row = []
-        for j in range(10):
-            row.append(str(i))
-        grid.append(row)
-    return grid
+    pass
 
 
 def loops_4():
@@ -146,13 +118,7 @@ def loops_4():
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     ]
     """
-    grid = []
-    for i in range(10):
-        row = []
-        for j in range(10):
-            row.append(str(j))
-        grid.append(row)
-    return grid
+    pass
 
 
 def loops_5():
@@ -177,13 +143,7 @@ def loops_5():
         "There are {} green bottles".format(8)
     you'll come to see the pros and cons of each over time.
     """
-    grid = []
-    for i in range(10):
-        row = []
-        for j in range(5):
-            row.append('(i{}, j{})'.format(i, j))
-        grid.append(row)
-    return grid
+    pass
 
 
 def loops_6():
@@ -206,13 +166,7 @@ def loops_6():
     You can use a variable.
     TIP: look out for the starting condition.
     """
-    wedge = []
-    for i in range(1, 11):
-        row = []
-        for j in range(i):
-            row.append(str(j))
-        wedge.append(row)
-    return wedge
+    pass
 
 
 def loops_7():
@@ -236,16 +190,7 @@ def loops_7():
     This is a hard problem. Use lots of experimentation and draw
     lots of diagrams!
     """
-    stars = []
-    for i in range(5, 10):
-        row = []
-        for j in range(9):
-            if i > j > 8-i:
-                row.append("*")
-            else:
-                row.append(" ")
-        stars.append(row)
-    return stars
+    pass
 
 
 def lp(some_kind_of_list, exercise_name):
