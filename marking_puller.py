@@ -1,15 +1,17 @@
-"""
+# -*- coding: UTF-8 -*-
+"""Get the latest copy of all the repos.
+
 This pulls the latest copy of all the repos
 It can clone new repos if you set THERE_ARE_NEW_STUDENTS to true
 """
 
 from __future__ import division
 from __future__ import print_function
-from StringIO import StringIO
 import git
 import os
 import pandas as pd
 import requests
+from StringIO import StringIO
 
 # from week1.tests import theTests as w1test
 from importlib import import_module
@@ -23,10 +25,11 @@ print("LOCAL", LOCAL)
 print("CWD", CWD)
 
 rootdir = '../code1161StudentRepos'
-THERE_ARE_NEW_STUDENTS = False
+THERE_ARE_NEW_STUDENTS = True
 
 
 def getDFfromCSVURL(url, columnNames=False):
+    """Get a csv of values from google docs."""
     r = requests.get(url)
     data = r.content
     if columnNames:
@@ -36,6 +39,7 @@ def getDFfromCSVURL(url, columnNames=False):
 
 
 def update_for_new_students():
+    """Get an updated copy of the spreadsheet."""
     ss_of_details_url = ("https://docs.google.com/spreadsheets/d/"
                          "1lpgfIo4A7mMpvo66w0tOsRMzr-UJHX5Ja-QEZKiR7_Q/"
                          "pub?gid=1619618387&single=true&output=csv")
@@ -55,23 +59,56 @@ def update_for_new_students():
             print("we already have have", student.their_name)
 
 
-# if THERE_ARE_NEW_STUDENTS:
-#     update_for_new_students()
-#
+if THERE_ARE_NEW_STUDENTS:
+    update_for_new_students()
+
 dirList = os.listdir(rootdir)
-# print("dirList:", dirList)
-#
-# for student_repo in dirList:
-#     git.cmd.Git(os.path.join(rootdir, student_repo)).pull()
 
-results = []
-for student_repo in dirList:
-    print("\nFor:", student_repo)
-    marks = w1test(os.path.join(rootdir, student_repo, "week1"))
-    marks.update({"student_number": student_repo})
-    results.append(marks)
 
-print("\n\nResults:")
-resultsDF = pd.DataFrame(results)
-print(resultsDF)
-resultsDF.to_csv(os.path.join(CWD, "week{}marks.csv".format(WEEK_NUMBER)))
+def markWk1():
+    """Mark week 1's exercises."""
+    print("dirList:", dirList)
+
+    for student_repo in dirList:
+        git.cmd.Git(os.path.join(rootdir, student_repo)).pull()
+
+    results = []
+    for student_repo in dirList:
+        print("\nFor:", student_repo)
+        marks = w1test(os.path.join(rootdir, student_repo, "week1"))
+        marks.update({"student_number": student_repo})
+        results.append(marks)
+
+    print("\n\nResults:")
+    resultsDF = pd.DataFrame(results)
+    print(resultsDF)
+    resultsDF.to_csv(os.path.join(CWD, "week{}marks.csv".format(WEEK_NUMBER)))
+
+
+def csvOfDetails():
+    """Make a CSV of all the students."""
+    import ruamel.yaml as yaml
+    results = []
+    for student_repo in dirList:
+        try:
+            path = os.path.join(rootdir, student_repo, "aboutMe.yml")
+            details = open(path).read()
+            details = details.replace("@", "^AT^")
+            details = details.replace("é", "e")
+            details = details.replace(":([^ /])", ": $1")
+            details = yaml.load(details, yaml.RoundTripLoader)
+            details["repoName"] = student_repo
+            details["error"] = False
+            results.append(details)
+            if details["studentNumber"] == "z1234567":
+                print(student_repo, "hasn't updated")
+        except Exception as e:
+            results.append({'error': e, "repoName": student_repo})
+
+    print("\n\nResults:")
+    resultsDF = pd.DataFrame(results)
+    # print(resultsDF)
+    resultsDF.to_csv(os.path.join(CWD,
+                                  "studentDetails.csv".format(WEEK_NUMBER)))
+
+csvOfDetails()
