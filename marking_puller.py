@@ -25,7 +25,7 @@ print("LOCAL", LOCAL)
 print("CWD", CWD)
 
 rootdir = '../code1161StudentRepos'
-THERE_ARE_NEW_STUDENTS = True
+THERE_ARE_NEW_STUDENTS = False
 
 
 def getDFfromCSVURL(url, columnNames=False):
@@ -59,18 +59,15 @@ def update_for_new_students():
             print("we already have have", student.their_name)
 
 
-if THERE_ARE_NEW_STUDENTS:
-    update_for_new_students()
-
-dirList = os.listdir(rootdir)
-
-
-def markWk1():
-    """Mark week 1's exercises."""
-    print("dirList:", dirList)
-
+def pull_all_repos(dirList):
+    """Pull latest version of all repos."""
     for student_repo in dirList:
         git.cmd.Git(os.path.join(rootdir, student_repo)).pull()
+
+
+def markWk1(dirList):
+    """Mark week 1's exercises."""
+    # print("dirList:", dirList)
 
     results = []
     for student_repo in dirList:
@@ -85,7 +82,7 @@ def markWk1():
     resultsDF.to_csv(os.path.join(CWD, "week{}marks.csv".format(WEEK_NUMBER)))
 
 
-def csvOfDetails():
+def csvOfDetails(dirList):
     """Make a CSV of all the students."""
     import ruamel.yaml as yaml
     results = []
@@ -95,7 +92,7 @@ def csvOfDetails():
             details = open(path).read()
             details = details.replace("@", "^AT^")
             details = details.replace("é", "e")
-            details = details.replace(":([^ /])", ": $1")
+            details = details.replace("w:", "w: ")
             details = yaml.load(details, yaml.RoundTripLoader)
             details["repoName"] = student_repo
             details["error"] = False
@@ -111,4 +108,13 @@ def csvOfDetails():
     resultsDF.to_csv(os.path.join(CWD,
                                   "studentDetails.csv".format(WEEK_NUMBER)))
 
-csvOfDetails()
+
+dirList = os.listdir(rootdir)
+
+print(dirList)
+
+if THERE_ARE_NEW_STUDENTS:
+    update_for_new_students()
+
+# pull_all_repos(dirList)
+csvOfDetails(dirList)
