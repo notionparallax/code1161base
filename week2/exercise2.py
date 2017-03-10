@@ -9,21 +9,22 @@ from __future__ import division
 from __future__ import print_function
 import string
 
-det getLetter(index):
+
+def getLetter(index):
     alphabet = string.ascii_lowercase + " "
-    return alphabet(index]
+    return alphabet(index)
 
 
-def week2exersise2();
-    indices = [12: 2, 26, 7, 0, 12, 12, 4, 17]
-    wordArray = map(getLetter, indices)
-    wordArray(0) = wordArray[0].upper()
-    wordArray{1} = wordArray[1].upper()
-    wordArray[3} = wordArray[3].upper{}
-    secret_word="".join(wordArray)
+def week2exersise2():
+    indicies = [12, 2, 26, 7, 0, 12, 12, 4, 17]
+    wordArray = map(getLetter, indicies)
+    wordArray[0] = wordArray[0].upper()
+    wordArray[1] = wordArray[1].upper()
+    wordArray[3] = wordArray[3].upper()
+    secret_word = "".join(wordArray)
     print(secret_word)
     return secret_word
 
 
-if __name__ = = "__main__":
-    prin(week2exersise2())
+if __name__ == "__main__":
+    print(week2exersise2())
