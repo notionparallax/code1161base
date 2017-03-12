@@ -25,7 +25,7 @@ print("LOCAL", LOCAL)
 print("CWD", CWD)
 
 rootdir = '../code1161StudentRepos'
-THERE_ARE_NEW_STUDENTS = False
+THERE_ARE_NEW_STUDENTS = True
 
 
 def getDFfromCSVURL(url, columnNames=False):
@@ -41,22 +41,24 @@ def getDFfromCSVURL(url, columnNames=False):
 def update_for_new_students():
     """Get an updated copy of the spreadsheet."""
     ss_of_details_url = ("https://docs.google.com/spreadsheets/d/"
-                         "1lpgfIo4A7mMpvo66w0tOsRMzr-UJHX5Ja-QEZKiR7_Q/"
-                         "pub?gid=1619618387&single=true&output=csv")
+                         "1qeOp6PZ48BFLlHaH3ZEil09MBNfQD0gztuCm2cEiyOo/"
+                         "pub?gid=2144767463"
+                         "&single=true&output=csv")
 
-    student_details = getDFfromCSVURL(ss_of_details_url, ["timestamp",
-                                                          "their_name",
-                                                          "student_number",
+    student_details = getDFfromCSVURL(ss_of_details_url, ["paste",
+                                                          "their_username",
+                                                          "repo_name",
+                                                          "check",
                                                           "repo_url"])
     print("student_details:\n", student_details)
 
     for index, student in student_details.iterrows():
         try:
+            print("new repo for", student.their_username)
             git.Repo.clone_from(student.repo_url,
-                                os.path.join(rootdir, student.student_number))
-            print("new repo for", student.their_name)
+                                os.path.join(rootdir, student.their_username))
         except Exception:
-            print("we already have have", student.their_name)
+            print("we already have have", student.their_username)
 
 
 def pull_all_repos(dirList):

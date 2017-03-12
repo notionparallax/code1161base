@@ -81,8 +81,10 @@ def make_guess_who_board():
             details = details.replace("é", "e")
             details = details.replace(":([^ /])", ": $1")
             details = yaml.load(details, yaml.RoundTripLoader)
+            if details["mediumUsername"][0] != "@":
+                details["mediumUsername"] = "@" + details["mediumUsername"]
             details["repo_name"] = student_repo
-            # print(details)
+            print(details)
             body += """
             <div class="person">
             <img src="https://raw.githubusercontent.com/{gitHubUsername}/code1161base/master/mugshot.png">
@@ -93,11 +95,17 @@ def make_guess_who_board():
             <dt>Student Number:</dt>
               <dd>{studentNumber}</dd>
             <dt>GitHub:</dt>
-              <dd>{gitHubUsername}</dd>
+              <dd>
+                <a href="https://github.com/{gitHubUsername}">{gitHubUsername}</a>
+              </dd>
             <dt>Stackoverflow:</dt>
-              <dd><a href="{stackoverflow}">{stackoverflow}</a></dd>
+              <dd>
+                <a href="{stackoverflow}">{stackoverflow}</a>
+              </dd>
             <dt>Medium:</dt>
-              <dd>{mediumUsername}</dd>
+              <dd>
+                <a href="https://medium.com/{mediumUsername}">{mediumUsername}</a>
+              </dd>
             <dt>UNSW Email:</dt>
               <dd>{unswEmail}</dd>
             <dt>realEmail:</dt>
@@ -107,6 +115,7 @@ def make_guess_who_board():
         except Exception as e:
             print("failed on", student_repo, e)
     return body
+
 
 target = open("guess_who_poster.html", 'w')
 target.write(make_guess_who_board())
