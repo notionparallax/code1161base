@@ -5,16 +5,21 @@ from __future__ import print_function
 
 
 def is_odd(a_number):
-    """Return True if a_number is odd, and False if a_number is even.
+    """Return True if a_number is odd, and False if a_number is even. Look into
+    module division using the '%' operator as one way of doing this."""
+    """ '%' is like division only it checks for the remainder so if the number
+    divided by two has a remainder of 0 its even otherwise odd """
+    if (a_number) % 2 == 0:
+        return False
+    else:
+        return True
 
-    Look into modulo division using the '%' operator as one way of doing this.
-    """
-    pass
+
+pass
 
 
 def fix_it(moves=True, should_move=True):
     """Decide what to do.
-
     Using the engineering flowchart for the rules, return the apropriate
     response to the input parameters.
     Use conditional statements: if, else, elif etc.
@@ -23,7 +28,17 @@ def fix_it(moves=True, should_move=True):
     "Duct Tape"
     "No Problem"
     """
-    pass
+    if moves and should_move:
+        return "No Problem"
+    elif moves and not should_move:
+        return "Duct Tape"
+    elif not moves and not should_move:
+        return "No Problem"
+    elif not moves and should_move:
+        return "WD-40"
+
+
+pass
 
 
 def loops_1a():
