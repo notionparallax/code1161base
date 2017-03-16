@@ -244,10 +244,7 @@ def loops_7():
     This is a hard problem. Use lots of experimentation and draw
     lots of diagrams!
     """
-    star_pyramid = int(input(5))
-
-    for i in range(1, star_pyramid + 1):
-        print((star_pyramid - 1) * "" + i * "*")
+    star_pyramid = []
 
 
 def lp(some_kind_of_list, exercise_name):
