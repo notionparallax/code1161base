@@ -14,19 +14,11 @@ import os
 import pandas as pd
 import requests
 
-# from week1.tests import theTests as w1test
-from importlib import import_module
-WEEK_NUMBER = 1
-w1test = import_module("week{}.tests".format(WEEK_NUMBER), "theTests")
-w1test = w1test.theTests
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
 print("LOCAL", LOCAL)
 print("CWD", CWD)
-
-rootdir = '../code1161StudentRepos'
-THERE_ARE_NEW_STUDENTS = True
 
 
 def getDFfromCSVURL(url, columnNames=False):
