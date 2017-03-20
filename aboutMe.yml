@@ -3,6 +3,7 @@ studentNumber: z1234567
 gitHubUsername: notionparallax
 stackoverflow: http://stackoverflow.com/users/1835727/ben
 mediumUsername: notionparallax
-unswEmail: noIdea@unsw.edu.au
+unswEmail: noIdea@unsw.edu.au  # or company email
 realEmailFirstBit: ben  # this avoids spam
 realEmailOtherBit: @notionparallax.co.uk
+cohort: [1161/monday/tuesday]  # delete the rest that don't apply
