@@ -31,5 +31,3 @@ sudo apt-get install python-tk
 
 echo
 echo "That should have fixed the bugs"
-
-
