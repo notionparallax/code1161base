@@ -11,7 +11,7 @@ import exercise1
 import math
 import os
 import sys
-sys.path.append(os.path.dirname(__file__)[:-5])
+sys.path.append(os.path.dirname(os.path.dirname__file__))
 from codeHelpers import completion_message
 from codeHelpers import nyan_cat
 from codeHelpers import test
@@ -91,7 +91,7 @@ def theTests(path_to_code_to_check=""):
         message = "Rad, you've got all the tests passing!"
         completion_message(message, len(message) + 2)
 
-    return {"of_total": sum(testResults), "mark": len(testResults)}
+    return {"of_total": len(testResults), "mark": sum(testResults)}
 
 
 if __name__ == "__main__":
