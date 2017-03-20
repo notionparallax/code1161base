@@ -41,6 +41,7 @@ def completion_message(message, width):
     print(Fore.GREEN + "✔ " + message + Style.RESET_ALL)
     print "\n" + cap
 
+
 def nyan_cat():
     return "\n".join([
     "{BRIGHT_BLUE}████████████████████████████████████████████████████████████████████████████████",
