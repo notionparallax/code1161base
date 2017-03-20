@@ -88,7 +88,7 @@ def csvOfDetails():
             details = open(path).read()
             details = details.replace("@", "^AT^")
             details = details.replace("é", "e")
-            details = details.replace(":([^ /])", ": $1")
+            details = details.replace("w:", "w: ")
             details = yaml.load(details, yaml.RoundTripLoader)
             details["repoName"] = student_repo
             details["error"] = False
