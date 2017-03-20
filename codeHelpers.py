@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
-from colorama import Fore, Style
+"""Collect up the functons used in all the weeks."""
+from colorama import Fore
+from colorama import Style
 import inspect
 import os
 
