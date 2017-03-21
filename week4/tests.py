@@ -11,7 +11,7 @@ import exercise1
 import math
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.dirname__file__))
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import completion_message
 from codeHelpers import nyan_cat
 from codeHelpers import test

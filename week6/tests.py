@@ -8,7 +8,7 @@ from __future__ import print_function
 
 import sys
 import os
-sys.path.append(os.path.dirname(__file__)[:-5])
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import test, test_flake8, completion_message
 
 WEEK_NUMBER = 6
