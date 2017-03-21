@@ -141,3 +141,6 @@ mark_work(dirList, 2, rootdir)
 
 print("\nMark week 3's work")
 mark_work(dirList, 3, rootdir)
+
+print("\nMark week 4's work")
+mark_work(dirList, 4, rootdir)
