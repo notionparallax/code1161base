@@ -13,9 +13,6 @@ import pandas as pd
 import requests
 import ruamel.yaml as yaml
 
-WEEK_NUMBER = 1
-w1test = import_module("week{}.tests".format(WEEK_NUMBER), "theTests")
-w1test = w1test.theTests
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -152,10 +149,19 @@ def graft_fork_onto_aboutMe(forkDetails, about_me_details):
     a = dict(about_me_details)
     # print("XXXXXXXXXX", f, "\n", a)
     username = a["gitHubUsername"]
-    pertinent_row = f[f["their_username"] == username]
-    pertinent_row = pertinent_row.to_dict()
-    a.update(pertinent_row)  # update is in place
-    return rip_out_dicts(a)
+
+    def safe_lower(x):
+        return str(x).upper().lower()
+
+    pertinent_row = f[f["their_username"].apply(safe_lower) ==
+                      safe_lower(username)]
+    # print("pertinent_row", pertinent_row)
+    try:
+        pertinent_row = pertinent_row.to_dict()
+        a.update(pertinent_row)  # update is in place
+        return rip_out_dicts(a)
+    except:
+        pass  # print(username, pertinent_row)
 
 
 def make_guess_who_board():
@@ -167,23 +173,23 @@ def make_guess_who_board():
     body = the_style()
 
     for student_repo in dirList:
+        path = os.path.join(rootdir, student_repo, "aboutMe.yml")
+        details = open(path).read()
+        details = details.replace("@", "^AT^")
+        details = details.replace("é", "e")
+        details = details.replace(":([^ /])", ": $1")
+        details = yaml.load(details, yaml.RoundTripLoader)
+        if details["mediumUsername"][0] != "@":
+            details["mediumUsername"] = "@" + details["mediumUsername"]
+        details["repo_name"] = student_repo
+        details = graft_fork_onto_aboutMe(student_fork_details,
+                                          details)
+        # print(details)
         try:
-            path = os.path.join(rootdir, student_repo, "aboutMe.yml")
-            details = open(path).read()
-            details = details.replace("@", "^AT^")
-            details = details.replace("é", "e")
-            details = details.replace(":([^ /])", ": $1")
-            details = yaml.load(details, yaml.RoundTripLoader)
-            if details["mediumUsername"][0] != "@":
-                details["mediumUsername"] = "@" + details["mediumUsername"]
-            details["repo_name"] = student_repo
-            details = graft_fork_onto_aboutMe(student_fork_details,
-                                              details)
-
-            print(details)
             body += card_template(details)
-        except Exception as e:
-            print("failed on", student_repo, e)
+        except:
+            pass
+
     return body
 
 
