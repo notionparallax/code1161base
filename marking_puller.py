@@ -13,6 +13,8 @@ import git
 import os
 import pandas as pd
 import requests
+import subprocess
+import json
 
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
@@ -90,29 +92,29 @@ def csvOfDetails(dirList):
     resultsDF.to_csv(os.path.join(CWD, "studentDetails.csv"))
 
 
-def mark_work(dirList, week_number):
+def mark_work(dirList, week_number, root_dir):
     """Mark the week's exercises."""
     results = []
     for student_repo in dirList:
-        test = import_module("week{}.tests".format(week_number))
-        this_path = os.path.join(rootdir,
-                                 student_repo,
-                                 "week{}".format(week_number))
-        print(this_path)
-        print("\nFor:", student_repo)
-        marks = test.theTests(this_path)
-        marks.update({"student_number": student_repo})
-        results.append(marks)
+        try:
+            subprocess.call(['python',
+                             './test_shim.py',
+                             "week{}.tests".format(week_number),
+                             "{}/{}".format(root_dir, student_repo)])
 
-        # Clean up, ready to import the module again with a different person
-        del test
-        print("\n\n\n\n")
+            temp_results = open(os.path.join(LOCAL, 'temp_results.json'), 'r')
+            results_dict = json.loads(temp_results.read())
+            results_dict["bigerror"] = ":)"
+            results.append(results_dict)
+            temp_results.close()
+        except Exception as e:
+            results.append({"bigerror": e, "name": student_repo})
 
     resultsDF = pd.DataFrame(results)
     print("\n\nResults:\n", resultsDF)
     resultsDF.to_csv(os.path.join(CWD, "week{}marks.csv".format(week_number)),
                      index=False)
-    print("\n"*10)
+    print("\n+-+-+-+-+-+-+-+"*10)
     return resultsDF
 
 
@@ -122,17 +124,20 @@ dirList = os.listdir(rootdir)
 print("dir list", dirList)
 
 print("\nCheck to see if there are any new students in the spreadsheet")
-update_for_new_students(chatty=True)
+# update_for_new_students(chatty=True)
 
 print("\nPull all the repos so we have the latest copy. (This takes a while.)")
-pull_all_repos(dirList)
+# pull_all_repos(dirList)
 
 print("\nUpdate the CSV of details")
 csvOfDetails(dirList)
 # This feeds the sanity check spreadsheet
 
 print("\nMark week 1's work")
-mark_work(dirList, 1)
+mark_work(dirList, 1, rootdir)
 
 print("\nMark week 2's work")
-mark_work(dirList, 2)
+mark_work(dirList, 2, rootdir)
+
+print("\nMark week 3's work")
+mark_work(dirList, 3, rootdir)
