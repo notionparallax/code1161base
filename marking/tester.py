@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+"""Run a lightweight test set on specific students."""
 import subprocess
 import os
 

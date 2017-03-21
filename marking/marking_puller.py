@@ -112,7 +112,7 @@ def mark_work(dirList, week_number, root_dir):
 
     resultsDF = pd.DataFrame(results)
     print("\n\nResults:\n", resultsDF)
-    resultsDF.to_csv(os.path.join(CWD, "week{}marks.csv".format(week_number)),
+    resultsDF.to_csv(os.path.join(CWD, "csv/week{}marks.csv".format(week_number)),
                      index=False)
     print("\n+-+-+-+-+-+-+-+"*10)
     return resultsDF
