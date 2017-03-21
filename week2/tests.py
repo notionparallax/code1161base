@@ -69,7 +69,6 @@ def theTests(path_to_code_to_check="."):
 
     testResults = []
     path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
-    print(path)
     testResults.append(
         test(test_flake8(path),
              "Exercise 1: pass the linter"))
@@ -89,7 +88,6 @@ def theTests(path_to_code_to_check="."):
              "Exercise 3: pass the linter"))
 
     if ex3runs(path_to_code_to_check):
-        print("pppp", path)
         exercise3 = imp.load_source("exercise3", path)
         # is odd
         testResults.append(
