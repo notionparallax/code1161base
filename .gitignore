@@ -1,5 +1,3 @@
 *.pyc
 .ipynb_checkpoints
-studentDetails\.csv
-
-marking/temp_results\.json
+temp_results\.json
