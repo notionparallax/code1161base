@@ -16,7 +16,8 @@ def do_the_test():
     except Exception as e:
         return {"of_total": 0,
                 "mark": 0,
-                "localError": str(e).encode('utf-8')}
+                "localError": str(e).replace(",", "~").encode('utf-8')}
+        # the comma messes with the csv
 
 
 def results_as_json():
