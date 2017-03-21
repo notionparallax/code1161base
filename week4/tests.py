@@ -61,18 +61,26 @@ def theTests(path_to_code_to_check=""):
              "Exercise 1: get some data out of a JSON file"))
 
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
-    testResults.append(
-        test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
-             "Exercise 1: request some simple data from the internet"))
+    try:
+        testResults.append(
+            test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
+                 "Exercise 1: request some simple data from the internet"))
+    except Exception as e:
+        testResults.append(False)
+        print("Exercise 1: request some simple data from the internet", e)
 
     weather_results = {'latitude': u'-33.924206',
                        'state': u'NSW',
                        'longitude': u'151.187912',
                        'local_tz_offset': u'+1100'}
-    testResults.append(
-        test(process_wunderground(exercise1.wunderground()) ==
-             process_wunderground(weather_results),
-             "Exercise 1: get some data from the weather underground."))
+    try:
+        testResults.append(
+            test(process_wunderground(exercise1.wunderground()) ==
+                 process_wunderground(weather_results),
+                 "Exercise 1: get some data from the weather underground."))
+    except Exception as e:
+        testResults.append(False)
+        print("Exercise 1: get some data from the weather underground.", e)
 
     if os.path.isfile(LOCAL + "/lasers.pew"):
         testResults.append(
