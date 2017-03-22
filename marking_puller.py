@@ -13,6 +13,7 @@ import os
 import pandas as pd
 import requests
 import subprocess
+import signal
 import json
 
 
@@ -108,21 +109,43 @@ def fix_up_csv(path="csv/studentDetails.csv"):
             outfile.write(line)
 
 
+class Timeout():
+    """Timeout class using ALARM signal."""
+    class Timeout(Exception):
+        pass
+
+    def __init__(self, sec):
+        self.sec = sec
+
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.raise_timeout)
+        signal.alarm(self.sec)
+
+    def __exit__(self, *args):
+        signal.alarm(0)    # disable alarm
+
+    def raise_timeout(self, *args):
+        print("you took toooo long!")
+        raise Timeout.Timeout()
+
+
 def mark_work(dirList, week_number, root_dir):
     """Mark the week's exercises."""
     results = []
     for student_repo in dirList:
         try:
-            subprocess.call(['python',
-                             './test_shim.py',
-                             "week{}.tests".format(week_number),
-                             "{}/{}".format(root_dir, student_repo)])
+            with Timeout(15):  # should catch any rogue ∞ loops
+                subprocess.call(['python',
+                                 './test_shim.py',
+                                 "week{}.tests".format(week_number),
+                                 "{}/{}".format(root_dir, student_repo)])
 
-            temp_results = open(os.path.join(LOCAL, 'temp_results.json'), 'r')
-            results_dict = json.loads(temp_results.read())
-            results_dict["bigerror"] = ":)"
-            results.append(results_dict)
-            temp_results.close()
+                temp_results = open(os.path.join(LOCAL, 'temp_results.json'),
+                                    'r')
+                results_dict = json.loads(temp_results.read())
+                results_dict["bigerror"] = ":)"
+                results.append(results_dict)
+                temp_results.close()
         except Exception as e:
             results.append({"bigerror": str(e).replace(",", "~"),
                             "name": student_repo})
