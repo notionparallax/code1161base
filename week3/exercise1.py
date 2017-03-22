@@ -67,12 +67,12 @@ def not_number_rejector(message):
     "six", "8!") then throw it out and ask for an actual number.
     When you do get a number, return it.
     """
-    message = "Give me a number: "
+    message = "Number please: "
 
     while True:
         try:
             input_number = int(raw_input(message))
-            print("{} is a great number".format(input_number))
+            print("Waow {}, is a great number".format(input_number))
             return input_number
         except Exception as e:
             print("You sure? ({})".format(e))
