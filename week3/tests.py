@@ -128,9 +128,8 @@ def test_example_guessingGame(path):
 def test_advanced_guessingGame(path, mockInputs):
     """Test the advanced_guessingGame function."""
     try:
-        exercise3 = imp.load_source("exercise3",
-                                    os.path.join(path,
-                                                 "week"+str(WEEK_NUMBER)))
+        path = "{}/week{}/exercise3.py".format(path, WEEK_NUMBER)
+        exercise3 = imp.load_source("exercise3", path)
     except Exception as e:
         return syntax_error_message(3, e)
 
@@ -147,14 +146,14 @@ def test_binary_search(path, low, high, actual):
     checks to see that it's searching better than O(log n)
     """
     try:
-        exercise4 = imp.load_source("exercise4",
-                                    os.path.join(path,
-                                                 "week"+str(WEEK_NUMBER)))
+        path = "{}/week{}/exercise4.py".format(path, WEEK_NUMBER)
+        exercise4 = imp.load_source("exercise4", path)
         BASE2 = 2
         b = exercise4.binary_search(low, high, actual)
         b["WorstCaseO"] = math.log(high - low, BASE2)
-        print(b)
+        print("b", b)
         if b is not None:
+            print("snuck it in")
             return b["tries"] < b["WorstCaseO"]
         else:
             return False
@@ -165,9 +164,8 @@ def test_binary_search(path, low, high, actual):
 def vis_binary_search_performance(path="."):
     """Provide a visualisation of the performance of the binary search."""
     try:
-        exercise4 = imp.load_source("exercise4",
-                                    os.path.join(path,
-                                                 "week"+str(WEEK_NUMBER)))
+        path = "{}/week{}/exercise4.py".format(path, WEEK_NUMBER)
+        exercise4 = imp.load_source("exercise4", path)
     except Exception as e:
         return syntax_error_message(4, e)
 
@@ -205,8 +203,8 @@ def ex1runs(path):
     """Check that this exercise runs at all."""
     try:
         # this annoys the linter, but I think the scoping is ok
-        imp.load_source("exercise1",
-                        os.path.join(path, "week"+str(WEEK_NUMBER)))
+        path = "{}/week{}/exercise1.py".format(path, WEEK_NUMBER)
+        exercise1 = imp.load_source("exercise1", path)
         return True
     except Exception as e:
         syntax_error_message(1, e)
@@ -217,8 +215,8 @@ def ex3runs(path):
     """Check that this exercise runs at all."""
     try:
         # this annoys the linter, but I think the scoping is ok
-        imp.load_source("exercise3",
-                        os.path.join(path, "week"+str(WEEK_NUMBER)))
+        path = "{}/week{}/exercise3.py".format(path, WEEK_NUMBER)
+        exercise3 = imp.load_source("exercise3", path)
         return True
     except Exception as e:
         syntax_error_message(3, e)
@@ -229,8 +227,8 @@ def ex4runs(path):
     """Check that this exercise runs at all."""
     try:
         # this annoys the linter, but I think the scoping is ok
-        imp.load_source("exercise4",
-                        os.path.join(path, "week"+str(WEEK_NUMBER)))
+        path = "{}/week{}/exercise4.py".format(path, WEEK_NUMBER)
+        exercise4 = imp.load_source("exercise4", path)
         return True
     except Exception as e:
         syntax_error_message(4, e)
@@ -381,14 +379,14 @@ def theTests(path_to_code_to_check="."):
         for tv in try_these:
             print(tv)
             try:
-                testResults.append(
-                    test(test_binary_search(*tv),  # *tv unpacks the tuple
+                testResults.append(  # *tv unpacks the tuple ------v
+                    test(test_binary_search(path_to_code_to_check, *tv),
                          "Exercise 4: binary_search({}, {}, {})".format(*tv)))
             except Exception:
                 print("********\n\nfailed:", tv)
-                print(Exception)
+                print("tv failure", Exception)
                 # raise ValueError("********\n\nfailed: {}".format(tv))
-                testResults.append(False)
+                testResults.append(0)
 
         # if the binary search is working, show a graph of guess numbers
         if test(test_binary_search(path_to_code_to_check, 1, 10, 5), ""):
