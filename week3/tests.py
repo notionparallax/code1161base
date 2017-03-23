@@ -404,7 +404,9 @@ def theTests(path_to_code_to_check="."):
         message = "Cowabunga! You've got all the tests passing!"
         completion_message(message, len(message) + 2)
 
-    return {"of_total": len(testResults), "mark": sum(testResults)}
+    return {"of_total": len(testResults),
+            "mark": sum(testResults),
+            "results": testResults}
 
 
 if __name__ == "__main__":

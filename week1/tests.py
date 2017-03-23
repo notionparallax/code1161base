@@ -69,7 +69,9 @@ def theTests(path_to_code_to_check="."):
         test(isRequestsWorking(path),
              "Exercise 1: Test your connection to the internet"))
 
-    return {"of_total": len(testResults), "mark": sum(testResults)}
+    return {"of_total": len(testResults),
+            "mark": sum(testResults),
+            "results": testResults}
 
 
 if __name__ == "__main__":
