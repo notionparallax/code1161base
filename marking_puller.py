@@ -60,10 +60,24 @@ def update_for_new_students(chatty=False):
     return student_details
 
 
+def try_to_kill(file_path):
+    try:
+        os.remove(file_path)
+        print("deleted {}".format(file_path))
+    except:
+        pass
+
+
 def pull_all_repos(dirList):
     """Pull latest version of all repos."""
     for student_repo in dirList:
-        git.cmd.Git(os.path.join(rootdir, student_repo)).pull()
+        repo_is_here = os.path.join(rootdir, student_repo)
+        try:
+            try_to_kill(os.path.join(repo_is_here, "week2c"))
+            try_to_kill(os.path.join(repo_is_here, "week3c"))
+            git.cmd.Git(repo_is_here).pull()
+        except Exception as e:
+            print(student_repo, e)
 
 
 def csvOfDetails(dirList):
