@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 """Make a page of faces with names.
 
-Run this and it w ill produce an HTML file with links to everyone's mugshots
+Run this and it will produce an HTML file with links to everyone's mugshots
 """
 
 from __future__ import division
@@ -86,7 +86,7 @@ def card_template(details):
       <dd>{studentNumber}</dd>
     <dt>GitHub:</dt>
       <dd>
-        <a href="{gh}/{repo_name}">{gitHubUsername}</a>
+        <a href="{gh}/{gitHubUsername}/{repo_name}">{gitHubUsername}</a>
       </dd>
     <dt>Stackoverflow:</dt>
       <dd>
