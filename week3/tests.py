@@ -202,7 +202,6 @@ machine but the computer is, so it's always below that worst case limit.
 def ex1runs(path):
     """Check that this exercise runs at all."""
     try:
-        # this annoys the linter, but I think the scoping is ok
         path = "{}/week{}/exercise1.py".format(path, WEEK_NUMBER)
         exercise1 = imp.load_source("exercise1", path)
         return True
@@ -214,7 +213,6 @@ def ex1runs(path):
 def ex3runs(path):
     """Check that this exercise runs at all."""
     try:
-        # this annoys the linter, but I think the scoping is ok
         path = "{}/week{}/exercise3.py".format(path, WEEK_NUMBER)
         exercise3 = imp.load_source("exercise3", path)
         return True
@@ -226,7 +224,6 @@ def ex3runs(path):
 def ex4runs(path):
     """Check that this exercise runs at all."""
     try:
-        # this annoys the linter, but I think the scoping is ok
         path = "{}/week{}/exercise4.py".format(path, WEEK_NUMBER)
         exercise4 = imp.load_source("exercise4", path)
         return True
