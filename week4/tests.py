@@ -49,12 +49,16 @@ def theTests(path_to_code_to_check="."):
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
 
+    path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
+    print(path)
+    exercise1 = imp.load_source("exercise1", path)
+
     testResults = []
 
     # stack the tests here
 
     testResults.append(
-        test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
+        test(test_flake8(path),
              "Exercise 1: pass the linter"))
 
     message = '{"message": "Python and requests are working!"}'
@@ -75,7 +79,7 @@ def theTests(path_to_code_to_check="."):
             test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
                  "Exercise 1: request some simple data from the internet"))
     except Exception as e:
-        testResults.append(False)
+        testResults.append(0)
         print("Exercise 1: request some simple data from the internet", e)
 
     weather_results = {'latitude': u'-33.924206',
@@ -88,7 +92,7 @@ def theTests(path_to_code_to_check="."):
                  process_wunderground(weather_results),
                  "Exercise 1: get some data from the weather underground."))
     except Exception as e:
-        testResults.append(False)
+        testResults.append(0)
         print("Exercise 1: get some data from the weather underground.", e)
 
     testResults.append(
