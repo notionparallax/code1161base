@@ -173,7 +173,7 @@ def vis_binary_search_performance(path="."):
     BASE2 = 2
     results = []
     testRuns = 1000
-    for i in range(testRuns):
+    for _ in range(testRuns):
         low = random.randint(-100, 100)
         high = random.randint(low + 2, 200)
         guess = random.randint(low + 1, high - 1)
