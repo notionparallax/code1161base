@@ -52,10 +52,13 @@ def update_for_new_students(chatty=False):
         try:
             git.Repo.clone_from(student.repo_url,
                                 os.path.join(rootdir, student.their_username))
-            print("new repo for", student.their_username)
-        except Exception:
+            print("{} new repo for {}".format(index,
+                                              student.their_username))
+        except Exception as e:
             if chatty:
-                print("we already have", student.their_username)
+                print("{} we already have {} {}".format(index,
+                                                        student.their_username,
+                                                        e))
 
     return student_details
 
