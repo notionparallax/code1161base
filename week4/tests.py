@@ -35,7 +35,6 @@ def process_wunderground(json_object):
     return json_object
 
 
-def theTests(path_to_code_to_check=""):
 def find_lasers():
         if os.path.isfile(LOCAL + "/lasers.pew"):
             return open(LOCAL + "/lasers.pew").read()
@@ -45,6 +44,7 @@ def find_lasers():
             return False
 
 
+def theTests(path_to_code_to_check="."):
     """Run the tests."""
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
