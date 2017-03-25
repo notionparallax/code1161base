@@ -60,12 +60,13 @@ def update_for_new_students(chatty=False):
     return student_details
 
 
-def try_to_kill(file_path):
+def try_to_kill(file_path, chatty=False):
     try:
         os.remove(file_path)
         print("deleted {}".format(file_path))
-    except:
-        pass
+    except Exception as e:
+        if chatty:
+            print(file_path, e)
 
 
 def pull_all_repos(dirList):
@@ -161,6 +162,7 @@ def mark_work(dirList, week_number, root_dir):
                 results.append(results_dict)
                 temp_results.close()
         except Exception as e:
+            print("\n\nFAARK!", student_repo, e, "\n\n")
             results.append({"bigerror": str(e).replace(",", "~"),
                             "name": student_repo})
             # the comma messes with the csv
