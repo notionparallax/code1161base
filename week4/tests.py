@@ -35,13 +35,15 @@ def process_wunderground(json_object):
     return json_object
 
 
-def find_lasers():
-        if os.path.isfile(LOCAL + "/lasers.pew"):
-            return open(LOCAL + "/lasers.pew").read()
-        else:
-            print("can't find lasers.pew, did you make it?"
-                  " Does it have exactly that file name?")
-            return False
+def find_lasers(path):
+    path = path + "/week4/lasers.pew"
+    if os.path.isfile(path):
+        return int(open(path).read()) == int(6)
+    else:
+        print("can't find lasers.pew, did you make it?"
+              " Does it have exactly that file name?"
+              "looking in " + path)
+        return False
 
 
 def theTests(path_to_code_to_check="."):
@@ -96,7 +98,7 @@ def theTests(path_to_code_to_check="."):
         print("Exercise 1: get some data from the weather underground.", e)
 
     testResults.append(
-            test(find_lasers() == "6",
+            test(find_lasers(path_to_code_to_check),
                  "Exercise 1: count the lasers."))
 
     print("{0}/{1} (passed/attempted)".format(sum(testResults),
