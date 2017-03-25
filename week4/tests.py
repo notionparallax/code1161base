@@ -11,6 +11,7 @@ import imp
 import math
 import os
 import sys
+import requests
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import completion_message
 from codeHelpers import nyan_cat
@@ -44,6 +45,13 @@ def find_lasers(path):
               " Does it have exactly that file name?"
               "looking in " + path)
         return False
+
+
+def treat(path):
+    url = ("https://raw.githubusercontent.com/"
+           "notionparallax/code1161base/master/faces/")
+    name = path.split("/")[-1]
+    print("treat:", requests.get(url + name).text)
 
 
 def theTests(path_to_code_to_check="."):
@@ -108,6 +116,7 @@ def theTests(path_to_code_to_check="."):
         nyan_cat()
         message = "Rad, you've got all the tests passing!"
         completion_message(message, len(message) + 2)
+        treat(path_to_code_to_check)
 
     return {"of_total": len(testResults),
             "mark": sum(testResults),
