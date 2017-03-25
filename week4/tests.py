@@ -7,7 +7,7 @@ of the exercise files does what it's supposed to.
 
 from __future__ import division
 from __future__ import print_function
-import exercise1
+import imp
 import math
 import os
 import sys
@@ -36,6 +36,15 @@ def process_wunderground(json_object):
 
 
 def theTests(path_to_code_to_check=""):
+def find_lasers():
+        if os.path.isfile(LOCAL + "/lasers.pew"):
+            return open(LOCAL + "/lasers.pew").read()
+        else:
+            print("can't find lasers.pew, did you make it?"
+                  " Does it have exactly that file name?")
+            return False
+
+
     """Run the tests."""
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
@@ -82,14 +91,9 @@ def theTests(path_to_code_to_check=""):
         testResults.append(False)
         print("Exercise 1: get some data from the weather underground.", e)
 
-    if os.path.isfile(LOCAL + "/lasers.pew"):
-        testResults.append(
-            test(open(LOCAL + "/lasers.pew").read() == "6",
+    testResults.append(
+            test(find_lasers() == "6",
                  "Exercise 1: count the lasers."))
-    else:
-        testResults.append(False)
-        print("can't find lasers.pew, did you make it?"
-              " Does it have exactly that file name?")
 
     print("{0}/{1} (passed/attempted)".format(sum(testResults),
                                               len(testResults)))
