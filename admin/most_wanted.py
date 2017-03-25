@@ -43,6 +43,7 @@ def the_style():
     .person img {
         object-fit: cover;
         width: 100%;
+        height: 100%;
     }
     .person h1, .person dl {
       background: hsla(0, 0%, 100%, 0.5);
