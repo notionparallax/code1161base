@@ -205,7 +205,13 @@ def loops_6():
     You can use a variable.
     TIP: look out for the starting condition.
     """
-    pass
+    wedge_numbers = []
+    for i in range(10):
+        row_num = []
+        for j in range(i+1):
+            row_num.append(str(j))
+        wedge_numbers.append(row_num)
+    return wedge_numbers
 
 
 def loops_7():
@@ -229,7 +235,18 @@ def loops_7():
     This is a hard problem. Use lots of experimentation and draw
     lots of diagrams!
     """
-    pass
+    stars_block = []
+    for i in range(5):
+        row_stars = []
+        for j in range(9):
+            num_stars = 1 + i*2
+            num_spaces = (9-num_stars)/2
+            if (num_spaces - 1) < j < (9 - num_spaces):
+                row_stars.append('*')
+            else:
+                row_stars.append(' ')
+        stars_block.append(row_stars)
+    return stars_block
 
 
 def lp(some_kind_of_list, exercise_name):
