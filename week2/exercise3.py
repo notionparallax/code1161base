@@ -78,6 +78,7 @@ def loops_1c(number_of_items=5, symbol="#"):
         symbol_list.append(symbol)
     return symbol_list
 
+
 def loops_2():
     """Make a big square starfield.
 
@@ -96,7 +97,10 @@ def loops_2():
             ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
           ]
     """
-    pass
+    star_square = []
+    for num in range(10):
+            star_square.append(loops_1c(10, "*"))
+    return star_square
 
 
 def loops_3():
@@ -120,7 +124,10 @@ def loops_3():
     TIP: notice that this needs to to return strings of numbers,
          so call str(number) to cast.
     """
-    pass
+    block_numbers = []
+    for num in range(10):
+        block_numbers.append(loops_1c(10, str(num)))
+    return block_numbers
 
 
 def loops_4():
@@ -138,7 +145,13 @@ def loops_4():
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     ]
     """
-    pass
+    rising_numbers = []
+    block_rising_numbers = []
+    for num in range(10):
+        rising_numbers.append(str(num))
+    for num2 in range(10):
+        block_rising_numbers.append(rising_numbers)
+    return block_rising_numbers
 
 
 def loops_5():
@@ -163,7 +176,13 @@ def loops_5():
         "There are {} green bottles".format(8)
     you'll come to see the pros and cons of each over time.
     """
-    pass
+    block_coordinates = []
+    for i in range(10):
+        row_coordinates = []
+        for j in range(5):
+            row_coordinates.append('(i{}, j{})'.format(i, j))
+        block_coordinates.append(row_coordinates)
+    return block_coordinates
 
 
 def loops_6():
