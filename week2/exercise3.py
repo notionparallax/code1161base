@@ -72,8 +72,11 @@ def loops_1c(number_of_items=5, symbol="#"):
     a string with exacly one symbol in it.
     E.g.: ['#', '#', '#', '#', '#']
     """
-    pass
 
+    symbol_list = []
+    for num in range(number_of_items):
+        symbol_list.append(symbol)
+    return symbol_list
 
 def loops_2():
     """Make a big square starfield.
