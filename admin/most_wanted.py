@@ -22,53 +22,21 @@ CWD = os.getcwd()  # The curent working directory
 rootdir = '../code1161StudentRepos'
 
 
-def the_style():
+def the_head():
     """"Return the css.
 
     Just keeps things tidy.
     """
     return """
-    <style>
-    @import url('https://fonts.googleapis.com/css?family=Permanent+Marker');
-    .person {
-        display: inline-block;
-        height: 30em;
-        overflow: hidden;
-        position: relative;
-        width: 19.5vw;
-        border: none;
-        min-width: 15em;
-        margin: -0.1em;
-    }
-    .person img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-    }
-    .person h1, .person dl {
-      background: hsla(0, 0%, 100%, 0.5);
-      display: inline-block;
-      margin: 0;
-      position: absolute;
-    }
-    .person h1 {
-      font-family: 'Permanent Marker';
-      padding: 0 1em;
-      top: 0;
-    }
-    .person dl {
-      bottom: 0;
-      font-size: 85%;
-    }
-    dt, dd {
-        display: inline;
-        padding: 0;
-        margin: 0 0.1em;
-    }
-    dt {
-        font-weight: bold;
-    }
-    </style>
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <title>Python Adventurers</title>
+        <link rel="stylesheet" href="admin/mugshot.css">
+        <script src="script.js"></script>
+      </head>
+      <body>
     """
 
 
@@ -171,7 +139,7 @@ def make_guess_who_board():
 
     student_fork_details = df_of_students()
 
-    body = the_style()
+    body = the_head()
 
     for student_repo in dirList:
         path = os.path.join(rootdir, student_repo, "aboutMe.yml")
@@ -191,7 +159,7 @@ def make_guess_who_board():
         except:
             pass
 
-    return body
+    return body + "</body></html>"
 
 
 target = open("guess_who_poster.html", 'w')
