@@ -3,7 +3,7 @@ from __future__ import division
 from __future__ import print_function
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.realpath(__file__))[:-5])
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import test
 
 WEEK_NUMBER = 1
@@ -18,11 +18,11 @@ def isThereAnID(path_to_code_to_check):
     """Check that this test is being run on a VM."""
     try:
         place = os.path.join(path_to_code_to_check, '_checkID')
-        # print("looking in {}".format(place))
-        # print("LOCAL", LOCAL, "\nCWD", CWD)
+        print("looking in {}".format(place))
+        print("LOCAL", LOCAL, "\nCWD", CWD)
         f = open(place, 'r')
         contents = f.read()
-        # print("contents", contents)
+        print("contents", contents)
         return len(contents) > 8
     except Exception:
         print("TIP: Have you run pytest.py yet?")
@@ -52,7 +52,7 @@ def isRequestsWorking(path_to_code_to_check):
         return False
 
 
-def theTests(path_to_code_to_check=""):
+def theTests(path_to_code_to_check="."):
     """Run the tests.
 
     This is the main function, it contains all the tests for the week.
@@ -60,15 +60,18 @@ def theTests(path_to_code_to_check=""):
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("Let's check that everything is set up.\n")
 
+    path = "{}/week{}/".format(path_to_code_to_check, WEEK_NUMBER)
     testResults = []
     testResults.append(
-        test(isThereAnID(path_to_code_to_check),
+        test(isThereAnID(path),
              "Exercise 1: Test that your VM is working"))
     testResults.append(
-        test(isRequestsWorking(path_to_code_to_check),
+        test(isRequestsWorking(path),
              "Exercise 1: Test your connection to the internet"))
 
-    return {"of_total": len(testResults), "mark": sum(testResults)}
+    return {"of_total": len(testResults),
+            "mark": sum(testResults),
+            "results": testResults}
 
 
 if __name__ == "__main__":

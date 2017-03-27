@@ -24,7 +24,16 @@ def fix_it(moves=True, should_move=True):
     "Duct Tape"
     "No Problem"
     """
-    pass
+    if moves and should_move:
+        return ("No Problem")
+    elif not moves and not should_move:
+        return ("No Problem")
+    elif moves and not should_move:
+        return ("Duct Tape")
+    elif not moves and should_move:
+        return ("WD-40")
+    else:
+        print ("I don't know what to do!")
 
 
 def loops_1a():
@@ -34,7 +43,10 @@ def loops_1a():
     return a list of 10 items, each one a string with exacly one star in it.
     E.g.: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
     """
-    pass
+    star = []
+    for i in range(10):
+        star.append('*')
+    return star
 
 
 def star_map():
@@ -45,7 +57,12 @@ def star_map():
     if it's even. Reuse the is odd function that you've already written.
     E.g.: ["!", "*", "!", "*", "!", "*", "!", "*", "!", "*"]
     """
-    pass
+    def star_bang(number):
+        if is_odd(number):
+            return "*"
+        else:
+            return "!"
+    return map(star_bang, range(10))
 
 
 def loops_1c(number_of_items=5, symbol="#"):

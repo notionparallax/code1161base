@@ -7,10 +7,11 @@ of the exercise files does what it's supposed to.
 
 from __future__ import division
 from __future__ import print_function
-import exercise1
+import imp
 import math
 import os
 import sys
+import requests
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import completion_message
 from codeHelpers import nyan_cat
@@ -35,17 +36,39 @@ def process_wunderground(json_object):
     return json_object
 
 
-def theTests(path_to_code_to_check=""):
+def find_lasers(path):
+    path = path + "/week4/lasers.pew"
+    if os.path.isfile(path):
+        return int(open(path).read()) == int(6)
+    else:
+        print("can't find lasers.pew, did you make it?"
+              " Does it have exactly that file name?"
+              "looking in " + path)
+        return False
+
+
+def treat(path):
+    url = ("https://raw.githubusercontent.com/"
+           "notionparallax/code1161base/master/faces/")
+    name = path.split("/")[-1]
+    print("treat:", requests.get(url + name).text)
+
+
+def theTests(path_to_code_to_check="."):
     """Run the tests."""
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
+
+    path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
+    print(path)
+    exercise1 = imp.load_source("exercise1", path)
 
     testResults = []
 
     # stack the tests here
 
     testResults.append(
-        test(test_flake8("week{}/exercise1.py".format(WEEK_NUMBER)),
+        test(test_flake8(path),
              "Exercise 1: pass the linter"))
 
     message = '{"message": "Python and requests are working!"}'
@@ -66,7 +89,7 @@ def theTests(path_to_code_to_check=""):
             test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
                  "Exercise 1: request some simple data from the internet"))
     except Exception as e:
-        testResults.append(False)
+        testResults.append(0)
         print("Exercise 1: request some simple data from the internet", e)
 
     weather_results = {'latitude': u'-33.924206',
@@ -79,17 +102,12 @@ def theTests(path_to_code_to_check=""):
                  process_wunderground(weather_results),
                  "Exercise 1: get some data from the weather underground."))
     except Exception as e:
-        testResults.append(False)
+        testResults.append(0)
         print("Exercise 1: get some data from the weather underground.", e)
 
-    if os.path.isfile(LOCAL + "/lasers.pew"):
-        testResults.append(
-            test(open(LOCAL + "/lasers.pew").read() == "6",
+    testResults.append(
+            test(find_lasers(path_to_code_to_check),
                  "Exercise 1: count the lasers."))
-    else:
-        testResults.append(False)
-        print("can't find lasers.pew, did you make it?"
-              " Does it have exactly that file name?")
 
     print("{0}/{1} (passed/attempted)".format(sum(testResults),
                                               len(testResults)))
@@ -98,8 +116,11 @@ def theTests(path_to_code_to_check=""):
         nyan_cat()
         message = "Rad, you've got all the tests passing!"
         completion_message(message, len(message) + 2)
+        treat(path_to_code_to_check)
 
-    return {"of_total": len(testResults), "mark": sum(testResults)}
+    return {"of_total": len(testResults),
+            "mark": sum(testResults),
+            "results": testResults}
 
 
 if __name__ == "__main__":
