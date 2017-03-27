@@ -73,7 +73,10 @@ def loops_1c(number_of_items=5, symbol="#"):
     a string with exacly one symbol in it.
     E.g.: ['#', '#', '#', '#', '#']
     """
-    pass
+    symbol_list = []
+    for i in range(number_of_items):
+        symbol_list.append(str(symbol))
+    return symbol_list
 
 
 def loops_2():
@@ -94,7 +97,11 @@ def loops_2():
             ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
           ]
     """
-    pass
+    star_field = []
+    star = ['*']*10
+    for i in range(10):
+        star_field.append(star)
+    return star_field
 
 
 def loops_3():
@@ -118,7 +125,13 @@ def loops_3():
     TIP: notice that this needs to to return strings of numbers,
          so call str(number) to cast.
     """
-    pass
+    number_block = []
+    for i in range(10):
+        number_list = []
+        for x in range(10):
+            number_list.append(str(i))
+        number_block.append(number_list)
+    return number_block
 
 
 def loops_4():
@@ -136,7 +149,13 @@ def loops_4():
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     ]
     """
-    pass
+    number_block = []
+    for i in range(10):
+        number_list = []
+        for x in range(10):
+            number_list.append(str(x))
+        number_block.append(number_list)
+    return number_block
 
 
 def loops_5():
@@ -161,7 +180,13 @@ def loops_5():
         "There are {} green bottles".format(8)
     you'll come to see the pros and cons of each over time.
     """
-    pass
+    coord_block = []
+    for i in range(10):
+        coord_list = []
+        for x in range(5):
+            coord_list.append("(i" + str(i) + ", j" + str(x) + ")")
+        coord_block.append(coord_list)
+    return coord_block
 
 
 def loops_6():
@@ -184,7 +209,13 @@ def loops_6():
     You can use a variable.
     TIP: look out for the starting condition.
     """
-    pass
+    number_wedge = []
+    for i in range(10):
+        number_list = []
+        for x in range(i+1):
+            number_list.append(str(x))
+        number_wedge.append(number_list)
+    return number_wedge
 
 
 def loops_7():
@@ -208,7 +239,13 @@ def loops_7():
     This is a hard problem. Use lots of experimentation and draw
     lots of diagrams!
     """
-    pass
+    pyramid = []
+    for i in range(5):
+        pyramid_row = []
+        for x in range(i+1):
+            pyramid_row.append("" + "*" + "")
+        pyramid.append(pyramid_row)
+    return pyramid
 
 
 def lp(some_kind_of_list, exercise_name):
