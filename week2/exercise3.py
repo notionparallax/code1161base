@@ -220,7 +220,7 @@ def loops_6():
     return number_wedge
 
 
-def loops_7(rows=5, columns=9):
+def loops_7(rows=5):
     """Make a pyramid.
 
     Return this:
