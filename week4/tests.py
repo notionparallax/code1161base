@@ -47,11 +47,18 @@ def find_lasers(path):
         return False
 
 
-def treat(path):
+def treat():
     url = ("https://raw.githubusercontent.com/"
            "notionparallax/code1161base/master/faces/")
-    name = path.split("/")[-1]
-    print("treat:", requests.get(url + name).text)
+
+    with open('.git/config', 'r') as f:
+        for line in f:
+            if 'code1161base' in line and not 'notionparallax' in line:
+                name = line.split('/')[-2]
+    if not name:
+        print("Error with getting github username")
+    else:
+        print("treat:", requests.get(url + name).text)
 
 
 def theTests(path_to_code_to_check="."):
