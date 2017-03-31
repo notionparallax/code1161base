@@ -54,7 +54,11 @@ def treat():
     with open('.git/config', 'r') as f:
         for line in f:
             if 'code1161base' in line and not 'notionparallax' in line:
+                # ensure it's not Ben's repo
                 name = line.split('/')[-2]
+                if 'git' in name:
+                    # if ssh url
+                    name = name.split(':')[-1]
     if not name:
         print("Error with getting github username")
     else:
@@ -123,7 +127,7 @@ def theTests(path_to_code_to_check="."):
         nyan_cat()
         message = "Rad, you've got all the tests passing!"
         completion_message(message, len(message) + 2)
-        treat(path_to_code_to_check)
+        treat()
 
     return {"of_total": len(testResults),
             "mark": sum(testResults),
