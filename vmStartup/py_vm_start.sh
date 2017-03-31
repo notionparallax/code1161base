@@ -38,39 +38,41 @@ explain "install lots of things"
 #I know you can install these things all in one command, but I'm hoping that many commands will be more robust to failure
 #this REALLY ought to be in a loop
 explain "arduino"
-sudo apt-get -y install arduino
+sudo apt -y install arduino
 explain "build-essential"
-sudo apt-get -y install build-essential
+sudo apt -y install build-essential
 explain "bundler"
-sudo apt-get -y install bundler
+sudo apt -y install bundler
 explain "cups"
-sudo apt-get -y install cups
+sudo apt -y install cups
 explain "curl"
-sudo apt-get -y install curl
+sudo apt -y install curl
 explain "gdebi-core"
-sudo apt-get -y install gdebi-core
+sudo apt -y install gdebi-core
 explain "git"
-sudo apt-get -y install git
+sudo apt -y install git
 explain "imagemagick"
-sudo apt-get -y install imagemagick
+sudo apt -y install imagemagick
 explain "libapparmor1"
-sudo apt-get -y install libapparmor1
+sudo apt -y install libapparmor1
 explain "ruby2.3" #check version wanted here: https://www.brightbox.com/docs/ruby/ubuntu/
-sudo apt-get -y install ruby2.3
+sudo apt -y install ruby2.3
 explain "ruby2.3-dev" #numbers must match above
-sudo apt-get -y install ruby2.3-dev
+sudo apt -y install ruby2.3-dev
 explain "rubygems"
-sudo apt-get -y install rubygems
+sudo apt -y install rubygems
 explain "samba"
-sudo apt-get -y install samba
+sudo apt -y install samba
 explain "sl"
-sudo apt-get -y install sl
+sudo apt -y install sl
 explain "wget"
-sudo apt-get -y install wget
+sudo apt -y install wget
 explain "xvfb"
-sudo apt-get -y install xvfb
+sudo apt -y install xvfb
 explain "unzip"
-sudo apt-get -y install unzip
+sudo apt -y install unzip
+explain "python-tk"
+sudo apt install -y python-tk
 
 # this cleans out the duplicates from the ppas.
 # Something to do with the way that the google ppas are set up
@@ -80,7 +82,7 @@ sudo apt-get -y install unzip
 #off we go again
 
 # explain "install hyper"
-# sudo apt-get -y install icnsutils graphicsmagick xz-utils rpm libappindicator1 #for hyper
+# sudo apt -y install icnsutils graphicsmagick xz-utils rpm libappindicator1 #for hyper
 # wget "https://hyper-updates.now.sh/download/linux_deb"
 # sudo dpkg --install linux_deb
 
@@ -88,7 +90,7 @@ if exists atom; then
 	explain "yay atom!"
 else
 	explain "install atom"
-	sudo apt-get -y install build-essential git libgnome-keyring-dev fakeroot rpm libx11-dev libxkbfile-dev
+	sudo apt -y install build-essential git libgnome-keyring-dev fakeroot rpm libx11-dev libxkbfile-dev
 	curl -sL https://git.io/vwEIX
 fi
 # wget -O atomdeb https://atom.io/download/deb
@@ -109,25 +111,27 @@ if [ ! -f ~/processing.tgz ]; then
 fi
 
 explain "install pip"
-sudo apt-get -y install python-pip
+sudo apt -y install python-pip
 sudo -H pip install --upgrade pip #probably not needed, but belt and braces
 
 explain "install ipython and jupyter"
-sudo apt-get -y install python2.7 python-pip python-dev
-sudo apt-get -y install ipython ipython-notebook
-sudo apt-get -y install python-bs4
-sudo apt-get -y install python-html5lib
+sudo apt -y install python2.7 python-pip python-dev
+sudo apt -y install ipython ipython-notebook
+sudo apt -y install python-bs4
+sudo apt -y install python-html5lib
 sudo apt-get -f install -y # does a tidy up, needed for some reason
 sudo -H pip install jupyter
 
 sudo apt-add-repository ppa:dperry/ppa-graphviz-test
 sudo apt-get update
 sudo apt-get -y autoremove graphviz
-sudo apt-get -y install graphviz
+sudo apt -y install graphviz
 
 #pip packages
 explain "install pip packages"
-sudo -H pip install matplotlib numpy scipy requests flake8 flake8-docstrings hacking mock
+sudo -H pip install matplotlib numpy scipy requests
+sudo -H pip install flake8 flake8-docstrings hacking mock
+sudo -H pip colorama
 
 #gems
 explain "install ruby gems"
