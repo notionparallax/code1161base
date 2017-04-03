@@ -1,4 +1,5 @@
-"""IO examples
+"""IO examples.
+
 Using file IO, from the docs:
     "The first argument is a string containing the filename. The second
     argument is another string containing a few characters describing the
@@ -52,9 +53,14 @@ who_is_cool("ben_is_cool.txt")
 
 
 def bury_time_capsule(something_for_your_kids_to_find, file_path):
+    """Save some json to a file.
 
 
 message_for_capsule = {"name": "ben",
+    Args:
+        something_for_your_kids_to_find (dict): A dictionary of facts.
+        file_path (str): The path to where you want to save the json.
+    """
     try:
         dumped = json.dumps(something_for_your_kids_to_find)
         mode = "w"  # from the docs
@@ -85,6 +91,11 @@ def dig_up_capsule(file_path):
                """
     print(template.format(**contents))
     time_capsule.close()
+    """Read some json from a file.
 
+    Does some defensive programming as an example of how you'd do such a thing.
+    Args:
+        file_path (str): The path to where you want to save the json.
+    """
 
 dig_up_capsule("under_the_patio.json")
