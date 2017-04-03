@@ -76,9 +76,10 @@ def pull_all_repos(dirList):
     for student_repo in dirList:
         repo_is_here = os.path.join(rootdir, student_repo)
         try:
-            try_to_kill(os.path.join(repo_is_here, "week2c"))
-            try_to_kill(os.path.join(repo_is_here, "week3c"))
-            git.cmd.Git(repo_is_here).pull()
+            repo = git.cmd.Git(repo_is_here)
+            repo.execute(["git", "fetch", "--all"])
+            repo.execute(["git", "reset", "--hard", "origin/master"])
+            repo.pull()  # probably not needed, but belt and braces
         except Exception as e:
             print(student_repo, e)
 
