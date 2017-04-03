@@ -40,6 +40,10 @@ def the_head():
     """
 
 
+def wrap_into_body(content):
+    return the_head() + content + "</body></html>"
+
+
 def card_template(details):
     details["raw"] = "https://raw.githubusercontent.com"
     details["gh"] = "https://github.com"
@@ -138,8 +142,14 @@ def make_guess_who_board():
     dirList = os.listdir(rootdir)
 
     student_fork_details = df_of_students()
+    # Status, name_unsw, gitHubUsername, mediumUsername, OnMedium,
+    # name, realEmailFirstBit, realEmailOtherBit, GHusername, stackoverflow,
+    # studentNumber, unswEmail, slack, topic, nice_email, gh_has_fork,
+    # repo_name
+    # TODO: update this so that it only looks at the spreadsheet and not the
+    #       dirlist.
 
-    body = the_head()
+    body = ""
 
     for student_repo in dirList:
         path = os.path.join(rootdir, student_repo, "aboutMe.yml")
@@ -159,7 +169,7 @@ def make_guess_who_board():
         except:
             pass
 
-    return body + "</body></html>"
+    return wrap_into_body(body)
 
 
 target = open("guess_who_poster.html", 'w')

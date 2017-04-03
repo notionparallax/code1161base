@@ -11,35 +11,15 @@ import math
 import mock
 import os
 import random
-import signal
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import completion_message
 from codeHelpers import nyan_cat
 from codeHelpers import test
 from codeHelpers import test_flake8
+from codeHelpers import Timeout
 
 WEEK_NUMBER = 3
-
-
-class Timeout():
-    """Timeout class using ALARM signal."""
-    class Timeout(Exception):
-        pass
-
-    def __init__(self, sec):
-        self.sec = sec
-
-    def __enter__(self):
-        signal.signal(signal.SIGALRM, self.raise_timeout)
-        signal.alarm(self.sec)
-
-    def __exit__(self, *args):
-        signal.alarm(0)    # disable alarm
-
-    def raise_timeout(self, *args):
-        print("you took toooo long!")
-        raise Timeout.Timeout()
 
 
 def syntax_error_message(exNumber, e):
@@ -134,8 +114,9 @@ def test_advanced_guessingGame(path, mockInputs):
         return syntax_error_message(3, e)
 
     try:
-        with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
-            return exercise3.advancedGuessingGame() == "You got it!"
+        with Timeout(3):
+            with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
+                return exercise3.advancedGuessingGame() == "You got it!"
     except Exception as e:
         print("exception:", e)
 
@@ -149,9 +130,11 @@ def test_binary_search(path, low, high, actual):
         path = "{}/week{}/exercise4.py".format(path, WEEK_NUMBER)
         exercise4 = imp.load_source("exercise4", path)
         BASE2 = 2
-        b = exercise4.binary_search(low, high, actual)
-        b["WorstCaseO"] = math.log(high - low, BASE2)
-        print("b", b)
+        b = None
+        with Timeout(3):
+            b = exercise4.binary_search(low, high, actual)
+            b["WorstCaseO"] = math.log(high - low, BASE2)
+            print("b", b)
         if b is not None:
             print("snuck it in")
             return b["tries"] < b["WorstCaseO"]
@@ -271,11 +254,11 @@ def theTests(path_to_code_to_check="."):
         testResults.append(
             test(exercise1.gene_krupa_range(0, 10, 2, 1) ==
                  [0, 2, 3, 5, 6, 8, 9],
-                 "Exercise 1: gene_krupa_range (0, 10, 2, 1)"))
+                 "Exercise 1: gene_krupa_range(0, 10, 2, 1)"))
         testResults.append(
             test(exercise1.gene_krupa_range(0, 100, 30, 7) ==
                  [0, 30, 37, 67, 74],
-                 "Exercise 1: gene_krupa_range (0, 10, 2, 1)"))
+                 "Exercise 1: gene_krupa_range(0, 100, 30, 7)"))
 
         testResults.append(
             test(test_stubborn_asker(path_to_code_to_check, 50, 60),

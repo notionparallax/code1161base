@@ -13,9 +13,8 @@ import os
 import pandas as pd
 import requests
 import subprocess
-import signal
 import json
-
+from codeHelpers import Timeout
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -77,9 +76,10 @@ def pull_all_repos(dirList):
     for student_repo in dirList:
         repo_is_here = os.path.join(rootdir, student_repo)
         try:
-            try_to_kill(os.path.join(repo_is_here, "week2c"))
-            try_to_kill(os.path.join(repo_is_here, "week3c"))
-            git.cmd.Git(repo_is_here).pull()
+            repo = git.cmd.Git(repo_is_here)
+            repo.execute(["git", "fetch", "--all"])
+            repo.execute(["git", "reset", "--hard", "origin/master"])
+            repo.pull()  # probably not needed, but belt and braces
         except Exception as e:
             print(student_repo, e)
 
@@ -127,27 +127,7 @@ def fix_up_csv(path="csv/studentDetails.csv"):
             outfile.write(line)
 
 
-class Timeout():
-    """Timeout class using ALARM signal."""
-    class Timeout(Exception):
-        pass
-
-    def __init__(self, sec):
-        self.sec = sec
-
-    def __enter__(self):
-        signal.signal(signal.SIGALRM, self.raise_timeout)
-        signal.alarm(self.sec)
-
-    def __exit__(self, *args):
-        signal.alarm(0)    # disable alarm
-
-    def raise_timeout(self, *args):
-        print("you took toooo long!")
-        raise Timeout.Timeout()
-
-
-def mark_work(dirList, week_number, root_dir):
+def mark_work(dirList, week_number, root_dir, dfPlease=True):
     """Mark the week's exercises."""
     results = []
     for student_repo in dirList:
@@ -176,7 +156,8 @@ def mark_work(dirList, week_number, root_dir):
                                   "csv/week{}marks.csv".format(week_number)),
                      index=False)
     print("\n+-+-+-+-+-+-+-+")
-    return resultsDF
+    if dfPlease:
+        return resultsDF
 
 
 rootdir = '../code1161StudentRepos'
@@ -194,14 +175,15 @@ print("\nUpdate the CSV of details")
 csvOfDetails(dirList)
 # This feeds the sanity check spreadsheet
 
-print("\nMark week 1's work")
-mark_work(dirList, 1, rootdir)
 
-print("\nMark week 2's work")
-mark_work(dirList, 2, rootdir)
+# print("\nMark week 1's work")
+# mark_work(dirList, 1, rootdir, False)
 
-print("\nMark week 3's work")
-mark_work(dirList, 3, rootdir)
-
-print("\nMark week 4's work")
-mark_work(dirList, 4, rootdir)
+# print("\nMark week 2's work")
+# mark_work(dirList, 2, rootdir, False)
+#
+# print("\nMark week 3's work")
+mark_work(dirList, 3, rootdir, False)
+#
+# print("\nMark week 4's work")
+# mark_work(dirList, 4, rootdir, False)
