@@ -127,7 +127,7 @@ def fix_up_csv(path="csv/studentDetails.csv"):
             outfile.write(line)
 
 
-def mark_work(dirList, week_number, root_dir):
+def mark_work(dirList, week_number, root_dir, dfPlease=True):
     """Mark the week's exercises."""
     results = []
     for student_repo in dirList:
@@ -156,7 +156,8 @@ def mark_work(dirList, week_number, root_dir):
                                   "csv/week{}marks.csv".format(week_number)),
                      index=False)
     print("\n+-+-+-+-+-+-+-+")
-    return resultsDF
+    if dfPlease:
+        return resultsDF
 
 
 rootdir = '../code1161StudentRepos'
@@ -174,14 +175,15 @@ print("\nUpdate the CSV of details")
 csvOfDetails(dirList)
 # This feeds the sanity check spreadsheet
 
-print("\nMark week 1's work")
-mark_work(dirList, 1, rootdir)
 
-print("\nMark week 2's work")
-mark_work(dirList, 2, rootdir)
+# print("\nMark week 1's work")
+# mark_work(dirList, 1, rootdir, False)
 
-print("\nMark week 3's work")
-mark_work(dirList, 3, rootdir)
-
-print("\nMark week 4's work")
-mark_work(dirList, 4, rootdir)
+# print("\nMark week 2's work")
+# mark_work(dirList, 2, rootdir, False)
+#
+# print("\nMark week 3's work")
+mark_work(dirList, 3, rootdir, False)
+#
+# print("\nMark week 4's work")
+# mark_work(dirList, 4, rootdir, False)
