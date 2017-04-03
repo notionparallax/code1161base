@@ -251,11 +251,11 @@ def theTests(path_to_code_to_check="."):
         testResults.append(
             test(exercise1.gene_krupa_range(0, 10, 2, 1) ==
                  [0, 2, 3, 5, 6, 8, 9],
-                 "Exercise 1: gene_krupa_range (0, 10, 2, 1)"))
+                 "Exercise 1: gene_krupa_range(0, 10, 2, 1)"))
         testResults.append(
             test(exercise1.gene_krupa_range(0, 100, 30, 7) ==
                  [0, 30, 37, 67, 74],
-                 "Exercise 1: gene_krupa_range (0, 10, 2, 1)"))
+                 "Exercise 1: gene_krupa_range(0, 100, 30, 7)"))
 
         testResults.append(
             test(test_stubborn_asker(path_to_code_to_check, 50, 60),
