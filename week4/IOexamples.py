@@ -52,14 +52,19 @@ who_is_cool("ben_is_cool.txt")
 
 
 def bury_time_capsule(something_for_your_kids_to_find, file_path):
-    dumped = json.dumps(something_for_your_kids_to_find)
-    mode = "w"  # from the docs
-    time_capsule = open(file_path, mode)
-    time_capsule.write(dumped)
-    time_capsule.close()
 
 
 message_for_capsule = {"name": "ben",
+    try:
+        dumped = json.dumps(something_for_your_kids_to_find)
+        mode = "w"  # from the docs
+        time_capsule = open(file_path, mode)
+        time_capsule.write(dumped)
+        time_capsule.close()
+        return True
+    except Exception as e:
+        print(e)
+        return False
                        "Year": 2017,
                        "Location": "Sydney",
                        "Greeting": "Yo whatup now and give a brother room",
