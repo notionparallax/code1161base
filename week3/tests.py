@@ -114,8 +114,9 @@ def test_advanced_guessingGame(path, mockInputs):
         return syntax_error_message(3, e)
 
     try:
-        with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
-            return exercise3.advancedGuessingGame() == "You got it!"
+        with Timeout(3):
+            with mock.patch('__builtin__.raw_input', side_effect=mockInputs):
+                return exercise3.advancedGuessingGame() == "You got it!"
     except Exception as e:
         print("exception:", e)
 
@@ -129,9 +130,11 @@ def test_binary_search(path, low, high, actual):
         path = "{}/week{}/exercise4.py".format(path, WEEK_NUMBER)
         exercise4 = imp.load_source("exercise4", path)
         BASE2 = 2
-        b = exercise4.binary_search(low, high, actual)
-        b["WorstCaseO"] = math.log(high - low, BASE2)
-        print("b", b)
+        b = None
+        with Timeout(3):
+            b = exercise4.binary_search(low, high, actual)
+            b["WorstCaseO"] = math.log(high - low, BASE2)
+            print("b", b)
         if b is not None:
             print("snuck it in")
             return b["tries"] < b["WorstCaseO"]
