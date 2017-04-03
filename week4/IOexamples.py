@@ -55,8 +55,6 @@ who_is_cool("ben_is_cool.txt")
 def bury_time_capsule(something_for_your_kids_to_find, file_path):
     """Save some json to a file.
 
-
-message_for_capsule = {"name": "ben",
     Args:
         something_for_your_kids_to_find (dict): A dictionary of facts.
         file_path (str): The path to where you want to save the json.
@@ -71,6 +69,9 @@ message_for_capsule = {"name": "ben",
     except Exception as e:
         print(e)
         return False
+
+
+message_for_capsule = {"name": "Ben",
                        "Year": 2017,
                        "Location": "Sydney",
                        "Greeting": "Yo whatup now and give a brother room",
