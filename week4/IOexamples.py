@@ -85,18 +85,31 @@ bury_time_capsule(message_for_capsule, "under_the_patio.json")
 
 
 def dig_up_capsule(file_path):
-    mode = "r"  # from the docs
-    time_capsule = open(file_path, mode)
-    contents = json.load(time_capsule)
-    template = """{Greeting},\nDid you know that in {Year}, "{Fact}" was still true!
-               """
-    print(template.format(**contents))
-    time_capsule.close()
     """Read some json from a file.
 
     Does some defensive programming as an example of how you'd do such a thing.
     Args:
         file_path (str): The path to where you want to save the json.
     """
+    try:
+        mode = "r"  # from the docs
+        time_capsule = open(file_path, mode)
+        contents = json.load(time_capsule)
+        keys_needed = ["Greeting", "Year", "Fact"]
+        if all(key in contents for key in keys_needed):
+            template = """{Greeting},\nDid you know that in {Year}, "{Fact}" was still true!
+                       """
+            print(template.format(**contents))
+            time_capsule.close()
+            return True
+        else:
+            print("Your dictionary is missing some keys.",
+                  contents,
+                  keys_needed)
+            return False
+    except Exception as e:
+        print(e)
+        return False
+
 
 dig_up_capsule("under_the_patio.json")
