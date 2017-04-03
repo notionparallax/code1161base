@@ -13,9 +13,8 @@ import os
 import pandas as pd
 import requests
 import subprocess
-import signal
 import json
-
+from codeHelpers import Timeout
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -125,26 +124,6 @@ def fix_up_csv(path="csv/studentDetails.csv"):
         for line in lines:
             print(line)
             outfile.write(line)
-
-
-class Timeout():
-    """Timeout class using ALARM signal."""
-    class Timeout(Exception):
-        pass
-
-    def __init__(self, sec):
-        self.sec = sec
-
-    def __enter__(self):
-        signal.signal(signal.SIGALRM, self.raise_timeout)
-        signal.alarm(self.sec)
-
-    def __exit__(self, *args):
-        signal.alarm(0)    # disable alarm
-
-    def raise_timeout(self, *args):
-        print("you took toooo long!")
-        raise Timeout.Timeout()
 
 
 def mark_work(dirList, week_number, root_dir):
