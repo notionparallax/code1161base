@@ -95,12 +95,12 @@ def dig_up_capsule(file_path):
         mode = "r"  # from the docs
         time_capsule = open(file_path, mode)
         contents = json.load(time_capsule)
+        time_capsule.close()
         keys_needed = ["Greeting", "Year", "Fact"]
         if all(key in contents for key in keys_needed):
             template = """{Greeting},\nDid you know that in {Year}, "{Fact}" was still true!
                        """
             print(template.format(**contents))
-            time_capsule.close()
             return True
         else:
             print("Your dictionary is missing some keys.",
