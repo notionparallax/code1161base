@@ -138,28 +138,58 @@ def log_progress(message, logfile_name):
     completed_students_list.close()
 
 
+def test_in_clean_environment(student_repo,
+                              root_dir,
+                              logfile_name,
+                              temp_file_path='temp_results.json',
+                              test_file_path='./test_shim.py'):
+    """Test a single student's work in a clean environment.
+
+    This calls a subprocess that opens a fresh python environment, runs the
+    tests and then saves the results to a temp file.
+
+    Back in this process, we read that temp file, and then use its values to
+    constuct a dictionary of results (or errors).
+
+    The logging is just to see real time progress as this can run for a long
+    time and hang the machine.
+    """
+    results_dict = {}
+    try:
+        with Timeout(5):  # should catch any rogue ∞ loops
+            subprocess.call(['python',
+                             test_file_path,
+                             "{}/{}".format(root_dir, student_repo)])
+
+        temp_results = open(os.path.join(LOCAL,  temp_file_path), 'r')
+        results_dict = json.loads(temp_results.read())
+        results_dict["bigerror"] = ":)"
+        temp_results.close()
+
+        # log_progress(student_repo + " good\n", logfile_name)
+    except Exception as e:
+        results_dict = {"bigerror": str(e).replace(",", "~"),
+                        "name": student_repo}  # the comma messes with the csv
+
+        # log_progress("{} bad {}\n".format(student_repo, e), logfile_name)
+
+    return results_dict
+
+
 def mark_work(dirList, week_number, root_dir, dfPlease=True):
     """Mark the week's exercises."""
-    results = []
-    for student_repo in dirList:
-        try:
-            with Timeout(15):  # should catch any rogue ∞ loops
-                subprocess.call(['python',
-                                 './test_shim.py',
-                                 "week{}.tests".format(week_number),
-                                 "{}/{}".format(root_dir, student_repo)])
+    logfile_name = "temp_completion_log"
+    # Prepare logging
+    # completed_students_list = open(logfile_name, "w")
+    # completed_students_list.write("here we go:\n")
+    # completed_students_list.close()
 
-                temp_results = open(os.path.join(LOCAL, 'temp_results.json'),
-                                    'r')
-                results_dict = json.loads(temp_results.read())
-                results_dict["bigerror"] = ":)"
-                results.append(results_dict)
-                temp_results.close()
-        except Exception as e:
-            print("\n\nFAARK!", student_repo, e, "\n\n")
-            results.append({"bigerror": str(e).replace(",", "~"),
-                            "name": student_repo})
-            # the comma messes with the csv
+    results = []
+    for student_repo in dirList[2:4]:
+        print("{0}{1}{2}{1}{0}".format("*"*30, "\n"*2, student_repo))
+        results.append(test_in_clean_environment(student_repo,
+                                                 root_dir,
+                                                 logfile_name))
 
     resultsDF = pd.DataFrame(results)
     print("\n\nResults:\n", resultsDF)
