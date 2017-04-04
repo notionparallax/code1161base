@@ -132,6 +132,12 @@ def fix_up_csv(path="csv/studentDetails.csv"):
             outfile.write(line)
 
 
+def log_progress(message, logfile_name):
+    completed_students_list = open(logfile_name, "a")
+    completed_students_list.write(message)
+    completed_students_list.close()
+
+
 def mark_work(dirList, week_number, root_dir, dfPlease=True):
     """Mark the week's exercises."""
     results = []
@@ -170,25 +176,25 @@ rootdir = '../code1161StudentRepos'
 dirList = os.listdir(rootdir)
 print("dir list", dirList)
 
-print("\nCheck to see if there are any new students in the spreadsheet")
-update_for_new_students(chatty=True)
+# print("\nCheck to see if there are any new students in the spreadsheet")
+# update_for_new_students(chatty=True)
 
-print("\nPull all the repos so we have the latest copy. (This takes a while.)")
-pull_all_repos(dirList)
+# print("\nPull all the repos so we have the latest copy.")
+# print("(This takes a while.)")
+# pull_all_repos(dirList)
 
-print("\nUpdate the CSV of details")
-csvOfDetails(dirList)
-# This feeds the sanity check spreadsheet
+# print("\nUpdate the CSV of details")
+# csvOfDetails(dirList)  # This feeds the sanity check spreadsheet
 
 
 # print("\nMark week 1's work")
 # mark_work(dirList, 1, rootdir, False)
 
-# print("\nMark week 2's work")
-# mark_work(dirList, 2, rootdir, False)
-#
+print("\nMark week 2's work")
+mark_work(dirList, 2, rootdir, False)
+
 # print("\nMark week 3's work")
-mark_work(dirList, 3, rootdir, False)
+# mark_work(dirList, 3, rootdir, False)
 #
 # print("\nMark week 4's work")
 # mark_work(dirList, 4, rootdir, False)
