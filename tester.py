@@ -7,7 +7,7 @@ from codeHelpers import Timeout
 LOCAL = os.path.dirname(os.path.realpath(__file__))
 week_number = 2
 
-repos = ["pennypangCODE", "wukaicharlott"]
+repos = ["pennypangCODE"]
 results = []
 for name in repos:
     with Timeout(5):  # should catch any rogue ∞ loops
