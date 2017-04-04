@@ -2,6 +2,7 @@
 """Collect up the functons used in all the weeks."""
 from colorama import Fore
 from colorama import Style
+import imp
 import inspect
 import os
 import signal
@@ -9,6 +10,7 @@ import signal
 
 class Timeout():
     """Timeout class using ALARM signal."""
+
     class Timeout(Exception):
         pass
 
@@ -28,6 +30,10 @@ class Timeout():
 
 
 def test(testResult, name):
+    """Report on the test.
+
+    Returns 1 and 0 so that the 1s can be summed to give a mark.
+    """
     if testResult:
         print(Fore.GREEN + "✔ " + name + Style.RESET_ALL)
         return 1
@@ -37,6 +43,7 @@ def test(testResult, name):
 
 
 def test_flake8(fileName):
+    """Check to see if the file at file_path is flake8 compliant."""
     test_dir = os.path.dirname(os.path.abspath(inspect.getfile(
         inspect.currentframe())))
 
@@ -54,7 +61,37 @@ def test_flake8(fileName):
         return False
 
 
+def ex_runs(path, exNumber, weekNumber):
+    """Check that this exercise runs at all."""
+    try:
+        path = "{}/week{}/exercise{}.py".format(path, weekNumber, exNumber)
+        imp.load_source("exercise{}".format(exNumber), path)
+        return True
+    except Exception as e:
+        syntax_error_message(exNumber, e)
+        return False
+
+
+def syntax_error_message(exNumber, e):
+    """Give a readable error message."""
+    print('\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s=""))
+    print("There is a syntax error in exercise{}\n{}".format(exNumber, str(e)))
+    print("WARNING: there might be more tests, but they won't run")
+    print("until you fix the syntax errors in exercise{}.py".format(exNumber))
+    print('{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s=""))
+
+
 def completion_message(message, width):
+    u"""Print an obvious message.
+
+    Example:
+    In [5]: completion_message("this is the message", 30)
+    ******************************
+
+    ✔ this is the message
+
+    ******************************
+    """
     cap = '{start}{s:{c}^{n}}{end}'.format(n=width, c='*', s="",
                                            start=Fore.GREEN,
                                            end=Style.RESET_ALL)
@@ -64,6 +101,7 @@ def completion_message(message, width):
 
 
 def nyan_cat():
+    """Return a coloured string that shows a nyan cat."""
     cattern = [
                ['{BRIGHT_BLUE}', '{x}'*80],
                ['{BRIGHT_BLUE}', '{x}'*80],
