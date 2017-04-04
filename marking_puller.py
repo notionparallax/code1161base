@@ -63,6 +63,7 @@ def update_for_new_students(chatty=False):
 
 
 def try_to_kill(file_path, chatty=False):
+    """Attempt to delete the file specified by file_path."""
     try:
         os.remove(file_path)
         print("deleted {}".format(file_path))
@@ -115,6 +116,10 @@ def csvOfDetails(dirList):
 
 
 def fix_up_csv(path="csv/studentDetails.csv"):
+    """Do replacements on csv.
+
+    Mostly to undo tricks that were needed to deal with invalid yml
+    """
     lines = []
     with open(path) as infile:
         for line in infile:
