@@ -25,8 +25,7 @@ class Timeout():
         signal.alarm(0)    # disable alarm
 
     def raise_timeout(self, *args):
-        print("you took toooo damn long!")
-        raise Timeout.Timeout()
+        raise Timeout.Timeout("Timeout: you took toooo damn long!")
 
 
 def test(testResult, name):
