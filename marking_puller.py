@@ -8,13 +8,15 @@ It can clone new repos if you set THERE_ARE_NEW_STUDENTS to true
 from __future__ import division
 from __future__ import print_function
 from StringIO import StringIO
+from codeHelpers import Timeout
+from itertools import repeat
 import git
+import json
 import os
 import pandas as pd
 import requests
 import subprocess
-import json
-from codeHelpers import Timeout
+from codeHelpers import RunCmd
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -63,6 +65,7 @@ def update_for_new_students(chatty=False):
 
 
 def try_to_kill(file_path, chatty=False):
+    """Attempt to delete the file specified by file_path."""
     try:
         os.remove(file_path)
         print("deleted {}".format(file_path))
@@ -115,6 +118,10 @@ def csvOfDetails(dirList):
 
 
 def fix_up_csv(path="csv/studentDetails.csv"):
+    """Do replacements on csv.
+
+    Mostly to undo tricks that were needed to deal with invalid yml
+    """
     lines = []
     with open(path) as infile:
         for line in infile:
@@ -127,35 +134,81 @@ def fix_up_csv(path="csv/studentDetails.csv"):
             outfile.write(line)
 
 
+def log_progress(message, logfile_name):
+    """Write a message to a logfile."""
+    completed_students_list = open(logfile_name, "a")
+    completed_students_list.write(message)
+    completed_students_list.close()
+
+
+def test_in_clean_environment(student_repo,
+                              root_dir,
+                              week_number,
+                              logfile_name,
+                              temp_file_path='temp_results.json',
+                              test_file_path='./test_shim.py'):
+    """Test a single student's work in a clean environment.
+
+    This calls a subprocess that opens a fresh python environment, runs the
+    tests and then saves the results to a temp file.
+
+    Back in this process, we read that temp file, and then use its values to
+    constuct a dictionary of results (or errors).
+
+    The logging is just to see real time progress as this can run for a long
+    time and hang the machine.
+    """
+    results_dict = {}
+    log_progress(student_repo, logfile_name)
+    try:
+        timeout_cap = 5
+        args = ['python',
+                test_file_path,
+                "week{}.tests".format(week_number),
+                "{}/{}".format(root_dir, student_repo)
+                ]
+        RunCmd(args, timeout_cap).Run()
+
+        temp_results = open(os.path.join(LOCAL,  temp_file_path), 'r')
+        contents = temp_results.read()
+        results_dict = json.loads(contents)
+        results_dict["bigerror"] = ":)"
+        temp_results.close()
+
+        log_progress(" good for w{}\n".format(week_number),
+                     logfile_name)
+    except Exception as e:
+        results_dict = {"bigerror": str(e).replace(",", "~"),
+                        "name": student_repo}  # the comma messes with the csv
+
+        log_progress(" bad {} w{}\n".format(e, week_number),
+                     logfile_name)
+    return results_dict
+
+
+def prepare_log(logfile_name, firstLine="here we go:\n"):
+    """Create or empty the log file."""
+    completed_students_list = open(logfile_name, "w")
+    completed_students_list.write(firstLine)
+    completed_students_list.close()
+
+
 def mark_work(dirList, week_number, root_dir, dfPlease=True):
     """Mark the week's exercises."""
-    results = []
-    for student_repo in dirList:
-        try:
-            with Timeout(15):  # should catch any rogue ∞ loops
-                subprocess.call(['python',
-                                 './test_shim.py',
-                                 "week{}.tests".format(week_number),
-                                 "{}/{}".format(root_dir, student_repo)])
+    logfile_name = "temp_completion_log"
+    prepare_log(logfile_name)
+    # from itertools import imap
 
-                temp_results = open(os.path.join(LOCAL, 'temp_results.json'),
-                                    'r')
-                results_dict = json.loads(temp_results.read())
-                results_dict["bigerror"] = ":)"
-                results.append(results_dict)
-                temp_results.close()
-        except Exception as e:
-            print("\n\nFAARK!", student_repo, e, "\n\n")
-            results.append({"bigerror": str(e).replace(",", "~"),
-                            "name": student_repo})
-            # the comma messes with the csv
+    results = map(test_in_clean_environment,
+                  dirList,
+                  repeat(root_dir, len(dirList)),
+                  repeat(week_number, len(dirList)),
+                  repeat(logfile_name, len(dirList)))
 
     resultsDF = pd.DataFrame(results)
-    print("\n\nResults:\n", resultsDF)
-    resultsDF.to_csv(os.path.join(CWD,
-                                  "csv/week{}marks.csv".format(week_number)),
-                     index=False)
-    print("\n+-+-+-+-+-+-+-+")
+    csv_path = "csv/week{}marks.csv".format(week_number)
+    resultsDF.to_csv(os.path.join(CWD, csv_path), index=False)
+    print("\n+-+-+-+-+-+-+-+\n\n")
     if dfPlease:
         return resultsDF
 
@@ -168,22 +221,22 @@ print("dir list", dirList)
 print("\nCheck to see if there are any new students in the spreadsheet")
 update_for_new_students(chatty=True)
 
-print("\nPull all the repos so we have the latest copy. (This takes a while.)")
+print("\nPull all the repos so we have the latest copy.")
+print("(This takes a while.)")
 pull_all_repos(dirList)
 
 print("\nUpdate the CSV of details")
-csvOfDetails(dirList)
-# This feeds the sanity check spreadsheet
+csvOfDetails(dirList)  # This feeds the sanity check spreadsheet
 
 
-# print("\nMark week 1's work")
-# mark_work(dirList, 1, rootdir, False)
+print("\nMark week 1's work")
+mark_work(dirList, 1, rootdir, False)
 
-# print("\nMark week 2's work")
-# mark_work(dirList, 2, rootdir, False)
-#
-# print("\nMark week 3's work")
+print("\nMark week 2's work")
+mark_work(dirList, 2, rootdir, False)
+
+print("\nMark week 3's work")
 mark_work(dirList, 3, rootdir, False)
-#
-# print("\nMark week 4's work")
-# mark_work(dirList, 4, rootdir, False)
+
+print("\nMark week 4's work")
+mark_work(dirList, 4, rootdir, False)

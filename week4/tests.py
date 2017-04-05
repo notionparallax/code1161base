@@ -14,19 +14,15 @@ import sys
 import requests
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import completion_message
+# from codeHelpers import ex_runs
 from codeHelpers import nyan_cat
+# from codeHelpers import syntax_error_message
 from codeHelpers import test
 from codeHelpers import test_flake8
+from codeHelpers import Timeout
 
 WEEK_NUMBER = 4
 LOCAL = os.path.dirname(os.path.realpath(__file__))
-
-
-def syntax_error_message(e):
-    """Print a nicer error message."""
-    print("something went wring with the import.\nProbably a syntax error.")
-    print("does this file run properly on its own?\n" + str(e))
-    return False
 
 
 def process_wunderground(json_object):
@@ -37,6 +33,7 @@ def process_wunderground(json_object):
 
 
 def find_lasers(path):
+    """Look for a file that contains only the number 6."""
     path = path + "/week4/lasers.pew"
     if os.path.isfile(path):
         return int(open(path).read()) == int(6)
@@ -48,6 +45,7 @@ def find_lasers(path):
 
 
 def treat(path):
+    """Go and get the coloured ascii face particular to this person."""
     url = ("https://raw.githubusercontent.com/"
            "notionparallax/code1161base/master/faces/")
     name = path.split("/")[-1]
@@ -59,68 +57,74 @@ def theTests(path_to_code_to_check="."):
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
 
-    path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
-    print(path)
-    exercise1 = imp.load_source("exercise1", path)
+    # Give each person 10 seconds to complete all tests.
+    with Timeout(10):
 
-    testResults = []
+        path = "{}/week{}/exercise1.py".format(path_to_code_to_check,
+                                               WEEK_NUMBER)
+        print(path)
+        exercise1 = imp.load_source("exercise1", path)
 
-    # stack the tests here
+        testResults = []
 
-    testResults.append(
-        test(test_flake8(path),
-             "Exercise 1: pass the linter"))
+        # stack the tests here
 
-    message = '{"message": "Python and requests are working!"}'
-    testResults.append(
-        test(exercise1.success_is_relative() == message,
-             "Exercise 1: read a file using a relative path"))
-
-    testDict = {'lastName': u'hoogmoed',
-                'password': u'jokers',
-                'postcodePlusID': 4311240}
-    testResults.append(
-        test(exercise1.get_some_details() == testDict,
-             "Exercise 1: get some data out of a JSON file"))
-
-    lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
-    try:
         testResults.append(
-            test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
-                 "Exercise 1: request some simple data from the internet"))
-    except Exception as e:
-        testResults.append(0)
-        print("Exercise 1: request some simple data from the internet", e)
+            test(test_flake8(path),
+                 "Exercise 1: pass the linter"))
 
-    weather_results = {'latitude': u'-33.924206',
-                       'state': u'NSW',
-                       'longitude': u'151.187912',
-                       'local_tz_offset': u'+1100'}
-    try:
+        message = '{"message": "Python and requests are working!"}'
         testResults.append(
-            test(process_wunderground(exercise1.wunderground()) ==
-                 process_wunderground(weather_results),
-                 "Exercise 1: get some data from the weather underground."))
-    except Exception as e:
-        testResults.append(0)
-        print("Exercise 1: get some data from the weather underground.", e)
+            test(exercise1.success_is_relative() == message,
+                 "Exercise 1: read a file using a relative path"))
 
-    testResults.append(
-            test(find_lasers(path_to_code_to_check),
-                 "Exercise 1: count the lasers."))
+        testDict = {'lastName': u'hoogmoed',
+                    'password': u'jokers',
+                    'postcodePlusID': 4311240}
+        testResults.append(
+            test(exercise1.get_some_details() == testDict,
+                 "Exercise 1: get some data out of a JSON file"))
 
-    print("{0}/{1} (passed/attempted)".format(sum(testResults),
-                                              len(testResults)))
+        lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19,
+                   20, 18, 16, 14, 12, 10, 8, 6, 4]
+        try:
+            testResults.append(
+                test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
+                     "Exercise 1: request some simple data from the internet"))
+        except Exception as e:
+            testResults.append(0)
+            print("Exercise 1: request some simple data from the internet", e)
 
-    if sum(testResults) == len(testResults):
-        nyan_cat()
-        message = "Rad, you've got all the tests passing!"
-        completion_message(message, len(message) + 2)
-        treat(path_to_code_to_check)
+        weather_results = {'latitude': u'-33.924206',
+                           'state': u'NSW',
+                           'longitude': u'151.187912',
+                           'local_tz_offset': u'+1100'}
+        try:
+            testResults.append(
+                test(process_wunderground(exercise1.wunderground()) ==
+                     process_wunderground(weather_results),
+                     "Exercise 1: get some data from " +
+                     "the weather underground."))
+        except Exception as e:
+            testResults.append(0)
+            print("Exercise 1: get some data from the weather underground.", e)
 
-    return {"of_total": len(testResults),
-            "mark": sum(testResults),
-            "results": testResults}
+        testResults.append(
+                test(find_lasers(path_to_code_to_check),
+                     "Exercise 1: count the lasers."))
+
+        print("{0}/{1} (passed/attempted)".format(sum(testResults),
+                                                  len(testResults)))
+
+        if sum(testResults) == len(testResults):
+            nyan_cat()
+            message = "Rad, you've got all the tests passing!"
+            completion_message(message, len(message) + 2)
+            treat(path_to_code_to_check)
+
+        return {"of_total": len(testResults),
+                "mark": sum(testResults),
+                "results": testResults}
 
 
 if __name__ == "__main__":
