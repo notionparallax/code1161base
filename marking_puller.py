@@ -8,13 +8,14 @@ It can clone new repos if you set THERE_ARE_NEW_STUDENTS to true
 from __future__ import division
 from __future__ import print_function
 from StringIO import StringIO
+from codeHelpers import Timeout
+from itertools import repeat
 import git
+import json
 import os
 import pandas as pd
 import requests
 import subprocess
-import json
-from codeHelpers import Timeout
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -133,6 +134,7 @@ def fix_up_csv(path="csv/studentDetails.csv"):
 
 
 def log_progress(message, logfile_name):
+    """Write a message to a logfile."""
     completed_students_list = open(logfile_name, "a")
     completed_students_list.write(message)
     completed_students_list.close()
@@ -140,6 +142,7 @@ def log_progress(message, logfile_name):
 
 def test_in_clean_environment(student_repo,
                               root_dir,
+                              week_number,
                               logfile_name,
                               temp_file_path='temp_results.json',
                               test_file_path='./test_shim.py'):
@@ -159,6 +162,7 @@ def test_in_clean_environment(student_repo,
         with Timeout(5):  # should catch any rogue ∞ loops
             subprocess.call(['python',
                              test_file_path,
+                             "week{}.tests".format(week_number),
                              "{}/{}".format(root_dir, student_repo)])
 
         temp_results = open(os.path.join(LOCAL,  temp_file_path), 'r')
@@ -166,37 +170,40 @@ def test_in_clean_environment(student_repo,
         results_dict["bigerror"] = ":)"
         temp_results.close()
 
-        # log_progress(student_repo + " good\n", logfile_name)
+        log_progress("{} good for w{}\n".format(student_repo, week_number),
+                     logfile_name)
     except Exception as e:
         results_dict = {"bigerror": str(e).replace(",", "~"),
                         "name": student_repo}  # the comma messes with the csv
 
-        # log_progress("{} bad {}\n".format(student_repo, e), logfile_name)
-
+        log_progress("{} bad {} w{}\n".format(student_repo, e, week_number),
+                     logfile_name)
     return results_dict
+
+
+def prepare_log(logfile_name, firstLine="here we go:\n"):
+    """Create or empty the log file."""
+    completed_students_list = open(logfile_name, "w")
+    completed_students_list.write(firstLine)
+    completed_students_list.close()
 
 
 def mark_work(dirList, week_number, root_dir, dfPlease=True):
     """Mark the week's exercises."""
     logfile_name = "temp_completion_log"
-    # Prepare logging
-    # completed_students_list = open(logfile_name, "w")
-    # completed_students_list.write("here we go:\n")
-    # completed_students_list.close()
+    prepare_log(logfile_name)
+    # from itertools import imap
 
-    results = []
-    for student_repo in dirList[2:4]:
-        print("{0}{1}{2}{1}{0}".format("*"*30, "\n"*2, student_repo))
-        results.append(test_in_clean_environment(student_repo,
-                                                 root_dir,
-                                                 logfile_name))
+    results = map(test_in_clean_environment,
+                  dirList,
+                  repeat(root_dir, len(dirList)),
+                  repeat(week_number, len(dirList)),
+                  repeat(logfile_name, len(dirList)))
 
     resultsDF = pd.DataFrame(results)
-    print("\n\nResults:\n", resultsDF)
-    resultsDF.to_csv(os.path.join(CWD,
-                                  "csv/week{}marks.csv".format(week_number)),
-                     index=False)
-    print("\n+-+-+-+-+-+-+-+")
+    csv_path = "csv/week{}marks.csv".format(week_number)
+    resultsDF.to_csv(os.path.join(CWD, csv_path), index=False)
+    print("\n+-+-+-+-+-+-+-+\n\n")
     if dfPlease:
         return resultsDF
 
