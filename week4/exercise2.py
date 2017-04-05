@@ -28,6 +28,11 @@ print("Getting ready to start in 2")
 print("Getting ready to start in 1")
 print("Let's go!")
 
+
+def countdown(message, start, stop, completion_message):
+    pass
+
+
 """ This should be a function called tell_me_about_this_right_triangle
     it should return a dictionary of triangle facts, keys should include: Area,
     perimeter, height, base, hypotinuse aspect (could be tall or wide)
@@ -48,11 +53,67 @@ yet_another_hyp = 40**2 + 30**2
 print(yet_another_hyp)
 
 
-all_the_knowledge = {
-                     "": ""}
+def calculate_hypotinuse(base, height):
+    return hypotinuse
 
-if all(key in all_the_knowledge for key in []):
-    template = """{Greeting},\nDid you know that in {Year}, "{Fact}" was still true!
-               """
-else:
-    print("Your dictionary is missing some keys.")
+
+def get_triangle_facts(base, height, units="mm"):
+    return {"area": None,
+            "perimeter": None,
+            "height": None,
+            "base": None,
+            "hypotinuse": None,
+            "aspect": None}
+
+
+def tell_me_about_this_right_triangle(facts_dictionary):
+    return """
+    This triangle is {area}{units}²
+    It has a perimeter of {}{units}
+    {height}
+    |
+    |     |\\
+    |____>| \\  {hypotinuse}
+          |  \\
+          |   \\
+          ------
+          {base}
+
+    This is a {aspect} triangle.
+    """
+
+
+def print_triangle_things():
+    facts_dictionary = get_triangle_facts(base, height, units="mm")
+    print(tell_me_about_this_right_triangle(facts_dictionary))
+
+
+def wordy_pyramid():
+    """."""
+    import requests
+    baseURL = "http://www.setgetgo.com/randomword/get.php?len="
+    pyramid_list = []
+    for i in range(3, 21, 2):
+        url = baseURL + str(i)
+        r = requests.get(url)
+        message = r.text
+        pyramid_list.append(message)
+    for i in range(0, 17, 2):
+        url = baseURL + str(20 - i)
+        r = requests.get(url)
+        message = r.text
+        pyramid_list.append(message)
+    return pyramid_list
+
+
+wordy_pyramid()
+
+
+def get_a_word_of_length_n():
+    """."""
+    pass
+
+
+def list_of_words_with_lengths(list_of_lengths):
+    """."""
+    pass
