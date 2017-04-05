@@ -213,11 +213,11 @@ def mark_work(dirList, week_number, root_dir, dfPlease=True):
 
 rootdir = '../code1161StudentRepos'
 
-dirList = os.listdir(rootdir)
-print("dir list", dirList)
-
 print("\nCheck to see if there are any new students in the spreadsheet")
 update_for_new_students(chatty=True)
+
+dirList = os.listdir(rootdir)
+print("dir list", dirList)
 
 print("\nPull all the repos so we have the latest copy.")
 print("(This takes a while.)")
