@@ -8,14 +8,12 @@ It can clone new repos if you set THERE_ARE_NEW_STUDENTS to true
 from __future__ import division
 from __future__ import print_function
 from StringIO import StringIO
-from codeHelpers import Timeout
 from itertools import repeat
 import git
 import json
 import os
 import pandas as pd
 import requests
-import subprocess
 from codeHelpers import RunCmd
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
