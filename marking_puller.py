@@ -16,6 +16,7 @@ import os
 import pandas as pd
 import requests
 import subprocess
+from codeHelpers import RunCmd
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -158,25 +159,29 @@ def test_in_clean_environment(student_repo,
     time and hang the machine.
     """
     results_dict = {}
+    log_progress(student_repo, logfile_name)
     try:
-        with Timeout(5):  # should catch any rogue ∞ loops
-            subprocess.call(['python',
-                             test_file_path,
-                             "week{}.tests".format(week_number),
-                             "{}/{}".format(root_dir, student_repo)])
+        timeout_cap = 5
+        args = ['python',
+                test_file_path,
+                "week{}.tests".format(week_number),
+                "{}/{}".format(root_dir, student_repo)
+                ]
+        RunCmd(args, timeout_cap).Run()
 
         temp_results = open(os.path.join(LOCAL,  temp_file_path), 'r')
-        results_dict = json.loads(temp_results.read())
+        contents = temp_results.read()
+        results_dict = json.loads(contents)
         results_dict["bigerror"] = ":)"
         temp_results.close()
 
-        log_progress("{} good for w{}\n".format(student_repo, week_number),
+        log_progress(" good for w{}\n".format(week_number),
                      logfile_name)
     except Exception as e:
         results_dict = {"bigerror": str(e).replace(",", "~"),
                         "name": student_repo}  # the comma messes with the csv
 
-        log_progress("{} bad {} w{}\n".format(student_repo, e, week_number),
+        log_progress(" bad {} w{}\n".format(e, week_number),
                      logfile_name)
     return results_dict
 
@@ -213,25 +218,25 @@ rootdir = '../code1161StudentRepos'
 dirList = os.listdir(rootdir)
 print("dir list", dirList)
 
-# print("\nCheck to see if there are any new students in the spreadsheet")
-# update_for_new_students(chatty=True)
+print("\nCheck to see if there are any new students in the spreadsheet")
+update_for_new_students(chatty=True)
 
-# print("\nPull all the repos so we have the latest copy.")
-# print("(This takes a while.)")
-# pull_all_repos(dirList)
+print("\nPull all the repos so we have the latest copy.")
+print("(This takes a while.)")
+pull_all_repos(dirList)
 
-# print("\nUpdate the CSV of details")
-# csvOfDetails(dirList)  # This feeds the sanity check spreadsheet
+print("\nUpdate the CSV of details")
+csvOfDetails(dirList)  # This feeds the sanity check spreadsheet
 
 
-# print("\nMark week 1's work")
-# mark_work(dirList, 1, rootdir, False)
+print("\nMark week 1's work")
+mark_work(dirList, 1, rootdir, False)
 
 print("\nMark week 2's work")
 mark_work(dirList, 2, rootdir, False)
 
-# print("\nMark week 3's work")
-# mark_work(dirList, 3, rootdir, False)
-#
-# print("\nMark week 4's work")
-# mark_work(dirList, 4, rootdir, False)
+print("\nMark week 3's work")
+mark_work(dirList, 3, rootdir, False)
+
+print("\nMark week 4's work")
+mark_work(dirList, 4, rootdir, False)
