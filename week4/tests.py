@@ -37,6 +37,7 @@ def process_wunderground(json_object):
 
 
 def find_lasers(path):
+    """."""
     path = path + "/week4/lasers.pew"
     if os.path.isfile(path):
         return int(open(path).read()) == int(6)
@@ -48,6 +49,7 @@ def find_lasers(path):
 
 
 def tzOffset():
+    """."""
     import time
     from datetime import datetime
 
