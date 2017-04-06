@@ -144,7 +144,8 @@ def test_in_clean_environment(student_repo,
                               week_number,
                               logfile_name,
                               temp_file_path='temp_results.json',
-                              test_file_path='./test_shim.py'):
+                              test_file_path='./test_shim.py',
+                              timeout=5):
     """Test a single student's work in a clean environment.
 
     This calls a subprocess that opens a fresh python environment, runs the
@@ -159,7 +160,7 @@ def test_in_clean_environment(student_repo,
     results_dict = {}
     log_progress(student_repo, logfile_name)
     try:
-        timeout_cap = 5
+        timeout_cap = timeout
         args = ['python',
                 test_file_path,
                 "week{}.tests".format(week_number),
@@ -191,17 +192,20 @@ def prepare_log(logfile_name, firstLine="here we go:\n"):
     completed_students_list.close()
 
 
-def mark_work(dirList, week_number, root_dir, dfPlease=True):
+def mark_work(dirList, week_number, root_dir, dfPlease=True, timeout=5):
     """Mark the week's exercises."""
     logfile_name = "temp_completion_log"
     prepare_log(logfile_name)
-    # from itertools import imap
+    r = len(dirList)  # for repeat count
+
 
     results = map(test_in_clean_environment,
                   dirList,
-                  repeat(root_dir, len(dirList)),
-                  repeat(week_number, len(dirList)),
-                  repeat(logfile_name, len(dirList)))
+                  repeat(root_dir, r),
+                  repeat(week_number, r),
+                  repeat(logfile_name, r),
+                  repeat(timeout, r)
+                  )
 
     resultsDF = pd.DataFrame(results)
     csv_path = "csv/week{}marks.csv".format(week_number)
@@ -228,13 +232,13 @@ csvOfDetails(dirList)  # This feeds the sanity check spreadsheet
 
 
 print("\nMark week 1's work")
-mark_work(dirList, 1, rootdir, False)
+mark_work(dirList, 1, rootdir, dfPlease=False, timeout=5)
 
 print("\nMark week 2's work")
-mark_work(dirList, 2, rootdir, False)
+mark_work(dirList, 2, rootdir, dfPlease=False, timeout=5)
 
 print("\nMark week 3's work")
-mark_work(dirList, 3, rootdir, False)
+mark_work(dirList, 3, rootdir, dfPlease=False, timeout=25)
 
 print("\nMark week 4's work")
-mark_work(dirList, 4, rootdir, False)
+mark_work(dirList, 4, rootdir, dfPlease=False, timeout=5)
