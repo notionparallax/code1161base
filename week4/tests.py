@@ -90,13 +90,12 @@ def theTests(path_to_code_to_check="."):
 
     # stack the tests here
 
-    print("*")
+    print("Linter test:", path)
     testResults.append(
         test(test_flake8(path),
              "Exercise 1: pass the linter"))
-
+    print("tr ", testResults)
     message = '{"message": "Python and requests are working!"}'
-    print("*")
     testResults.append(
         test(exercise1.success_is_relative() == message,
              "Exercise 1: read a file using a relative path"))
@@ -104,7 +103,6 @@ def theTests(path_to_code_to_check="."):
     testDict = {'lastName': u'hoogmoed',
                 'password': u'jokers',
                 'postcodePlusID': 4311240}
-    print("*")
     testResults.append(
         test(exercise1.get_some_details() == testDict,
              "Exercise 1: get some data out of a JSON file"))
@@ -112,12 +110,10 @@ def theTests(path_to_code_to_check="."):
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20,
                18, 16, 14, 12, 10, 8, 6, 4]
     try:
-        print("*")
         testResults.append(
             test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
                  "Exercise 1: request some simple data from the internet"))
     except Exception as e:
-        print("*")
         testResults.append(0)
         print("Exercise 1: request some simple data from the internet", e)
 
@@ -131,15 +127,12 @@ def theTests(path_to_code_to_check="."):
         mine = process_wunderground(weather_results)
         print("you gave:", theirs)
         print("expected:", mine)
-        print("*")
         testResults.append(
             test(theirs == mine, ex_name))
     except Exception as e:
-        print("*")
         testResults.append(0)
         print(ex_name, e)
 
-        print("*")
     testResults.append(
             test(find_lasers(path_to_code_to_check),
                  "Exercise 1: count the lasers."))
