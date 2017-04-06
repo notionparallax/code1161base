@@ -121,9 +121,12 @@ def theTests(path_to_code_to_check="."):
                        'longitude': u'151.187912',
                        'local_tz_offset': u'+{}00'.format(int(tzOffset()))}
     try:
+        theirs = process_wunderground(exercise1.wunderground())
+        mine = process_wunderground(weather_results)
+        print("you gave:", theirs)
+        print("expected:", mine)
         testResults.append(
-            test(process_wunderground(exercise1.wunderground()) ==
-                 process_wunderground(weather_results),
+            test(theirs == mine,
                  "Exercise 1: get some data from the weather underground."))
     except Exception as e:
         testResults.append(0)
