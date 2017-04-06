@@ -72,6 +72,9 @@ def treat():
                 if 'git' in name:
                     # if ssh url
                     name = name.split(':')[-1]
+            elif 'url = https://github.com/notionparallax' in line:
+                print("we must be testing the tests")
+                name = "notionparallax"
     if not name:
         print("Error with getting github username")
     else:
