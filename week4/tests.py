@@ -62,7 +62,7 @@ def treat():
     if not name:
         print("Error with getting github username")
     else:
-        print("treat:", requests.get(url + name).text)
+        print("treat:\n", requests.get(url + name).text)
 
 
 def theTests(path_to_code_to_check="."):
