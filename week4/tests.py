@@ -88,7 +88,7 @@ def theTests(path_to_code_to_check="."):
 
     testResults = []
 
-    # stack the tests here
+    # stack the tests below here
 
     print("Linter test:", path)
     testResults.append(
