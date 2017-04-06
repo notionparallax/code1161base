@@ -47,7 +47,19 @@ def find_lasers(path):
         return False
 
 
+def tzOffset():
+    import time
+    from datetime import datetime
+
+    ts = time.time()
+    utc_offset = (datetime.fromtimestamp(ts) -
+                  datetime.utcfromtimestamp(ts)).total_seconds()
+    seconds_in_hour = 60 * 60
+    return utc_offset / seconds_in_hour
+
+
 def treat():
+    """Go and get the coloured ascii face particular to this person."""
     url = ("https://raw.githubusercontent.com/"
            "notionparallax/code1161base/master/faces/")
 
@@ -107,7 +119,7 @@ def theTests(path_to_code_to_check="."):
     weather_results = {'latitude': u'-33.924206',
                        'state': u'NSW',
                        'longitude': u'151.187912',
-                       'local_tz_offset': u'+1100'}
+                       'local_tz_offset': u'+{}00'.format(int(tzOffset()))}
     try:
         testResults.append(
             test(process_wunderground(exercise1.wunderground()) ==
