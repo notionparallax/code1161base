@@ -11,7 +11,7 @@ repos = ["code1161benFork_fully_working_secret_squirel"]
 results = []
 for name in repos:
     try:
-        timeout_cap = 5
+        timeout_cap = 25
         args = ['python',
                 './test_shim.py',
                 "week{}.tests".format(week_number),
