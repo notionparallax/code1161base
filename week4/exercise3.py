@@ -80,7 +80,7 @@ def abba(source="abba", guard=5):
 abba()
 
 
-def itallian_dinner(simple_dinner):
+def itallian_dinner(axiom="tomatoes", guard=10):
     """Make recursive dinner plans.
 
     # The Italian dinner
