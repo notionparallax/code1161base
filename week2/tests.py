@@ -15,6 +15,7 @@ from codeHelpers import completion_message
 from codeHelpers import nyan_cat
 from codeHelpers import test
 from codeHelpers import test_flake8
+from codeHelpers import ex_runs
 
 WEEK_NUMBER = 2
 
@@ -68,6 +69,65 @@ def theTests(path_to_code_to_check="."):
     print("May the odds be ever in your favour.\n")
 
     testResults = []
+
+    # Tests from here:
+    path = "{}/week{}/exercise0.py".format(path_to_code_to_check, WEEK_NUMBER)
+    testResults.append(
+        test(test_flake8(path),
+             "Exercise 0: pass the linter"))
+
+    if ex_runs(path_to_code_to_check, exNumber=0, weekNumber=WEEK_NUMBER):
+        exercise0 = imp.load_source("exercise0", path)
+
+        testResults.append(
+            test(exercise0.add_5(55) == 60,
+                 "Exercise 0: add_5 - 55 + 5 = 60?"))
+        testResults.append(
+            test(exercise0.add_5(-5) == 0,
+                 "Exercise 0: add_5 - -5 + 5 = 0?"))
+        testResults.append(
+            test(exercise0.add_5(0.1) == 5.1,
+                 "Exercise 0: add_5 - 0.1 + 5 = 5.1?"))
+
+        testResults.append(
+            test(exercise0.adder(5, 5) == 10,
+                 "Exercise 0: adder - 5 + 5 = 10?"))
+        testResults.append(
+            test(exercise0.adder(-5, -5) == 10,
+                 "Exercise 0: adder - -5 + -5 = 10?"))
+        testResults.append(
+            test(exercise0.adder(0.1, 0.9) == 1,
+                 "Exercise 0: adder - 0.1 + 0.9 = 1?"))
+
+        testResults.append(
+            test(exercise0.shout("you've") == "YOU'VE",
+                 "Exercise 0: shout - you've => YOU'VE?"))
+        testResults.append(
+            test(exercise0.shout("got") == "GOT",
+                 "Exercise 0: shout - got => GOT?"))
+        testResults.append(
+            test(exercise0.shout("to") == "TO",
+                 "Exercise 0: shout - to => TO?"))
+
+        testResults.append(
+            test(exercise0.really_shout("fight") == "FIGHT!",
+                 "Exercise 0: really_shout - fight => FIGHT!?"))
+        testResults.append(
+            test(exercise0.shout("for") == "FOR",
+                 "Exercise 0: shout - for => FOR?"))
+        testResults.append(
+            test(exercise0.shout("your") == "YOUR",
+                 "Exercise 0: shout - your => YOUR?"))
+        testResults.append(
+            test(exercise0.really_shout("right") == "RIGHT!",
+                 "Exercise 0: really_shout - right => RIGHT!?"))
+        testResults.append(
+            test(exercise0.shout("to") == "TO",
+                 "Exercise 0: shout - to => TO?"))
+        testResults.append(
+            test(exercise0.really_shout("PARTY") == "PARTY!",
+                 "Exercise 0: really_shout - PARTY => PARTY!?"))
+
     path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
     testResults.append(
         test(test_flake8(path),
