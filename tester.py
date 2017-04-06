@@ -4,10 +4,10 @@ import os
 from codeHelpers import RunCmd
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))
-week_number = 3
+week_number = 4
 
 
-repos = ["DarkPurple141"]  # "joseangelodiaz", "Matchalism",
+repos = ["code1161benFork_fully_working_secret_squirel"]
 results = []
 for name in repos:
     try:
