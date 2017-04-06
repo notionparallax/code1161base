@@ -19,7 +19,7 @@ from codeHelpers import completion_message
 from codeHelpers import nyan_cat
 from codeHelpers import test
 from codeHelpers import test_flake8
-from codeHelpers import Timeout
+# from codeHelpers import Timeout
 
 WEEK_NUMBER = 4
 LOCAL = os.path.dirname(os.path.realpath(__file__))
