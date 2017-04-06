@@ -4,18 +4,19 @@ import os
 from codeHelpers import RunCmd
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))
-week_number = 3
+week_number = 4
 
 
-repos = ["DarkPurple141"]  # "joseangelodiaz", "Matchalism",
+repos = ["code1161benFork_fully_working_secret_squirel"]
 results = []
 for name in repos:
     try:
-        timeout_cap = 5
+        timeout_cap = 25
         args = ['python',
                 './test_shim.py',
                 "week{}.tests".format(week_number),
                 "../code1161StudentRepos/{}".format(name)]
+        print args
         RunCmd(args, timeout_cap).Run()
 
         temp_results = open(os.path.join(LOCAL, 'temp_results.json'), 'r')
