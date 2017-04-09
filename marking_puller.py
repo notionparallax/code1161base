@@ -198,7 +198,6 @@ def mark_work(dirList, week_number, root_dir, dfPlease=True, timeout=5):
     prepare_log(logfile_name)
     r = len(dirList)  # for repeat count
 
-
     results = map(test_in_clean_environment,
                   dirList,
                   repeat(root_dir, r),
