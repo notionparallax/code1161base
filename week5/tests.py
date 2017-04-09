@@ -264,7 +264,11 @@ def theTests(path_to_code_to_check="."):
                18, 16, 14, 12, 10, 8, 6, 4]
     works = None
     try:
-        works = [len(w) for w in e1.wordy_pyramid()] == lengths
+        words = e1.wordy_pyramid()
+        expected = [len(w) for w in words]
+        works = expected == lengths
+        print(expected, "\n", lengths)
+        [print(w + " " + str(len(w))) for w in words]
     except Exception as e:
         works = False
         print("Exercise 1: wordy_pyramid is broken", e)
