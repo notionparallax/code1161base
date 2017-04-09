@@ -62,10 +62,6 @@ def minitest(f, args, expected):
 
 
 if __name__ == "__main__":
-    # this section does a quick test on your results and prints them nicely.
-    # It's NOT the official tests, they are in tests.py as usual.
-    # Add to these tests, give them arguments etc. to make sure that your
-    # code is robust to the situations that you'll see in action.
     minitest(add_5, [1], 6)
     minitest(add_5, [6], 11)
     minitest(add_5, [-3], 2)
@@ -77,3 +73,11 @@ if __name__ == "__main__":
     minitest(really_shout, ["hello"], "HELLO!")
     minitest(really_shout, [""], "!")
     minitest(really_shout, ["!"], "!!")
+    print("""
+          This section does a quick test on your results and prints them nicely
+          It's NOT the official tests, they are in tests.py as usual.
+          Add to these tests, give them arguments etc. to make sure that your
+          code is robust to the situations that you'll see in action.
+
+          REMEMBER: these aren't the tests that you submit, these are just
+          there to keep you sane.""")
