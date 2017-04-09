@@ -140,7 +140,7 @@ def square_koch(t, order, size):
     e.g. _| |_ rather than _/\_
 
     Leave the turtle facing the same direction.
-    
+
     """
     trace = ""
     if order == 0:          # The base case is just a straight line
