@@ -70,7 +70,7 @@ if __name__ == "__main__":
     minitest(add_5, [6], 11)
     minitest(add_5, [-3], 2)
     minitest(add_5, [0.5], 5.5)
-    minitest(adder, [-0.5, -0.5], 1)
+    minitest(adder, [-0.5, -0.5], -1)
     minitest(adder, [2, 2], 4)
     minitest(adder, [2, -2], 0)
     minitest(shout, ["hello"], "HELLO")
