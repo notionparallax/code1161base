@@ -230,6 +230,13 @@ def theTests(path_to_code_to_check="."):
         test(type(tt) is dict and type(tt["diagram"]) is str,
              "exercise 1: triangle_master diagram: T, dictionary: T"))
 
+    pattern = "Exercise 1: get_triangle_facts uses {}"
+    for function_name in ["calculate_hypotenuse", "calculate_area",
+                          "calculate_perimeter", "calculate_aspect"]:
+        testResults.append(
+            test(function_name in e1.get_triangle_facts.func_code.co_names,
+                 pattern.format(function_name)))
+
     for length in zip([5, 8, 4, 0, "a"], [5, 8, 4, None, None]):
         word = e1.get_a_word_of_length_n(length[0])
         print(word, length)
