@@ -11,6 +11,11 @@ import threading
 
 
 class RunCmd(threading.Thread):
+    """Run a subprocess command, if it exceeds the timeout kill it.
+
+    (without mercy)
+    """
+
     def __init__(self, cmd, timeout):
         threading.Thread.__init__(self)
         self.cmd = cmd
@@ -81,6 +86,34 @@ def test_flake8(fileName):
         return False
 
 
+def test_pydocstyle(fileName, flags="-e"):
+    """Check to see if the file at file_path is pydocstyle compliant."""
+    test_dir = os.path.dirname(os.path.abspath(inspect.getfile(
+        inspect.currentframe())))
+
+    file_path = os.path.join(test_dir, fileName)
+    print(file_path)
+    try:
+        child = subprocess.Popen(["pydocstyle", file_path, flags],
+                                 stdout=subprocess.PIPE)
+        streamdata = child.communicate()[0]
+        print("streamdata", streamdata)  # I don't know what streamdata is for
+        rc = child.returncode
+        print("returncode", rc)
+        if rc == 0:
+            print("all good")
+            return True
+        elif rc is None:
+            print("all good, I think")
+            return True
+        else:
+            print("U haz docstring errorz" + grumpy())
+            return False
+    except Exception as e:
+        print("failed to doc check", e)
+        return False
+
+
 def ex_runs(path, exNumber, weekNumber):
     """Check that this exercise runs at all."""
     try:
@@ -120,88 +153,130 @@ def completion_message(message, width):
     print "\n" + cap
 
 
-def nyan_cat():
+def nyan_cat(block='█'):
     """Return a coloured string that shows a nyan cat."""
-    cattern = [
-               ['{BRIGHT_BLUE}', '{x}'*80],
-               ['{BRIGHT_BLUE}', '{x}'*80],
-               ['{RED}', '{x}'*18, '{BRIGHT_BLUE}', '{x}'*16, '{BLACK}',
-                '{x}'*30, '{BRIGHT_BLUE}', '{x}'*16],
-               ['{RED}', '{x}'*32, '{BLACK}██{WHITE}', '{x}'*30,
-                '{BLACK}██{BRIGHT_BLUE}', '{x}'*14],
-               ['{BRIGHT_RED}', '{x}'*4, '{RED}', '{x}'*26, '{BLACK}██{WHITE}',
-                '{x}'*6, '{MAGENTA}', '{x}'*22, '{WHITE}', '{x}'*6,
-                '{BLACK}██{BRIGHT_BLUE}', '{x}'*12],
-               ['{BRIGHT_RED}', '{x}'*30, '{BLACK}██{WHITE}', '{x}'*4,
-                '{MAGENTA}', '{x}'*16, '{BLACK}', '{x}'*4, '{MAGENTA}',
-                '{x}'*6, '{WHITE}', '{x}'*4, '{BLACK}██{BRIGHT_BLUE}██{BLACK}',
-                '{x}'*4, '{BRIGHT_BLUE}', '{x}'*6],
-               ['{BRIGHT_RED}', '{x}'*30, '{BLACK}██{WHITE}██{MAGENTA}',
-                '{x}'*16, '{BLACK}██{WHITE}', '{x}'*4, '{BLACK}██{MAGENTA}',
-                '{x}'*6, '{WHITE}██{BLACK}', '{x}'*4, '{WHITE}', '{x}'*4,
-                '{BLACK}██{BRIGHT_BLUE}', '{x}'*4],
-               ['{BRIGHT_YELLOW}', '{x}'*18, '{BRIGHT_RED}', '{x}'*12,
-                '{BLACK}██{WHITE}██{MAGENTA}', '{x}'*16, '{BLACK}██{WHITE}',
-                '{x}'*6, '{MAGENTA}', '{x}'*6, '{WHITE}██{BLACK}██{WHITE}',
-                '{x}'*6, '{BLACK}██{BRIGHT_BLUE}', '{x}'*4],
-               ['{BRIGHT_YELLOW}', '{x}'*22, '{BLACK}██{BRIGHT_YELLOW}',
-                '{x}'*6, '{BLACK}██{WHITE}██{MAGENTA}', '{x}'*16,
-                '{BLACK}██{WHITE}', '{x}'*6, '{BLACK}', '{x}'*8, '{WHITE}',
-                '{x}'*8, '{BLACK}██{BRIGHT_BLUE}', '{x}'*4],
-               ['{BRIGHT_YELLOW}', '{x}'*20,
-                '{BLACK}██{WHITE}██{BLACK}██{BRIGHT_YELLOW}', '{x}'*4,
-                '{BLACK}██{WHITE}██{MAGENTA}', '{x}'*16, '{BLACK}██{WHITE}',
-                '{x}'*22, '{BLACK}██{BRIGHT_BLUE}', '{x}'*4],
-               ['{BRIGHT_GREEN}', '{x}'*18, '{BRIGHT_YELLOW}██{BLACK}',
-                '{x}'*2, '{WHITE}██{BLACK}', '{x}'*8, '{WHITE}██{MAGENTA}',
-                '{x}'*14, '{BLACK}██{WHITE}', '{x}'*26,
-                '{BLACK}██{BRIGHT_BLUE}██'],
-               ['{BRIGHT_GREEN}', '{x}'*22, '{WHITE}', '{x}'*8,
-                '{BLACK}██{WHITE}██{MAGENTA}', '{x}'*14, '{BLACK}██{WHITE}',
-                '{x}'*6, '{BRIGHT_YELLOW}██{WHITE}', '{x}'*10,
-                '{BRIGHT_YELLOW}██{BLACK}██{WHITE}', '{x}'*4,
-                '{BLACK}██{BRIGHT_BLUE}██'],
-               ['{BRIGHT_GREEN}', '{x}'*22, '{BLACK}', '{x}'*4, '{WHITE}',
-                '{x}'*4, '{BLACK}██{WHITE}██{MAGENTA}', '{x}'*14,
-                '{BLACK}██{WHITE}', '{x}'*6, '{BLACK}██{WHITE}', '{x}'*6,
-                '{BLACK}██{WHITE}██{BLACK}', '{x}'*4, '{WHITE}', '{x}'*4,
-                '{BLACK}██{BRIGHT_BLUE}██'],
-               ['{BLUE}', '{x}'*18, '{BRIGHT_GREEN}', '{x}'*8, '{BLACK}',
-                '{x}'*6, '{WHITE}██{MAGENTA}', '{x}'*14,
-                '{BLACK}██{WHITE}██{MAGENTA}', '{x}'*4, '{WHITE}', '{x}'*16,
-                '{MAGENTA}', '{x}'*4, '{BLACK}██{BRIGHT_BLUE}██'],
-               ['{BLUE}', '{x}'*30, '{BLACK}██{WHITE}', '{x}'*4, '{MAGENTA}',
-                '{x}'*14, '{BLACK}██{WHITE}', '{x}'*6, '{BLACK}', '{x}'*12,
-                '{WHITE}', '{x}'*4, '{BLACK}██{BRIGHT_BLUE}', '{x}'*4],
-               ['{BRIGHT_BLUE}', '{x}'*18, '{BLUE}', '{x}'*4, '{BLUE}',
-                '{x}'*6, '{BLACK}', '{x}'*4, '{WHITE}', '{x}'*6, '{MAGENTA}',
-                '{x}'*14, '{BLACK}██{WHITE}', '{x}'*18,
-                '{BLACK}██{BRIGHT_BLUE}', '{x}'*6],
-               ['{BRIGHT_BLUE}', '{x}'*26, '{BLACK}██{WHITE}██{BLACK}',
-                '{x}'*4, '{WHITE}', '{x}'*20, '{BLACK}', '{x}'*18,
-                '{BRIGHT_BLUE}', '{x}'*8],
-               ['{BRIGHT_BLUE}', '{x}'*24, '{BLACK}██{WHITE}', '{x}'*6,
-                '{BLACK}', '{x}'*32, '{WHITE}██{BLACK}██{BRIGHT_BLUE}',
-                '{x}'*12],
-               ['{BRIGHT_BLUE}', '{x}'*24, '{BLACK}██{WHITE}', '{x}'*4,
-                '{BLACK}██{BRIGHT_BLUE}██{BLACK}██{WHITE}', '{x}'*4,
-                '{BRIGHT_BLUE}', '{x}'*12, '{BLACK}██{WHITE}', '{x}'*4,
-                '{BLACK}', '{x}'*4, '{WHITE}', '{x}'*4,
-                '{BLACK}██{BRIGHT_BLUE}', '{x}'*12],
-               ['{BRIGHT_BLUE}', '{x}'*24, '{BLACK}', '{x}'*6, '{BRIGHT_BLUE}',
-                '{x}'*4, '{BLACK}', '{x}'*6, '{BRIGHT_BLUE}', '{x}'*12,
-                '{BLACK}', '{x}'*6, '{BRIGHT_BLUE}', '{x}'*4, '{BLACK}',
-                '{x}'*6, '{BRIGHT_BLUE}', '{x}'*12],
-               ['{x}'*80, '{WHITE}']
+    c = [
+         ['{BRIGHT_BLUE}', '{x}'*80],
+         ['{BRIGHT_BLUE}', '{x}'*80],
+         ['{RED}', '{x}'*18, '{BRIGHT_BLUE}', '{x}'*16, '{BLACK}',
+          '{x}'*30, '{BRIGHT_BLUE}', '{x}'*16],
+         ['{RED}', '{x}'*32, '{BLACK}{x}{x}{WHITE}', '{x}'*30,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}', '{x}'*14],
+         ['{BRIGHT_RED}', '{x}'*4, '{RED}', '{x}'*26, '{BLACK}{x}{x}{WHITE}',
+          '{x}'*6, '{MAGENTA}', '{x}'*22, '{WHITE}', '{x}'*6,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}', '{x}'*12],
+         ['{BRIGHT_RED}', '{x}'*30, '{BLACK}{x}{x}{WHITE}', '{x}'*4,
+          '{MAGENTA}', '{x}'*16, '{BLACK}', '{x}'*4, '{MAGENTA}',
+          '{x}'*6, '{WHITE}', '{x}'*4,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}{x}{x}{BLACK}', '{x}'*4, '{BRIGHT_BLUE}',
+          '{x}'*6],
+         ['{BRIGHT_RED}', '{x}'*30, '{BLACK}{x}{x}{WHITE}{x}{x}{MAGENTA}',
+          '{x}'*16, '{BLACK}{x}{x}{WHITE}', '{x}'*4, '{BLACK}{x}{x}{MAGENTA}',
+          '{x}'*6, '{WHITE}{x}{x}{BLACK}', '{x}'*4, '{WHITE}', '{x}'*4,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}', '{x}'*4],
+         ['{BRIGHT_YELLOW}', '{x}'*18, '{BRIGHT_RED}', '{x}'*12,
+          '{BLACK}{x}{x}{WHITE}{x}{x}{MAGENTA}', '{x}'*16,
+          '{BLACK}{x}{x}{WHITE}', '{x}'*6, '{MAGENTA}', '{x}'*6,
+          '{WHITE}{x}{x}{BLACK}{x}{x}{WHITE}', '{x}'*6,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}', '{x}'*4],
+         ['{BRIGHT_YELLOW}', '{x}'*22, '{BLACK}{x}{x}{BRIGHT_YELLOW}',
+          '{x}'*6, '{BLACK}{x}{x}{WHITE}{x}{x}{MAGENTA}', '{x}'*16,
+          '{BLACK}{x}{x}{WHITE}', '{x}'*6, '{BLACK}', '{x}'*8, '{WHITE}',
+          '{x}'*8, '{BLACK}{x}{x}{BRIGHT_BLUE}', '{x}'*4],
+         ['{BRIGHT_YELLOW}', '{x}'*20,
+          '{BLACK}{x}{x}{WHITE}{x}{x}{BLACK}{x}{x}{BRIGHT_YELLOW}', '{x}'*4,
+          '{BLACK}{x}{x}{WHITE}{x}{x}{MAGENTA}', '{x}'*16,
+          '{BLACK}{x}{x}{WHITE}', '{x}'*22, '{BLACK}{x}{x}{BRIGHT_BLUE}',
+          '{x}'*4],
+         ['{BRIGHT_GREEN}', '{x}'*18, '{BRIGHT_YELLOW}{x}{x}{BLACK}',
+          '{x}'*2, '{WHITE}{x}{x}{BLACK}', '{x}'*8, '{WHITE}{x}{x}{MAGENTA}',
+          '{x}'*14, '{BLACK}{x}{x}{WHITE}', '{x}'*26,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}{x}{x}'],
+         ['{BRIGHT_GREEN}', '{x}'*22, '{WHITE}', '{x}'*8,
+          '{BLACK}{x}{x}{WHITE}{x}{x}{MAGENTA}', '{x}'*14,
+          '{BLACK}{x}{x}{WHITE}', '{x}'*6, '{BRIGHT_YELLOW}{x}{x}{WHITE}',
+          '{x}'*10, '{BRIGHT_YELLOW}{x}{x}{BLACK}{x}{x}{WHITE}', '{x}'*4,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}{x}{x}'],
+         ['{BRIGHT_GREEN}', '{x}'*22, '{BLACK}', '{x}'*4, '{WHITE}',
+          '{x}'*4, '{BLACK}{x}{x}{WHITE}{x}{x}{MAGENTA}', '{x}'*14,
+          '{BLACK}{x}{x}{WHITE}', '{x}'*6, '{BLACK}{x}{x}{WHITE}', '{x}'*6,
+          '{BLACK}{x}{x}{WHITE}{x}{x}{BLACK}', '{x}'*4, '{WHITE}', '{x}'*4,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}{x}{x}'],
+         ['{BLUE}', '{x}'*18, '{BRIGHT_GREEN}', '{x}'*8, '{BLACK}',
+          '{x}'*6, '{WHITE}{x}{x}{MAGENTA}', '{x}'*14,
+          '{BLACK}{x}{x}{WHITE}{x}{x}{MAGENTA}', '{x}'*4, '{WHITE}', '{x}'*16,
+          '{MAGENTA}', '{x}'*4, '{BLACK}{x}{x}{BRIGHT_BLUE}{x}{x}'],
+         ['{BLUE}', '{x}'*30, '{BLACK}{x}{x}{WHITE}', '{x}'*4, '{MAGENTA}',
+          '{x}'*14, '{BLACK}{x}{x}{WHITE}', '{x}'*6, '{BLACK}', '{x}'*12,
+          '{WHITE}', '{x}'*4, '{BLACK}{x}{x}{BRIGHT_BLUE}', '{x}'*4],
+         ['{BRIGHT_BLUE}', '{x}'*18, '{BLUE}', '{x}'*4, '{BLUE}',
+          '{x}'*6, '{BLACK}', '{x}'*4, '{WHITE}', '{x}'*6, '{MAGENTA}',
+          '{x}'*14, '{BLACK}{x}{x}{WHITE}', '{x}'*18,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}', '{x}'*6],
+         ['{BRIGHT_BLUE}', '{x}'*26, '{BLACK}{x}{x}{WHITE}{x}{x}{BLACK}',
+          '{x}'*4, '{WHITE}', '{x}'*20, '{BLACK}', '{x}'*18,
+          '{BRIGHT_BLUE}', '{x}'*8],
+         ['{BRIGHT_BLUE}', '{x}'*24, '{BLACK}{x}{x}{WHITE}', '{x}'*6,
+          '{BLACK}', '{x}'*32, '{WHITE}{x}{x}{BLACK}{x}{x}{BRIGHT_BLUE}',
+          '{x}'*12],
+         ['{BRIGHT_BLUE}', '{x}'*24, '{BLACK}{x}{x}{WHITE}', '{x}'*4,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}{x}{x}{BLACK}{x}{x}{WHITE}', '{x}'*4,
+          '{BRIGHT_BLUE}', '{x}'*12, '{BLACK}{x}{x}{WHITE}', '{x}'*4,
+          '{BLACK}', '{x}'*4, '{WHITE}', '{x}'*4,
+          '{BLACK}{x}{x}{BRIGHT_BLUE}', '{x}'*12],
+         ['{BRIGHT_BLUE}', '{x}'*24, '{BLACK}', '{x}'*6, '{BRIGHT_BLUE}',
+          '{x}'*4, '{BLACK}', '{x}'*6, '{BRIGHT_BLUE}', '{x}'*12,
+          '{BLACK}', '{x}'*6, '{BRIGHT_BLUE}', '{x}'*4, '{BLACK}',
+          '{x}'*6, '{BRIGHT_BLUE}', '{x}'*12],
+         ['{x}'*80, '{WHITE}']
     ]
-    cattern = "\n".join(["".join(c) for c in cattern])
-    return cattern.format(BLACK=Style.NORMAL + "" + Fore.BLACK,
-                          BLUE=Style.NORMAL + "" + Fore.BLUE,
-                          BRIGHT_BLUE=Style.BRIGHT + "" + Fore.BLUE,
-                          BRIGHT_GREEN=Style.BRIGHT + "" + Fore.GREEN,
-                          BRIGHT_RED=Style.BRIGHT + "" + Fore.RED,
-                          BRIGHT_YELLOW=Style.BRIGHT + "" + Fore.YELLOW,
-                          MAGENTA=Style.NORMAL + "" + Fore.MAGENTA,
-                          RED=Style.NORMAL + "" + Fore.RED,
-                          WHITE=Style.BRIGHT + "" + Fore.WHITE,
-                          x='█')
+    c = "\n".join(["".join(x) for x in c])
+    return c.format(BLACK=Style.NORMAL + "" + Fore.BLACK,
+                    BLUE=Style.NORMAL + "" + Fore.BLUE,
+                    BRIGHT_BLUE=Style.BRIGHT + "" + Fore.BLUE,
+                    BRIGHT_GREEN=Style.BRIGHT + "" + Fore.GREEN,
+                    BRIGHT_RED=Style.BRIGHT + "" + Fore.RED,
+                    BRIGHT_YELLOW=Style.BRIGHT + "" + Fore.YELLOW,
+                    MAGENTA=Style.NORMAL + "" + Fore.MAGENTA,
+                    RED=Style.NORMAL + "" + Fore.RED,
+                    WHITE=Style.BRIGHT + "" + Fore.WHITE,
+                    x=block)
+
+
+def grumpy():
+    """Return a grumpy cat.
+
+    from: http://textart4u.blogspot.com.au/
+                 2013/02/grumpy-cat-meme-ascii-text-art.html
+    """
+    return """
+▌▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀   ▐█  ▀▀▀▐
+▌    ▄                  ▄█▓█▌    ▐
+▌   ▐██▄               ▄▓░░▓▓    ▐
+▌   ▐█░██▓            ▓▓░░░▓▌    ▐
+▌   ▐█▌░▓██          █▓░░░░▓     ▐
+▌    ▓█▌░░▓█▄███████▄███▓░▓█     ▐
+▌    ▓██▌░▓██░░░░░░░░░░▓█░▓▌     ▐
+▌     ▓█████░░░░░░░░░░░░▓██      ▐
+▌     ▓██▓░░░░░░░░░░░░░░░▓█      ▐
+▌     ▐█▓░░░░░░█▓░░▓█░░░░▓█▌     ▐
+▌     ▓█▌░▓█▓▓██▓░█▓▓▓▓▓░▓█▌     ▐
+▌     ▓▓░▓██████▓░▓███▓▓▌░█▓     ▐
+▌    ▐▓▓░█▄▐▓▌█▓░░▓█▐▓▌▄▓░██     ▐
+▌    ▓█▓░▓█▄▄▄█▓░░▓█▄▄▄█▓░██▌    ▐
+▌    ▓█▌░▓█████▓░░░▓███▓▀░▓█▓    ▐
+▌   ▐▓█░░░▀▓██▀░░░░░ ▀▓▀░░▓█▓    ▐
+▌   ▓██░░░░░░░░▀▄▄▄▄▀░░░░░░▓▓    ▐
+▌   ▓█▌░░░░░░░░░░▐▌░░░░░░░░▓▓▌   ▐
+▌   ▓█░░░░░░░░░▄▀▀▀▀▄░░░░░░░█▓   ▐
+▌  ▐█▌░░░░░░░░▀░░░░░░▀░░░░░░█▓▌  ▐
+▌  ▓█░░░░░░░░░░░░░░░░░░░░░░░██▓  ▐
+▌  ▓█░░░░░░░░░░░░░░░░░░░░░░░▓█▓  ▐
+██████████████████████████████████
+█░▀░░░░▀█▀░░░░░░▀█░░░░░░▀█▀░░░░░▀█
+█░░▐█▌░░█░░░██░░░█░░██░░░█░░░██░░█
+█░░▐█▌░░█░░░██░░░█░░██░░░█░░░██░░█
+█░░▐█▌░░█░░░██░░░█░░░░░░▄█░░▄▄▄▄▄█
+█░░▐█▌░░█░░░██░░░█░░░░████░░░░░░░█
+█░░▐█▌░░█▄░░░░░░▄█░░░░████▄░░░░░▄█
+██████████████████████████████████"""
