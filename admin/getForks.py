@@ -1,3 +1,4 @@
+"""Get a list of forks from github."""
 import json
 import pandas as pd
 import requests
@@ -8,6 +9,7 @@ theJson = json.loads(r.text)
 
 
 def get_the_useful(j):
+    """Extract the information I care about from a person's data."""
     login = j[u"owner"][u'login']
     url = j[u"clone_url"]
     name = j[u"name"]
