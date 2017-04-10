@@ -9,12 +9,12 @@ from __future__ import division
 from __future__ import print_function
 from StringIO import StringIO
 from itertools import repeat
+from codeHelpers import RunCmd
 import git
 import json
 import os
 import pandas as pd
 import requests
-from codeHelpers import RunCmd
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
