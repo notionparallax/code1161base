@@ -74,7 +74,7 @@ def try_to_kill(file_path, chatty=False):
             print(file_path, e)
 
 
-def pull_all_repos(dirList):
+def pull_all_repos(dirList, chatty=False):
     """Pull latest version of all repos."""
     for student_repo in dirList:
         repo_is_here = os.path.join(rootdir, student_repo)
@@ -83,6 +83,7 @@ def pull_all_repos(dirList):
             repo.execute(["git", "fetch", "--all"])
             repo.execute(["git", "reset", "--hard", "origin/master"])
             repo.pull()  # probably not needed, but belt and braces
+            print("pulled {}'s repo".format(student_repo))
         except Exception as e:
             print(student_repo, e)
 
