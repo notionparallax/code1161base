@@ -8,44 +8,10 @@ from __future__ import print_function
 import turtle
 
 
-def abba(source="abba", guard=5):
-    """Recursively replace letters acording to the rules.
+def italian_dinner(axiom="tomatoes", guard=6):
+    u"""Make recursive dinner plans.
 
-    This function takes a seed string, e.g. "abba" and replaces each letter in
-    turn acording to the rules. These rules can be of arbitrary complexity.
-
-    Modify the rules to map from:
-
-                   abba
-                    to
-               bbaaobaobbba
-                    to
-    aobaobbbabbaoaaobbbaoaaobaobaobbba
-                and so on...
-    """
-    def apply_rules(letter):
-        if letter == "a":
-            return "bba"
-        elif letter == "b":
-            return "aob"
-        elif letter == "o":
-            return "oa"
-        else:
-            return letter
-
-    print(source)
-    source = list(source)  # convert "abba" to ["a", "b", "b", "a"]
-    result = map(apply_rules, source)
-    new_string = "".join(result)
-    guard -= 1
-    if guard > 0:
-        abba(new_string, guard)
-    else:
-        return new_string
-
-
-def italian_dinner(axiom="tomatoes", guard=10):
-    """Make recursive dinner plans.
+    This is an example to help you get your head around the idea of recursion.
 
     # The Italian dinner
 
@@ -77,29 +43,69 @@ def italian_dinner(axiom="tomatoes", guard=10):
 
     referencing: DOUGLAS R. HOFSTADTER, Metamagical Themas
     https://archive.org/stream/MetamagicalThemas/Metamagical%20Themas,%20Hofstadter_djvu.txt
-    """
-    # TODO: get the real table for this!
-    def rules(word):
-        if word == "tomatoes":
-            return "delicious tomatoes with linguini"
-        elif word == "linguini":
-            return "linguini and basil"
-        elif word == "basil":
-            return "pesto made from basil and tomatoes"
-        elif word == "delicious":
-            return "delicious and runny pesto"
-        else:
-            return word
 
-    print(axiom)
-    axiom = axiom.split(" ")  # convert "abba" to ["a", "b", "b", "a"]
-    result = map(rules, axiom)
+    left-hand side        right-hand side
+    tomatoes        ⇨     tomatoes with linguini and basil
+    and             ⇨     runny with delicious pesto
+    delicious       ⇨     made of runny and yummy pasta and tomatoes
+    runny           ⇨     yummy and delicious tomatoes and pasta
+
+    Here's a photo of the page: https://goo.gl/photos/bEh8dmkYkeAy7W727
+    """
+    parts = axiom.split(" ")
+    result = map(italian_rules, parts)
     new_string = " ".join(result)
     guard -= 1
     if guard > 0:
-        italian_dinner(new_string, guard)
+        return italian_dinner(new_string, guard)
     else:
         return new_string
+
+
+def italian_rules(word):
+    """Substitution rules to make Italian recipes."""
+    if word == "tomatoes":
+        return "tomatoes with linguini and basil"
+    elif word == "and":
+        return "runny with delicious pesto"
+    elif word == "delicious":
+        return "made of runny and yummy pasta and tomatoes"
+    elif word == "runny":
+        return "yummy and delicious tomatoes and pasta"
+    else:
+        return word
+
+
+def abba(source="abba", guard=3):
+    """Recursively replace letters acording to the rules.
+
+    This function takes a seed string, e.g. "abba" and replaces each letter in
+    turn acording to the rules. These rules can be of arbitrary complexity.
+
+    Modify the rules to map from:
+
+                   abba
+                    to
+               bbaaobaobbba
+                    to
+    aobaobbbabbaoaaobbbaoaaobaobaobbba
+                and so on...
+    """
+    def apply_rules(letter):
+        """Control the substitution.
+
+        You need to change these substitutions to make it work.
+        """
+        if letter == "a":
+            return "a"
+        elif letter == "b":
+            return "b"
+        elif letter == "o":
+            return "o"
+        else:
+            return letter
+
+    # write the rest of the function here
     pass
 
 
@@ -144,24 +150,26 @@ def square_koch(t, order, size):
 
     """
     trace = ""
-    if order == 0:          # The base case is just a straight line
-        t.forward(size)
-    else:
-        trace += square_koch(t, order-1, size/3)   # Go 1/3 of the way
-        t.left(90)
-        trace += square_koch(t, order-1, size/3)
-        t.right(90)
-        trace += square_koch(t, order-1, size/3)
-        t.right(90)
-        trace += square_koch(t, order-1, size/3)
-        t.left(90)
-        trace += square_koch(t, order-1, size/3)
+    # write the rest of the function here.
     return str(order) + trace
     pass
 
 
+def draw_square(steps=4):
+    """Helper function to make testing easier."""
+    return draw_koch(drawing_method=square_koch, steps_deep=steps)
+
+
+def draw_pointy(steps=4):
+    """Helper function to make testing easier."""
+    return draw_koch(drawing_method=koch, steps_deep=steps)
+
+
 if __name__ == '__main__':
+    print(draw_koch(drawing_method=square_koch, steps_deep=2))
+    print(draw_koch(drawing_method=square_koch, steps_deep=3))
     print(draw_koch(drawing_method=square_koch, steps_deep=4))
-    print(draw_koch(drawing_method=koch, steps_deep=4))
-    abba()
-    # italian_dinner()
+    print(draw_koch(drawing_method=koch, steps_deep=2))
+    print("AB:", abba())
+    print("ID:", str(italian_dinner()))
+    pass
