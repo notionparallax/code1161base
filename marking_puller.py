@@ -14,7 +14,9 @@ import git
 import json
 import os
 import pandas as pd
+import re
 import requests
+import ruamel.yaml as yaml
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -87,15 +89,16 @@ def pull_all_repos(dirList):
 
 def csvOfDetails(dirList):
     """Make a CSV of all the students."""
-    import ruamel.yaml as yaml
     results = []
     for student_repo in dirList:
+        path = os.path.join(rootdir, student_repo, "aboutMe.yml")
+        details = open(path).read()
+        details = details.replace("@", "^AT^")
+        details = re.sub(":(\w)", ": \g<1>", details)
+        details = re.sub("-", "None", details)
+        details = details.replace("é", "e")
+        details = details.replace("w:", "w: ")
         try:
-            path = os.path.join(rootdir, student_repo, "aboutMe.yml")
-            details = open(path).read()
-            details = details.replace("@", "^AT^")
-            details = details.replace("é", "e")
-            details = details.replace("w:", "w: ")
             details = yaml.load(details, yaml.RoundTripLoader)
             details["repoName"] = student_repo
             details["error"] = False
@@ -106,6 +109,7 @@ def csvOfDetails(dirList):
             if details["studentNumber"] == "z1234567":
                 print(student_repo, "hasn't updated")
         except Exception as e:
+            print(details)
             results.append({'error': e, "repoName": student_repo})
 
     print("\n\nResults:")
