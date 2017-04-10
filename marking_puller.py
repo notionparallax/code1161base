@@ -96,7 +96,7 @@ def csvOfDetails(dirList):
         details = open(path).read()
         details = details.replace("@", "^AT^")
         details = re.sub(":(\w)", ": \g<1>", details)
-        details = re.sub("-", "None", details)
+        details = re.sub(" -", " None", details)
         details = details.replace("é", "e")
         details = details.replace("w:", "w: ")
         try:
