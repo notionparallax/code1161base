@@ -71,14 +71,13 @@ def theTests(path_to_code_to_check="."):
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
 
+    testResults = []
+
+    # stack the tests below here
     path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
     print(path)
 
     e1 = imp.load_source("exercise1", path)
-
-    testResults = []
-
-    # stack the tests below here
 
     # Linter test
     print("Linter test:", path)
