@@ -21,7 +21,7 @@ from codeHelpers import test
 from codeHelpers import test_flake8
 from codeHelpers import test_pydocstyle
 from codeHelpers import grumpy
-# from codeHelpers import Timeout
+
 
 WEEK_NUMBER = 5
 PASS = 1
