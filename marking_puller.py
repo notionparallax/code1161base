@@ -148,9 +148,9 @@ def test_in_clean_environment(student_repo,
                               root_dir,
                               week_number,
                               logfile_name,
+                              timeout=5,
                               temp_file_path='temp_results.json',
-                              test_file_path='./test_shim.py',
-                              timeout=5):
+                              test_file_path='./test_shim.py'):
     """Test a single student's work in a clean environment.
 
     This calls a subprocess that opens a fresh python environment, runs the
@@ -165,15 +165,24 @@ def test_in_clean_environment(student_repo,
     results_dict = {}
     log_progress(student_repo, logfile_name)
     try:
-        timeout_cap = timeout
-        args = ['python',
-                test_file_path,
-                "week{}.tests".format(week_number),
-                "{}/{}".format(root_dir, student_repo)
-                ]
-        RunCmd(args, timeout_cap).Run()
+        test_args = ['python',
+                     test_file_path,
+                     "week{}.tests".format(week_number),
+                     "{}/{}".format(root_dir, student_repo)
+                     ]
+        # print("\ntest_args", test_args,
+        #       "\nstudent_repo", student_repo,
+        #       "\nroot_dir", root_dir,
+        #       "\nweek_number", week_number,
+        #       "\nlogfile_name", logfile_name,
+        #       "\ntemp_file_path", temp_file_path,
+        #       "\ntest_file_path", test_file_path,
+        #       "\ntimeout", timeout,
+        #       "\nLOCAL", LOCAL)
+        RunCmd(test_args, timeout).Run()
 
-        temp_results = open(os.path.join(LOCAL,  temp_file_path), 'r')
+        full_path = os.path.join(LOCAL,  temp_file_path)
+        temp_results = open(full_path, 'r')
         contents = temp_results.read()
         results_dict = json.loads(contents)
         results_dict["bigerror"] = ":)"
@@ -203,12 +212,12 @@ def mark_work(dirList, week_number, root_dir, dfPlease=True, timeout=5):
     prepare_log(logfile_name)
     r = len(dirList)  # for repeat count
 
-    results = map(test_in_clean_environment,
-                  dirList,
-                  repeat(root_dir, r),
-                  repeat(week_number, r),
-                  repeat(logfile_name, r),
-                  repeat(timeout, r)
+    results = map(test_in_clean_environment,  # Function name
+                  dirList,  # student_repo
+                  repeat(root_dir, r),  # root_dir
+                  repeat(week_number, r),  # week_number
+                  repeat(logfile_name, r),  # logfile_name
+                  repeat(timeout, r)  # timeout
                   )
 
     resultsDF = pd.DataFrame(results)
