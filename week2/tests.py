@@ -93,8 +93,8 @@ def theTests(path_to_code_to_check="."):
             test(exercise0.adder(5, 5) == 10,
                  "Exercise 0: adder - 5 + 5 = 10?"))
         testResults.append(
-            test(exercise0.adder(-5, -5) == 10,
-                 "Exercise 0: adder - -5 + -5 = 10?"))
+            test(exercise0.adder(-5, -5) == -10,
+                 "Exercise 0: adder - -5 + -5 = -10?"))
         testResults.append(
             test(exercise0.adder(0.1, 0.9) == 1,
                  "Exercise 0: adder - 0.1 + 0.9 = 1?"))
