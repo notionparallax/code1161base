@@ -274,6 +274,44 @@ def theTests(path_to_code_to_check="."):
     testResults.append(
         test(works, "Exercise 1: wordy_pyramid still works"))
 
+    # EXERCISE 2 tests
+    path = "{}/week{}/exercise2.py".format(path_to_code_to_check, WEEK_NUMBER)
+    print(path)
+
+    e2 = imp.load_source("exercise2", path)
+
+    # Linter test
+    print("Linter test:", path)
+    testResults.append(
+        test(test_flake8(path),
+             "Exercise 2: pass the linter"))
+
+    # pydocstyle test
+    print("Docstyle test:", path)
+    testResults.append(
+        test(test_pydocstyle(path),
+             "Exercise 2: pass the pydocstyle test"))
+
+    source = ["baaab",
+              "b",
+              "roof",
+              "hell"]
+    result = ["bbaoaaobaobaobbbaaobaobbbaaobaobbbabbaoaaob",
+              "bbaoaaob",
+              "roabbaoabbaf",
+              "hell"]
+    for source, result in zip(source, result):
+        testResults.append(
+            test(e2.abba(source, 2) == result,
+                 "exercise 2: abba {}⇨{}".format(source, result)))
+
+    testResults.append(
+        test(e2.draw_square(2) == "2100000100000100000100000100000",
+             "exercise 2: Koch _^_"))
+    testResults.append(
+        test(e2.draw_pointy(2) == "210000100001000010000",
+             "exercise 2: Koch _|-|_"))
+
     # CLEANUP AND FINISH
 
     print("{0}/{1} (passed/attempted)".format(sum(testResults),
