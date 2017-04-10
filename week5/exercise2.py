@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 """Recursion.
 
 Exercises and examples to illustrate recursion.
