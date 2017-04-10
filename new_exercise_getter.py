@@ -16,9 +16,8 @@ def get_the_updates():
     new_files = [
         "/week2/exercise0.py",
         "/week4/IOexamples.py",
-        # "/week5/exercise2.py",
-        # "/week5/exercise3.py",
-        # "/week5/exercise4.py",
+        # "/week5/exercise1.py",
+        # "/week5/exercise2.py"
         ""
     ]
 
