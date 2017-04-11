@@ -8,8 +8,9 @@ It can clone new repos if you set THERE_ARE_NEW_STUDENTS to true
 from __future__ import division
 from __future__ import print_function
 from StringIO import StringIO
-from itertools import repeat
 from codeHelpers import RunCmd
+from datetime import datetime
+from itertools import repeat
 import git
 import json
 import os
@@ -76,14 +77,19 @@ def try_to_kill(file_path, chatty=False):
 
 def pull_all_repos(dirList, chatty=False):
     """Pull latest version of all repos."""
-    for student_repo in dirList:
+    of_total = len(dirList)
+    for i, student_repo in enumerate(dirList):
         repo_is_here = os.path.join(rootdir, student_repo)
         try:
             repo = git.cmd.Git(repo_is_here)
             repo.execute(["git", "fetch", "--all"])
             repo.execute(["git", "reset", "--hard", "origin/master"])
             repo.pull()  # probably not needed, but belt and braces
-            print("pulled {}'s repo".format(student_repo))
+            t = datetime.now().strftime('%H:%M:%S')
+            print("{}: {}/{} pulled {}'s repo".format(t,
+                                                      i,
+                                                      of_total,
+                                                      student_repo))
         except Exception as e:
             print(student_repo, e)
 
@@ -238,7 +244,7 @@ print("dir list", dirList)
 
 print("\nPull all the repos so we have the latest copy.")
 print("(This takes a while.)")
-pull_all_repos(dirList)
+pull_all_repos(dirList, chatty=True)
 
 print("\nUpdate the CSV of details")
 csvOfDetails(dirList)  # This feeds the sanity check spreadsheet
