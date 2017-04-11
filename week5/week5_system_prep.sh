@@ -2,10 +2,9 @@ git config --global credential.helper 'cache --timeout=36000' #cache password fo
 git config --global color.ui auto #colour the output in git
 git config --global core.editor "atom --wait"
 
-sudo pip install pydocstyle
-sudo pip install colorama
 sudo pip uninstall flake8
 sudo pip install flake8
+sudo pip install colorama
 sudo pip install pydocstyle
 
 apm upgrade
@@ -21,7 +20,6 @@ apm install minimap-highlight-selected
 apm install monokai-seti
 apm install open-recent
 apm install pigments
-apm install script
 apm install script
 apm install seti-ui
 apm install sort-lines
