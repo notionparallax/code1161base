@@ -2,9 +2,9 @@ git config --global credential.helper 'cache --timeout=36000' #cache password fo
 git config --global color.ui auto #colour the output in git
 git config --global core.editor "atom --wait"
 
-sudo pip install pydocstyle -y
+sudo pip install pydocstyle
 sudo pip install colorama
-sudo pip uninstall flake8 -y
+sudo pip uninstall flake8
 sudo pip install flake8
 sudo pip install pydocstyle
 
