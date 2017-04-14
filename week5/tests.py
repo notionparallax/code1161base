@@ -272,7 +272,7 @@ def theTests(path_to_code_to_check="."):
         words = e1.wordy_pyramid()
         expected = [len(w) for w in words]
         works = expected == lengths
-        print(expected, "\n", lengths)
+        print("expected     ", expected, "\ngiven lengths", lengths)
         [print(w + " " + str(len(w))) for w in words]
     except Exception as e:
         works = False
