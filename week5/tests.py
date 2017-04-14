@@ -227,7 +227,9 @@ def theTests(path_to_code_to_check="."):
         test(type(tf) is str,
              "exercise 1: triangle_master diagram: T, dictionary: F"))
     testResults.append(
-        test(type(ft) is dict and "units" in ft and type(ft["facts"]) is dict,
+        test(type(ft) is dict and
+             "units" in ft["facts"] and
+             type(ft["facts"]) is dict,
              "exercise 1: triangle_master diagram: F, dictionary: T"))
     testResults.append(
         test(type(tt) is dict and type(tt["diagram"]) is str,
