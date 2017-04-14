@@ -114,7 +114,8 @@ def theTests(path_to_code_to_check="."):
             testResults.append(FAIL)
 
     triangles = [{
-                  'area': 6.0, 'aspect': 'tall',
+                  'area': 6.0,
+                  'aspect': 'tall',
                   'base': 3, 'height': 4,
                   'hypotenuse': 5.0,
                   'perimeter': 12.0,
@@ -128,19 +129,22 @@ def theTests(path_to_code_to_check="."):
                   'perimeter': 23.440306508910552,
                   'units': 'mm'},
                  {
-                  'area': 60.0, 'aspect': 'tall',
+                  'area': 60.0,
+                  'aspect': 'tall',
                   'base': 8, 'height': 15,
                   'hypotenuse': 17.0,
                   'perimeter': 40.0,
                   'units': 'mm'},
                  {
-                  'area': 12.5, 'aspect': 'equal',
+                  'area': 12.5,
+                  'aspect': 'equal',
                   'base': 5, 'height': 5,
                   'hypotenuse': 7.0710678118654755,
                   'perimeter': 17.071067811865476,
                   'units': 'mm'},
                  {
-                  'area': 180.0, 'aspect': 'tall',
+                  'area': 180.0,
+                  'aspect': 'tall',
                   'base': 9, 'height': 40,
                   'hypotenuse': 41.0,
                   'perimeter': 90.0,
