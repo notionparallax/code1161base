@@ -18,6 +18,7 @@ import pandas as pd
 import re
 import requests
 import ruamel.yaml as yaml
+import time
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))  # the context of this file
 CWD = os.getcwd()  # The curent working directory
@@ -170,6 +171,7 @@ def test_in_clean_environment(student_repo,
     """
     results_dict = {}
     log_progress(student_repo, logfile_name)
+    start_time = time.time()
     try:
         test_args = ['python',
                      test_file_path,
@@ -202,6 +204,8 @@ def test_in_clean_environment(student_repo,
 
         log_progress(" bad {} w{}\n".format(e, week_number),
                      logfile_name)
+    elapsed_time = time.time() - start_time
+    results_dict["time"] = elapsed_time
     return results_dict
 
 
