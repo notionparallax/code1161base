@@ -25,6 +25,7 @@ def get_the_updates():
         save_path = "./" + f
         if not os.path.isfile(save_path) and f is not "":
             url = base + f
+            print("downloading", url)
             download_and_save(url, save_path)
         elif f is "":
             pass  # do nothing, it's padding
