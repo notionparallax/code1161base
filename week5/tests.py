@@ -313,10 +313,10 @@ def theTests(path_to_code_to_check="."):
 
     testResults.append(
         test(e2.draw_square(2) == "2100000100000100000100000100000",
-             "exercise 2: Koch _^_"))
+             "exercise 2: Koch _|-|_"))
     testResults.append(
         test(e2.draw_pointy(2) == "210000100001000010000",
-             "exercise 2: Koch _|-|_"))
+             "exercise 2: Koch _^_"))
 
     # CLEANUP AND FINISH
 
