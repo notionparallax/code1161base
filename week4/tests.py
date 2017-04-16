@@ -58,9 +58,9 @@ def treat():
     with open('.git/config', 'r') as f:
         for line in f:
             if ('url = https://github.com/' in line) \
-               or ('url=https://github.com/' in line) \
                and not ('notionparallax' in line):
                 # ensure it's not Ben's repo
+                print(line)
                 name = line.split('/')[-2]
                 if 'git' in name:
                     # if ssh url
