@@ -67,12 +67,12 @@ def treat():
             elif 'url = https://github.com/notionparallax' in line:
                 print("we must be testing the tests")
                 name = "notionparallax"
-    if not name:
-        print("Error with getting github username")
-    else:
+    try:
         url = ("https://raw.githubusercontent.com/"
                "notionparallax/code1161base/master/faces/")
         print("treat:\n", requests.get(url + name).text)
+    except Exception as e:
+        print("Error with getting github username", e)
 
 
 def theTests(path_to_code_to_check="."):
