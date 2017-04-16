@@ -70,7 +70,8 @@ def treat():
     try:
         url = ("https://raw.githubusercontent.com/"
                "notionparallax/code1161base/master/faces/")
-        print("treat:\n", requests.get(url + name).text)
+        full_url = url + name
+        print("treat:\n", full_url, requests.get(full_url).text)
     except Exception as e:
         print("Error with getting github username", e)
 
