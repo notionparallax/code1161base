@@ -15,7 +15,7 @@ def add_5(a_number):
         return a_number plus five
     except expressed in python, not english
     """
-    pass
+    return a_number + 5
 
 
 def adder(a_number, another_number):
@@ -23,7 +23,7 @@ def adder(a_number, another_number):
 
     Same as above, but with any two numbers.
     """
-    pass
+    return a_number + another_number
 
 
 def shout(a_string):
@@ -34,7 +34,7 @@ def shout(a_string):
     or in any of the million places that google will give you.
     "python make a string uppercase" is a good starting search query.
     """
-    pass
+    return a_string.upper()
 
 
 def really_shout(a_string):
@@ -44,7 +44,8 @@ def really_shout(a_string):
     from above.
     Look up how to 'concatinate' strings to make this happen.
     """
-    pass
+    return a_string.upper()+"!"
+
 
 
 def minitest(f, args, expected):
@@ -70,7 +71,7 @@ if __name__ == "__main__":
     minitest(add_5, [6], 11)
     minitest(add_5, [-3], 2)
     minitest(add_5, [0.5], 5.5)
-    minitest(adder, [-0.5, -0.5], 1)
+    minitest(adder, [-0.5, -0.5], -1)
     minitest(adder, [2, 2], 4)
     minitest(adder, [2, -2], 0)
     minitest(shout, ["hello"], "HELLO")
