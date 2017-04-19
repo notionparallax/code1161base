@@ -269,4 +269,7 @@ print("\nMark week 3's work")
 mark_work(dirList, 3, rootdir, dfPlease=False, timeout=25)
 
 print("\nMark week 4's work")
-mark_work(dirList, 4, rootdir, dfPlease=False, timeout=5)
+mark_work(dirList, 4, rootdir, dfPlease=False, timeout=45)
+
+print("\nMark week 5's work")
+mark_work(dirList, 5, rootdir, dfPlease=False, timeout=45)
