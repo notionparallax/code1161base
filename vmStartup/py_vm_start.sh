@@ -121,6 +121,11 @@ sudo apt -y install python-bs4
 sudo apt -y install python-html5lib
 sudo apt-get -f install -y # does a tidy up, needed for some reason
 sudo -H pip install jupyter
+explain "add jupyter slideshows"
+# from https://github.com/damianavila/RISE
+sudo -H pip install RISE
+sudo jupyter-nbextension install rise --py --sys-prefix
+sudo jupyter-nbextension enable rise --py --sys-prefix
 
 sudo apt-add-repository ppa:dperry/ppa-graphviz-test
 sudo apt-get update
