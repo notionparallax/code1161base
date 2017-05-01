@@ -7,6 +7,8 @@ sudo pip install flake8
 sudo pip install colorama
 sudo pip install pydocstyle
 
+sudo chmod 777 ~/.atom/packages/
+# forgive me for what I'm about to do
 apm upgrade
 apm install autocomplete-python
 apm install file-icons
