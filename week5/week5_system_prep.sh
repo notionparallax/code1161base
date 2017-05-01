@@ -14,6 +14,8 @@ apm install autocomplete-python
 apm install file-icons
 apm install highlight-selected
 apm install linter
+apm install linter-ui-default
+apm install busy-signal
 apm install linter-flake8
 apm install linter-pydocstyle
 apm install markdown-writer
