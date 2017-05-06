@@ -20,6 +20,41 @@ from codeHelpers import test_flake8
 from codeHelpers import Timeout
 
 WEEK_NUMBER = 8
+testResults = []
+
+
+def exam_test(expected,
+              args,
+              function_to_test,
+              finishing_function=None,
+              extra_message=""):
+    print(extra_message)
+    template = ("{n}:\n"
+                "    given:    {a}\n"
+                "    expected: {e}\n"
+                "    got:      {g}\n")
+    try:
+        got = function_to_test(*args)
+        if finishing_function:
+            print("raw", got)
+            got = finishing_function(got)
+        if len(args) == 0:
+            args = "* no args *"
+        elif len(args) == 1:
+            args = args[0]
+        # else:
+        #     args = args
+        message = template.format(n=function_to_test.__name__,
+                                  a=args,
+                                  e=expected,
+                                  g=got)
+        testResults.append(test(got == expected, message))
+    except Exception as e:
+        message = template.format(n=function_to_test.__name__,
+                                  a=args,
+                                  e=expected,
+                                  g=e)
+        testResults.append(test(False, message))
 
 
 def theTests(path_to_code_to_check="."):
@@ -27,31 +62,19 @@ def theTests(path_to_code_to_check="."):
     print("\nWelcome to the exam!")
     print("May the odds be ever in your favour.\nEspecially today!")
 
-    testResults = []
-
     ex1path = "{}/week{}/exercise1.py".format(path_to_code_to_check,
                                               WEEK_NUMBER)
 
     if ex_runs(path_to_code_to_check, exNumber=1, weekNumber=WEEK_NUMBER):
         exam = imp.load_source("exercise1", ex1path)
 
-        testResults.append(
-            test(test_flake8(ex1path),
-                 "Pass the linter"))
+        testResults.append(test(test_flake8(ex1path), "pass the linter"))
 
-        testResults.append(
-            test(exam.greet("the Queen") == "Hello the Queen",
-                 "greet the Queen"))
-        testResults.append(
-            test(exam.greet("Pr♂nc♀♂") == "Hello Pr♂nc♀♂",
-                 "greet Pr♂nc♀♂"))
+        exam_test("Hello the Queen", ["the Queen"], exam.greet)
+        exam_test("Hello Pr♂nc♀♂", ["Pr♂nc♀♂"], exam.greet)
 
-        testResults.append(
-            test(exam.three_counter([3, 3, 3, 3, 1]) == 4,
-                 "three_counter [3, 3, 3, 3, 1]"))
-        testResults.append(
-            test(exam.three_counter([0, 1, 2, 5, -9]) == 0,
-                 "three_counter [0, 1, 2, 5, -9]"))
+        exam_test(4, [[3, 3, 3, 3, 1]], exam.three_counter)
+        exam_test(0, [[0, 1, 2, 5, -9]], exam.three_counter)
 
         fizza = [1, 2, 'Fizz', 4, 'Buzz', 'Fizz', 7, 8, 'Fizz', 'Buzz', 11,
                  'Fizz', 13, 14, 'FizzBuzz', 16, 17, 'Fizz', 19, 'Buzz',
@@ -64,67 +87,69 @@ def theTests(path_to_code_to_check="."):
                  'FizzBuzz', 76, 77, 'Fizz', 79, 'Buzz', 'Fizz', 82, 83,
                  'Fizz', 'Buzz', 86, 'Fizz', 88, 89, 'FizzBuzz', 91, 92,
                  'Fizz', 94, 'Buzz', 'Fizz', 97, 98, 'Fizz', 'Buzz']
-        testResults.append(
-            test(exam.fizz_buzz() == fizza,
-                 "fizz_buzz"))
+        exam_test(fizza, [], exam.fizz_buzz)
 
-        a = exam.put_behind_bars("a serial killer")
-        testResults.append(
-            test(a == "|a| |s|e|r|i|a|l| |k|i|l|l|e|r|",
-                 "put_behind_bars"))
-        a = exam.put_behind_bars("a bartender")
-        testResults.append(
-            test(a == "|a| |b|a|r|t|e|n|d|e|r|",
-                 "put_behind_bars"))
+        exam_test("|a| |s|e|r|i|a|l| |k|i|l|l|e|r|",
+                  ["a serial killer"],
+                  exam.put_behind_bars)
+        exam_test("|a| |b|a|r|t|e|n|d|e|r|",
+                  ["a bartender"],
+                  exam.put_behind_bars)
 
-        testResults.append(
-            test(exam.pet_filter("x") == ['red fox'],
-                 "pet_filter"))
-        testResults.append(
-            test(exam.pet_filter("q") == [],
-                 "pet_filter"))
-        testResults.append(
-            test(exam.pet_filter("p") == ['pig', 'sheep', 'guinea pig', 'pigeon', 'alpaca', 'guppy'],
-                 "pet_filter"))
+        exam_test(['red fox'], ["x"], exam.pet_filter)
+        exam_test([], ["q"], exam.pet_filter)
+        exam_test(['pig', 'sheep', 'guinea pig', 'pigeon', 'alpaca', 'guppy'],
+                  ["p"],
+                  exam.pet_filter)
 
-        testResults.append(
-            test(exam.best_letter_for_pets() == "e",
-                 "best_letter_for_pets"))
+        exam_test("e", [], exam.best_letter_for_pets)
 
-        testResults.append(
-            test(len(str(exam.make_filler_text_dictionary())) == 175,
-                 "make_filler_text_dictionary"))
+        exam_test(175,
+                  [],
+                  exam.make_filler_text_dictionary,
+                  lambda x: len(str(x)))
 
-        filler1 = exam.random_filler_text(50)
-        testResults.append(
-            test(len(filler1.split(" ")) == 50 and len(filler1) > 3*50,
-                 "random_filler_text"))
+        exam_test(True,
+                  [50],
+                  exam.random_filler_text,
+                  lambda x: len(x.split(" ")) == 50 and len(x) > 3*50)
 
-        filler2 = exam.fast_filler(1000)
-        testResults.append(
-            test(len(filler2.split(" ")) == 1000 and len(filler2) > 3*1000,
-                 "first fast_filler"))
+        exam_test(True,
+                  [1000],
+                  exam.random_filler_text,
+                  lambda x: len(x.split(" ")) == 1000 and len(x) > 3*1000)
 
-        testResults.append(
-            test(exam.fast_filler(10)[0] in string.uppercase and
-                 exam.fast_filler(10)[1] in string.lowercase,
-                 "first fast_filler has a starting capital"))
+        exam_test(True,
+                  [100],
+                  exam.fast_filler,
+                  lambda x: len(x.split(" ")) == 100 and len(x) > 3*100)
+        exam_test(True,
+                  [10],
+                  exam.fast_filler,
+                  lambda x: x[0] in string.uppercase and x[1] in string.lowercase,
+                  "Test if fast_filler is capitalised")
+        exam_test(True,
+                  [10],
+                  exam.fast_filler,
+                  lambda x: x[-1] == ".",
+                  "Test if fast_filler finishes with a .")
 
-        testResults.append(
-            test(exam.fast_filler(10)[-1] == ".",
-                 "first fast_filler ends with a ."))
-        try:
-            with Timeout(1):
-                for _ in range(10):
-                    exam.fast_filler(1000)
-                testResults.append(
-                    test(True,
-                         "subsiquent fast_filler"))
-        except Exception as e:
-            print(e)
-            testResults.append(
-                test(False,
-                     "subsiquent fast_filler wasn't fast enough"))
+        #
+        # try:
+        #     with Timeout(1):
+        #         for _ in range(10):
+        #             exam.fast_filler(1000)
+        #         testResults.append(
+        #             test(True,
+        #                  "subsiquent fast_filler"))
+        # except Timeout as t:
+        #     testResults.append(
+        #         test(False,
+        #              "subsiquent fast_filler probably wasn't fast enough"))
+        # except Exception as e:
+        #     testResults.append(
+        #         test(False,
+        #              "subsiquent fast_filler failed" + str(e)))
 
     print("{0}/{1} (passed/attempted)".format(sum(testResults),
                                               len(testResults)))
