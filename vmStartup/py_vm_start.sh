@@ -93,6 +93,9 @@ else
 	sudo apt -y install build-essential git libgnome-keyring-dev fakeroot rpm libx11-dev libxkbfile-dev
 	curl -sL https://git.io/vwEIX
 fi
+# this looks like a better way, should test:
+# sudo snap install atom --classic
+
 # wget -O atomdeb https://atom.io/download/deb
 # sudo dpkg --install atomdeb
 # atom #run atom, I don't thing the chown line makes sense until first run.
