@@ -10,3 +10,9 @@ week4c
 week5c
 
 temp_completion_log
+
+*.dbf
+*.prj
+*.shp
+*.shx
+maps/nswlocalitypolygonshp\.zip
