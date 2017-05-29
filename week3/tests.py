@@ -340,7 +340,7 @@ def theTests(path_to_code_to_check="."):
         # if the binary search is working, show a graph of guess numbers
         if test(test_binary_search(path_to_code_to_check, 1, 10, 5), ""):
             # If you aren't Ben, then show the histogram
-            if "ben/projects/git" not in os.path.dirname(__file__):
+            if os.uname()[1] != "um":  # um is ben's computer
                 vis_binary_search_performance()
 
     print("{0}/{1} (passed/attempted)".format(sum(testResults),
