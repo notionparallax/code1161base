@@ -1,8 +1,8 @@
-# CODE1161 - [your name here]
+# CODE1161 - [Ben Dohetry]
 
 You can see lots of other course related stuff [here](https://notionparallax.co.uk/CODE1161).
 
-![a photo of me](mugshot.png)
+![a photo of me](Ben.png)
 
 There are some [diagrams of the timetable and the marks here](https://notionparallax.github.io/code1161base/admin/diagrams.html).
 
